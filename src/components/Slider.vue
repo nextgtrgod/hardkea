@@ -47,7 +47,7 @@
 				:class="slide.color"
 			)
 				img(:src="imgUrl(slide.image)")
-				a(href="/tables")
+				a(href="/product")
 				.text
 					h3
 						| {{ slide.title }}

@@ -3,6 +3,7 @@ import Router from "vue-router"
 
 // pages
 import MainPage from "@/components/MainPage"
+import ProductPage from "@/components/ProductPage"
 //
 
 Vue.use(Router)
@@ -15,9 +16,9 @@ export default new Router({
             component: MainPage
         },
         {
-            path: "/tables",
-            name: "MainPage",
-            component: MainPage
+            path: "/product",
+            name: "ProductPage",
+            component: ProductPage
         }
     ],
     mode: "history"
