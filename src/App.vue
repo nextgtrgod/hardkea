@@ -1,10 +1,12 @@
 <script>
-	import AsideView from './components/Aside'
+	import AsideMenu from '@/components/Aside'
+	import Modal from '@/components/Modal/Index'
 
 	export default {
 		name: "App",
 		components: {
-			AsideView,
+			AsideMenu,
+			Modal,
 		},
 	}
 </script>
@@ -12,9 +14,12 @@
 
 <template lang="pug">
 	#app
-		aside-view
+		aside-menu
 		main
 			router-view
+
+		modal
+
 </template>
 
 

@@ -4,7 +4,7 @@
 	export default {
 		name: 'Aside',
 		methods: {
-			openMenu: name => Events.$emit(`${name}-open`),
+			openMenu: name => Events.$emit('modal-open', { name }),
 			imgUrl: name => require(`../assets/images/menu/${name}.svg`)
 		}
 	}
