@@ -55,7 +55,7 @@
 						image: ''
 					},
 					{
-						title: 'Wandick',
+						title: 'Кашпо Samurai',
 						description: 'Ахуенный столи что бы колоть орехи на вечеринках и соло',
 						price: 17760,
 						link: 'tables',

@@ -23,6 +23,10 @@ export default {
 			this.visible = true
 		})
 		Events.$on('modal-close', () => this.visible = false)
+
+		document.addEventListener('keyup', ({ keyCode }) => {
+			keyCode === 27 && Events.$emit('modal-close')
+		})
 	},
 	methods: {
 		close: () => Events.$emit('modal-close')
