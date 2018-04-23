@@ -1,11 +1,6 @@
 <script>
-	import HeaderView from '@/components/Header'
-
 	export default {
 		name: 'ProductPage',
-		components: {
-			HeaderView
-		},
 		data() {
 			return {
 				device: 'desktop',
@@ -32,8 +27,6 @@
 
 <template lang="pug">
 	.product-page(:class="device")
-		header-view
-
 		template(v-if="device === 'mobile'")
 			.text-block
 				img(src="../assets/images/product/0.png")

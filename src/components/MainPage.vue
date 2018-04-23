@@ -1,11 +1,9 @@
 <script>
-	import HeaderView from '@/components/Header'
 	import Slider from '@/components/Slider'
 
 	export default {
 		name: 'MainPage',
 		components: {
-			HeaderView,
 			Slider,
 		},
 		data() {
@@ -90,8 +88,6 @@
 
 <template lang="pug">
 	.main-page
-		header-view
-
 		//- multiple sliders on mobile
 		template(v-if="device === 'mobile'")
 			slider(
@@ -104,7 +100,7 @@
 		template(v-if="device === 'desktop'")
 			section
 				a(href="/product" class="image-wrap")
-					img(src="../assets/images/konusoobra.jpg" alt="konusoobra")
+					img(src="../assets/images/konusoobra.jpg")
 				.text
 					h3
 						| Konusoobra
@@ -112,12 +108,12 @@
 						| Ахуенный столи что бы колоть орехи на вечеринках и соло
 					button
 						| 5 760 ₽
-					a(href="/lamps")
-						| Посмотреть все светильники
+					//- a(href="/lamps")
+					//- 	| Посмотреть все светильники
 
 			section.inverted
 				a(href="/product" class="image-wrap")
-					img(src="../assets/images/wandick.jpg" alt="konusoobra")
+					img(src="../assets/images/wandick.jpg")
 				.text
 					h3
 						| Wandick
@@ -125,12 +121,12 @@
 						| Ахуенный столи что бы колоть орехи на вечеринках и соло
 					button
 						| 17 760 ₽
-					a(href="/tables")
-						| Посмотреть все столы
+					//- a(href="/tables")
+					//- 	| Посмотреть все столы
 
-			section
+			section.inverted
 				a(href="/product" class="image-wrap")
-					img(src="../assets/images/oldus.jpg" alt="konusoobra")
+					img(src="../assets/images/oldus.jpg")
 				.text
 					h3
 						| Oldus
@@ -138,8 +134,8 @@
 						| Ахуенный столи что бы колоть орехи на вечеринках и соло
 					button
 						| 17 760 ₽
-					a(href="/tables")
-						| Посмотреть все столы
+					//- a(href="/tables")
+					//- 	| Посмотреть все столы
 			
 
 </template>
@@ -151,7 +147,7 @@
 
 	section
 		position relative
-		padding-top: 56.89%
+		padding-top: 52.08%
 		font-size 14px
 		color #333
 		overflow hidden
@@ -170,18 +166,19 @@
 			font-size 22px
 
 		&.inverted
-			color: #FFF
-			button
+			.text
 				color: #FFF
-				border 1px solid #FFF
-				&:hover
-				&:focus
-					background-color: #FFF
-					color: #333
-
-			a
-				&:hover
+				button
 					color: #FFF
+					border 1px solid #FFF
+					&:hover
+					&:focus
+						background-color: #FFF
+						color: #333
+
+				a
+					&:hover
+						color: #FFF
 
 		&:hover
 			img
@@ -215,19 +212,32 @@
 			bottom 0
 			padding 6.4em 4.45em
 			pointer-events none
+			@media (min-width 960px)
+				padding 240px 50px 0
+				margin auto
 
 			h3
 				font-size 3.45em
 				font-family: $font.family.fira
+				font-weight: 700
 				line-height 1
 				margin 0
 				margin-bottom 0.45em
+				@media (min-width 960px)
+					font-size 38px
+					letter-spacing 1.75px
+					margin-bottom 17px
 			
 			p
 				font-size 1em
 				margin-top 0
 				margin-bottom 1.68em
 				max-width 16.9em
+				@media (min-width 960px)
+					font-size 16px
+					line-height 20px
+					letter-spacing .75px
+					margin-bottom 24px
 
 			button
 				width: 7.72em
@@ -242,6 +252,10 @@
 					background-color: #333
 					color #FFF
 					outline none
+
+				@media (min-width 960px)
+					font-size 16px
+
 
 			a
 				position absolute

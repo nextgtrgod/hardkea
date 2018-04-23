@@ -1,13 +1,20 @@
 <script>
+	import AsideView from './components/Aside'
+
 	export default {
-		name: "App"
+		name: "App",
+		components: {
+			AsideView,
+		},
 	}
 </script>
 
 
 <template lang="pug">
 	#app
-		router-view
+		aside-view
+		main
+			router-view
 </template>
 
 
@@ -21,5 +28,11 @@
 		-webkit-font-smoothing: antialiased
 		-moz-osx-font-smoothing: grayscale
 		background-color: #EEE
+	
+	main
+		@media (min-width 960px)
+			width: calc(100% - 50px) // menu width
+	
+
 
 </style>
