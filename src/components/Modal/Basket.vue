@@ -108,12 +108,21 @@ export default {
 		button.delete
 			position absolute
 			top 0
+			left -32px
 			bottom 0
-			left -20px
-			border 1px solid #333
+			width 32px
+			height 32px
+			margin auto
+			background-image url('../../assets/images/delete.png')
+			background-position center
+			background-size 8px auto
+			background-repeat no-repeat
 
 		img
 			height 100px
+
+		.description
+			margin-left 10px
 
 		.price
 			margin-top 30px
