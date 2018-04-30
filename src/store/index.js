@@ -13,7 +13,6 @@ const state = {
 	basket: [
 		{ name: 'бля' },
 		{ name: 'ска' },
-		{ name: 'пздц' },
 	],
 }
 
