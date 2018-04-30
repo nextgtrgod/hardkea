@@ -1,4 +1,6 @@
 
+@import './variables.styl'
+
 html, body
 	position relative
 	min-height 100%
@@ -26,6 +28,8 @@ img
 	display inline-block
 	vertical-align bottom
 	backface-visibility hidden
+	pointer-events none
+	user-select none
 
 input, textarea, select, option
 	margin 0
@@ -51,8 +55,11 @@ a
 	text-decoration none
 
 button
+	font-family: $font.family.default
 	background-color: transparent
 	border none
 	cursor pointer
-	&:focus
-		outline none
+	outline none
+
+input
+	font-family: $font.family.default

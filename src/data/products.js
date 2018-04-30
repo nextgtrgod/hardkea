@@ -2,21 +2,47 @@
 const products = [
 	{
 		id: 1,
-		name: 'Кашпо Samurai',
+		name: 'Stolik',
+		description: 'Ахуенный столи что бы колоть орехи на вечеринках и соло',
+		text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
 		image: {
-			desktop: '1-desktop.jpg',
-			mobile: '1-mobile.jpg',
+			desktop: 'desktop.jpg',
+			mobile: 'mobile.jpg',
 		},
-		size: {
-			s: 4500,
-			m: 8500,
-			l: 12700,
+		price: 4500,
+		colors: [1, 2, 3, 4],
+	},
+	{
+		id: 2,
+		name: 'Samurai',
+		description: 'Ахуенный столи что бы колоть орехи на вечеринках и соло',
+		text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+		inverted: true,
+		image: {
+			desktop: 'desktop.jpg',
+			mobile: 'mobile.jpg',
 		},
-		colors: {
-			1: '1-details-1.png',
-			2: '1-details-2.png',
-			3: '1-details-3.png',
-			4: '1-details-4.png',
-		}
-	}
+		price: 2500,
+		sizes: {
+			s: 2500,
+			m: 5500,
+			l: 11700,
+			xl: 20500,
+		},
+		colors: [1, 4],
+	},
+	{
+		id: 3,
+		name: 'Konusoobra',
+		description: 'Ахуенный столи что бы колоть орехи на вечеринках и соло',
+		text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+		inverted: true,
+		image: {
+			desktop: 'desktop.jpg',
+			mobile: 'mobile.jpg',
+		},
+		price: 7500,
+	},
 ]
+
+export default products

@@ -1,88 +1,108 @@
 <script>
-	import Slider from '@/components/Slider'
+import { mapState } from 'vuex'
+import Events from '@/events' 
+import Slider from '@/components/Slider'
 
-	export default {
-		name: 'MainPage',
-		components: {
-			Slider,
+import formatNumber from '@/utils/formatNumber'
+
+export default {
+	name: 'MainPage',
+	components: {
+		Slider,
+	},
+	data() {
+		return {
+			device: 'desktop',
+			reqAnimFrameID: null,
+			sliders: [
+				{
+					section: 'столов',
+					slides: [
+						{
+							title: 'Orgoramus',
+							description: 'Ахуенный столи что бы колоть орехи на вечеринках и соло',
+							price: 5760,
+							image: 0,
+							color: 'dark',
+						},
+					]
+				},
+				{
+					section: 'кашпо',
+					slides: [
+						{
+							title: 'Uglovatina',
+							description: 'Описание кашпо в трех размерах и в трех оттенках бетона',
+							price: 5760,
+							image: 1
+						},
+					]
+				},
+				{
+					section: 'светильников',
+					slides: [
+						{
+							title: 'Svetosila',
+							description: 'Ахуенный столи что бы колоть орехи на вечеринках и соло',
+							price: 5760,
+							image: 2,
+						},
+					]
+				},
+			],
+			sections: [
+				{
+					title: 'Konusoobra',
+					description: 'Ахуенный столи что бы колоть орехи на вечеринках и соло',
+					price: 5760,
+					link: 'lamps',
+					image: ''
+				},
+				{
+					title: 'Кашпо Samurai',
+					description: 'Ахуенный столи что бы колоть орехи на вечеринках и соло',
+					price: 17760,
+					link: 'tables',
+				},
+				{
+					title: 'Oldus',
+					description: 'Ахуенный столи что бы колоть орехи на вечеринках и соло',
+					price: 17760,
+					link: 'tables',
+				}
+			]
+		}
+	},
+	created() {
+		this.reqAnimFrameID = this.checkDevice()
+	},
+	beforeDestroy: function() {
+		cancelAnimationFrame(this.reqAnimFrameID)
+	},
+	computed: {
+		...mapState({
+			products: state => state.products
+		}),
+	},
+	methods: {
+		checkDevice: function() {
+			this.device = (window.innerWidth >= 960) ? 'desktop' : 'mobile'
+
+			return requestAnimationFrame(this.checkDevice)
 		},
-		data() {
-			return {
-				device: 'desktop',
-				reqAnimFrameID: null,
-				sliders: [
-					{
-						section: 'столов',
-						slides: [
-							{
-								title: 'Orgoramus',
-								description: 'Ахуенный столи что бы колоть орехи на вечеринках и соло',
-								price: 5760,
-								image: 0,
-								color: 'dark',
-							},
-						]
-					},
-					{
-						section: 'кашпо',
-						slides: [
-							{
-								title: 'Uglovatina',
-								description: 'Описание кашпо в трех размерах и в трех оттенках бетона',
-								price: 5760,
-								image: 1
-							},
-						]
-					},
-					{
-						section: 'светильников',
-						slides: [
-							{
-								title: 'Svetosila',
-								description: 'Ахуенный столи что бы колоть орехи на вечеринках и соло',
-								price: 5760,
-								image: 2,
-							},
-						]
-					},
-				],
-				sections: [
-					{
-						title: 'Konusoobra',
-						description: 'Ахуенный столи что бы колоть орехи на вечеринках и соло',
-						price: 5760,
-						link: 'lamps',
-						image: ''
-					},
-					{
-						title: 'Кашпо Samurai',
-						description: 'Ахуенный столи что бы колоть орехи на вечеринках и соло',
-						price: 17760,
-						link: 'tables',
-					},
-					{
-						title: 'Oldus',
-						description: 'Ахуенный столи что бы колоть орехи на вечеринках и соло',
-						price: 17760,
-						link: 'tables',
-					}
-				]
+		imgUrl: id => {
+			try {
+				return require(`@/assets/products/${id}/desktop.jpg`)
+			} catch (err) {
+				console.log(err)
 			}
 		},
-		created() {
-			this.reqAnimFrameID = this.checkDevice()
-		},
-		beforeDestroy: function() {
-			cancelAnimationFrame(this.reqAnimFrameID)
-		},
-		methods: {
-			checkDevice: function() {
-				this.device = (window.innerWidth >= 960) ? 'desktop' : 'mobile'
+		openDetails: id => Events.$emit('modal-open', { name: 'details', productID: id }),
 
-				return requestAnimationFrame(this.checkDevice)
-			},
-		}
+		formatNumber: n => formatNumber(n),
+
 	}
+}
 </script>
 
 
@@ -96,46 +116,20 @@
 				:slides="slider.slides"
 				:section="slider.section"
 			)
-		
+
 		template(v-if="device === 'desktop'")
-			section
-				a(href="/product" class="image-wrap")
-					img(src="../assets/images/konusoobra.jpg")
+			section(
+				v-for="product in products"
+				:key="product.id"
+				:class="{ inverted: product.inverted }"
+			)
+				a(:href="'/product/'+product.id")
+					img(:src="imgUrl(product.id)")
 				.text
-					h3
-						| Konusoobra
-					p
-						| Ахуенный столи что бы колоть орехи на вечеринках и соло
-					button
-						| 5 760 ₽
-					//- a(href="/lamps")
-					//- 	| Посмотреть все светильники
-
-			section.inverted
-				a(href="/product" class="image-wrap")
-					img(src="../assets/images/wandick.jpg")
-				.text
-					h3
-						| Wandick
-					p
-						| Ахуенный столи что бы колоть орехи на вечеринках и соло
-					button
-						| 17 760 ₽
-					//- a(href="/tables")
-					//- 	| Посмотреть все столы
-
-			section.inverted
-				a(href="/product" class="image-wrap")
-					img(src="../assets/images/oldus.jpg")
-				.text
-					h3
-						| Oldus
-					p
-						| Ахуенный столи что бы колоть орехи на вечеринках и соло
-					button
-						| 17 760 ₽
-					//- a(href="/tables")
-					//- 	| Посмотреть все столы
+					h3 {{ product.name }}
+					p {{ product.description }}
+					button(@click="openDetails(product.id)")
+						| {{ formatNumber(product.price) }} ₽
 			
 
 </template>
@@ -181,12 +175,15 @@
 						color: #FFF
 
 		&:hover
+			h3
+				border-bottom: 2px solid !important
+
 			img
 				transform: scale(1.15)
 				opacity: .9
 		
 
-		a.image-wrap
+		a
 			position absolute
 			top 0
 			left 0
@@ -210,6 +207,9 @@
 			top 0
 			left 0
 			bottom 0
+			display flex
+			flex-direction column
+			align-items flex-start
 			padding 6.4em 4.45em
 			pointer-events none
 			@media (min-width 960px)
@@ -227,6 +227,8 @@
 					font-size 38px
 					letter-spacing 1.75px
 					margin-bottom 17px
+					border-bottom: 2px solid transparent
+					transition: border .2s
 			
 			p
 				font-size 1em
@@ -248,10 +250,8 @@
 				transition background .2s, color .2s
 				pointer-events all
 				&:hover
-				&:focus
 					background-color: #333
 					color #FFF
-					outline none
 
 				@media (min-width 960px)
 					font-size 16px

@@ -3,6 +3,7 @@ import Events from '@/events'
 import Delivery from './Delivery'
 import Payment from './Payment'
 import Basket from './Basket'
+import productDetails from './Details'
 
 export default {
 	name: 'Modal',
@@ -10,6 +11,7 @@ export default {
 		Delivery,
 		Payment,
 		Basket,
+		productDetails,
 	},
 	data() {
 		return {
@@ -18,7 +20,7 @@ export default {
 		}
 	},
 	created() {
-		Events.$on('modal-open', ({ name }) => {
+		Events.$on('modal-open', ({ name, productID }) => {
 			this.section = name
 			this.visible = true
 		})
@@ -47,9 +49,10 @@ export default {
 			button.close(@click="close")
 				img(src="../../assets/images/close.svg")
 
-			delivery(v-if="section === 'delivery'")
-			payment(v-if="section === 'payment'")
-			basket(v-if="section === 'basket'")
+			delivery(:class="{ visible: section === 'delivery' }")
+			payment(:class="{ visible: section === 'payment' }")
+			basket(:class="{ visible: section === 'basket' }")
+			product-details(:class="{ visible: section === 'details' }")
 
 </template>
 
@@ -97,6 +100,12 @@ export default {
 			transform translate3d(100%, 0, 0)
 			transition transform .4s
 			overflow-y auto
+
+			section
+				display none
+				&.visible
+					display block
+
 
 			@media (min-width 960px)
 				width 500px
