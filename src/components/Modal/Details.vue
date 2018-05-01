@@ -90,7 +90,8 @@ export default {
 <template lang="pug">
 	section.details(v-if="product.id")
 		h3 {{ product.name }}
-		img(:src="imgUrl")
+		.product-image
+			img(:src="imgUrl")
 		p {{ product.text }}
 
 		.sizes(v-if="product.sizes")
@@ -146,6 +147,12 @@ export default {
 	p
 		font-size 16px
 		margin 15px auto 50px
+
+	.product-image
+		width 100%
+		height 350px
+		img
+			height 100%
 	
 	h5
 		margin-top 40px

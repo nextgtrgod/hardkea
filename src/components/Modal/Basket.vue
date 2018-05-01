@@ -24,10 +24,12 @@ export default {
 		}
 	},
 	methods: {
-		imgUrl: (id, color = 1) => {
+		imgUrl: (id, color) => {
 			try {
-				return require(`@/assets/products/${id}/product-${color}.jpg`)
-			} catch (err) {
+				return color
+					? require(`@/assets/products/${id}/product-${color}.jpg`)
+					: require(`@/assets/products/${id}/product.jpg`)
+			} catch(err) {
 				console.log(err)
 			}
 		},
