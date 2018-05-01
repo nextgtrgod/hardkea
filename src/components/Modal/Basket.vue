@@ -18,7 +18,7 @@ export default {
 		total() {
 			let sum = 0
 
-			this.products.map(product => sum += this.getPrice(product.id))
+			this.products.map(product => sum += this.getPrice(product))
 
 			return sum
 		}
@@ -35,17 +35,11 @@ export default {
 		},
 		formatNumber: n => formatNumber(n),
 
-		deleteProduct(id) {
-			this.$store.commit('deleteFromBasket', id)
+		deleteProduct(basketID) {
+			this.$store.commit('deleteFromBasket', basketID)
 		},
 
-		getPrice(id) {
-			let product = this.products.find(product => product.id === id)
-
-			let { count, price, size, sizes } = product
-
-			return count * (size ? sizes[size] : price)
-		},
+		getPrice: ({ count, price, size, sizes }) => count * (size ? sizes[size] : price),
 	},
 	watch: {
 		products() {
@@ -62,13 +56,13 @@ export default {
 
 		ul
 			li(v-for="(product, index) in products", :key="index" class="product")
-				button.delete(@click="deleteProduct(product.id)")
+				button.delete(@click="deleteProduct(product.basketID)")
 				img(:src="imgUrl(product.id, product.color)")
 				.description
 					h5 {{ product.name }} {{ (product.size || '').toUpperCase() }}
 					count(v-model="product.count")
 				.price
-					| {{ formatNumber(getPrice(product.id)) }} ₽
+					| {{ formatNumber(getPrice(product)) }} ₽
 		
 		.total
 			h5 Итого:

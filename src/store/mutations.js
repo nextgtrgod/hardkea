@@ -24,8 +24,8 @@ export default {
 		}
 	},
 
-	deleteFromBasket(state, productID) {
-		state.basket = state.basket.filter(product => product.id !== productID)
+	deleteFromBasket(state, basketID) {
+		state.basket = state.basket.filter(product => product.basketID !== basketID)
 	}
 
 }
