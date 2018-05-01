@@ -17,20 +17,30 @@ export default {
 			default: 99,
 		}
 	},
+	data() {
+		return {
+			innerValue: this.value,
+		}
+	},
 	methods: {
 		decrease() {
-			if (this.value === 1) return
-			--this.value
+			if (this.innerValue === this.min) return
+			--this.innerValue
 		},
 		increase() {
-			if (this.value === this.max - 1) return
-			++this.value
+			if (this.value === this.max) return
+			++this.innerValue
 		},
 	},
 	watch: {
-		value() {
-			if (this.value < this.min) this.value = this.min
-			if (this.value > this.max) this.value = this.max
+		value(newVal) {
+			this.innerValue = newVal
+		},
+		innerValue(newVal) {
+			if (this.innerValue < this.min) this.innerValue = this.min
+			if (this.innerValue >= this.max) this.innerValue = this.max
+
+			this.$emit('input', this.innerValue)
 		}
 	}
 }
@@ -40,12 +50,7 @@ export default {
 <template lang="pug">
 	.count
 		button(@click="decrease") -
-		input(
-			type="number"
-			v-model="value"
-			:min="min"
-			:max="max"
-		)
+		span {{ innerValue }}
 		button(@click="increase") +
 </template>
 
@@ -74,14 +79,11 @@ export default {
 			background-color transparent
 			border none
 			outline none
+			user-select none
 
 			&::-webkit-inner-spin-button,
 			&::-webkit-outer-spin-button
 				-webkit-appearance: none
 				margin 0
-		
-		button
-			user-select none
-
 
 </style>

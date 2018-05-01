@@ -1,4 +1,5 @@
 <script>
+import { mapState } from 'vuex'
 import Events from '@/events'
 import Count from '@/components/Count'
 
@@ -9,53 +10,46 @@ export default {
 	components: {
 		Count,
 	},
-	data() {
-		return {
-			products: [
-				{
-					id: 1,
-					name: 'Кашпо Samurai',
-					size: 'm',
-					count: 2,
-					price: 4250,
-					color: 1,
-				},
-				{
-					id: 1,
-					name: 'Кашпо Samurai',
-					size: 'l',
-					count: 3,
-					price: 7250,
-					color: 1,
-				}
-			],
-		}
-	},
 	computed: {
+		...mapState({
+			products: state => state.basket
+		}),
+
 		total() {
 			let sum = 0
 
-			this.products.map(({ count, price }) => {
-				sum += count * price
-			})
+			this.products.map(product => sum += this.getPrice(product.id))
 
 			return sum
 		}
 	},
 	methods: {
-		imgUrl: (id, color) => {
+		imgUrl: (id, color = 1) => {
 			try {
-				return require(`@/assets/products/${id}/${color}.jpg`)
+				return require(`@/assets/products/${id}/product-${color}.jpg`)
 			} catch (err) {
 				console.log(err)
 			}
 		},
 		formatNumber: n => formatNumber(n),
 
-		deleteProduct: id => {
-			console.log(`ща будем удалять #${id}`)
-		}
-	}
+		deleteProduct(id) {
+			this.$store.commit('deleteFromBasket', id)
+		},
+
+		getPrice(id) {
+			let product = this.products.find(product => product.id === id)
+
+			let { count, price, size, sizes } = product
+
+			return count * (size ? sizes[size] : price)
+		},
+	},
+	watch: {
+		products() {
+			!this.products.length && Events.$emit('modal-close')
+		},
+	},
 }
 </script>
 
@@ -69,10 +63,10 @@ export default {
 				button.delete(@click="deleteProduct(product.id)")
 				img(:src="imgUrl(product.id, product.color)")
 				.description
-					h5 {{ product.name }} {{ product.size.toUpperCase() }}
-					count(:value="product.count")
+					h5 {{ product.name }} {{ (product.size || '').toUpperCase() }}
+					count(v-model="product.count")
 				.price
-					| {{ formatNumber(product.price * product.count) }} ₽
+					| {{ formatNumber(getPrice(product.id)) }} ₽
 		
 		.total
 			h5 Итого:

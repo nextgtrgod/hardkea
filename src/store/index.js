@@ -10,14 +10,11 @@ Vue.use(Vuex)
 
 const state = {
 	products,
-	basket: [
-		{ name: 'бля' },
-		{ name: 'ска' },
-	],
+	basket: [],
 }
 
 const store = new Vuex.Store({
-	strict: process.env.NODE_ENV !== 'production',
+	strict: false,
 	state,
 	getters,
 	actions,

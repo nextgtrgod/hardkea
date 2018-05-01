@@ -16,7 +16,7 @@ export default new Router({
             component: MainPage
         },
         {
-            path: "/product",
+            path: "/product/:id",
             name: "ProductPage",
             component: ProductPage
         }

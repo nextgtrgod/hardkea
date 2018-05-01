@@ -14,17 +14,25 @@ export default {
 		return {
 			product: {},
 			sizes: null,
-			total: 5760,
+			total: 0,
 			selected: {
 				size: '',
 				color: null,
 				count: 1,
-			} 
+			}
 		}
 	},
 	mounted() {
 		Events.$on('modal-open', ({ name, productID }) => {
 			if (name !== 'details') return
+
+			// drop previous selections
+			this.selected = {
+				size: '',
+				color: null,
+				count: 1,
+			}
+
 			this.product = this.$store.getters.product(productID)
 			
 			this.product.sizes && (this.selected.size = Object.keys(this.product.sizes)[0])
@@ -34,7 +42,11 @@ export default {
 	computed: {
 		imgUrl() {
 			try {
-				return require(`@/assets/products/${this.product.id}/1.jpg`)
+				let { color } = this.selected
+
+				return color
+					? require(`@/assets/products/${this.product.id}/product-${color}.jpg`)
+					: require(`@/assets/products/${this.product.id}/product.jpg`)
 			} catch(err) {
 				console.log(err)
 			}
@@ -52,8 +64,24 @@ export default {
 		},
 
 		addToBasket() {
-			console.log('товар добавлен в корзину')
+			let { size, color, count } = this.selected
+
+			let data = {
+				id: this.product.id,
+				count,
+			}
+
+			size.length && (data['size'] = size)
+			color && (data['color'] = color)
+
+			this.$store.commit('addToBasket', data)
+			Events.$emit('modal-close')
 		},
+	},
+	beforeUpdate() {
+		let { size, count } = this.selected
+
+		this.total = count * (size ? this.product.sizes[size] : this.product.price)
 	},
 }
 </script>
@@ -91,7 +119,7 @@ export default {
 
 		.amount
 			h5 Количество
-			count(:value="selected.count")
+			count(v-model="selected.count")
 
 		.total
 			h5 Итого:

@@ -123,7 +123,7 @@ export default {
 				:key="product.id"
 				:class="{ inverted: product.inverted }"
 			)
-				a(:href="'/product/'+product.id")
+				router-link(:to="'/product/'+product.id")
 					img(:src="imgUrl(product.id)")
 				.text
 					h3 {{ product.name }}

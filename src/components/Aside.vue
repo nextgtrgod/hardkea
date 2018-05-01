@@ -35,7 +35,7 @@ export default {
 				button(@click="openMenu('payment')")
 					svg(xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50")
 						path(d="M6 5C3.800781 5 2 6.800781 2 9v22c0 1.953125 1.421875 3.566406 3.28125 3.90625l1.3125 7.40625c.382813 2.164063 2.460938 3.632813 4.625 3.25l33.46875-5.96875c2.164063-.382812 3.632813-2.460937 3.25-4.625L44.09375 13.3125c-.015625-.097656-.046875-.191406-.09375-.28125V9c0-2.199219-1.800781-4-4-4zm0 2h34c1.117188 0 2 .882813 2 2v3H4V9c0-1.117187.882813-2 2-2zM4 17h38v14c0 1.117188-.882812 2-2 2H6c-1.117187 0-2-.882812-2-2zm5 3v2h16v-2zm35 4.21875l1.96875 11.09375c.195313 1.097656-.523437 2.117188-1.625 2.3125L10.875 43.59375c-1.097656.195313-2.117187-.523437-2.3125-1.625L7.3125 35H40c2.199219 0 4-1.800781 4-4z")
-			li(class="basket", :data-count="basketCount")
+			li(class="basket", :data-count="basketCount", :class="{ enabled: basketCount > 0 }")
 				button(@click="openMenu('basket')")
 					svg(xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48")
 						path(d="M1.8 0C.7.2 0 1 0 2c0 1.1.9 2 2 2s2-.9 2-2h4.7c1.2 0 1.9.3 2.4.7.5.4.9 1.1 1.2 2.2l8 32.3c.3 1.1.6 2.3 1.4 3.3.3.4.8.7 1.3 1-.6.7-1 1.6-1 2.5 0 2.2 1.8 4 4 4s4-1.8 4-4c0-.7-.2-1.4-.6-2h6.1c-.3.6-.6 1.3-.6 2 0 2.2 1.8 4 4 4s4-1.8 4-4c0-1-.4-1.9-1.1-2.7.1-.3.1-.6-.1-.9-.1-.2-.4-.4-.7-.4H25.7c-1.5 0-2.2-.3-2.6-.8-.4-.5-.7-1.3-1-2.4l-.6-2.8h18.3c.4 0 .8-.3.9-.7l7.2-19c.1-.3.1-.6-.1-.9s-.5-.4-.8-.4H16.3l-2.1-8.5v-.1c-.4-1.3-.9-2.4-1.8-3.2S10.2 0 8.7 0H1.8zm15 15h28.8l-6.4 17H21l-4.2-17zM26 42c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2zm13 0c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2z")
@@ -104,31 +104,38 @@ export default {
 			align-items center
 			justify-content center
 			height 100%
-			// transition all .2s
+			transition all .2s
 			&:last-child
 				margin-left auto
 			
-			// &:hover
-			// 	background-color #EEE
-			// 	svg
-			// 		fill: #FFF
+			&:hover
+				background-color #EFEFEF
+				// svg
+				// 	fill: #FFF
 
 
 			&.basket
-				&:after
-					content: attr(data-count)
-					position absolute
-					top 5px
-					right 2px
-					width 22px
-					height 22px
-					text-align center
-					font-size: 11px
-					line-height 22px
-					background-color #333
-					border-radius 50%
-					color #FFF
-					pointer-events none
+				opacity .25
+				pointer-events none
+				cursor default
+				&.enabled
+					opacity 1
+					pointer-events all
+					cursor pointer
+					&:after
+						content: attr(data-count)
+						position absolute
+						top 5px
+						right 2px
+						width 22px
+						height 22px
+						text-align center
+						font-size: 11px
+						line-height 22px
+						background-color #333
+						border-radius 50%
+						color #FFF
+						pointer-events none
 
 			button
 				height 100%
