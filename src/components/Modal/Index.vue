@@ -3,6 +3,7 @@ import Events from '@/events'
 import Delivery from './Delivery'
 import Payment from './Payment'
 import Basket from './Basket'
+import About from './About'
 import productDetails from './Details'
 
 export default {
@@ -11,6 +12,7 @@ export default {
 		Delivery,
 		Payment,
 		Basket,
+		About,
 		productDetails,
 	},
 	data() {
@@ -52,6 +54,7 @@ export default {
 			delivery(:class="{ visible: section === 'delivery' }")
 			payment(:class="{ visible: section === 'payment' }")
 			basket(:class="{ visible: section === 'basket' }")
+			about(:class="{ visible: section === 'about' }")
 			product-details(:class="{ visible: section === 'details' }")
 
 </template>

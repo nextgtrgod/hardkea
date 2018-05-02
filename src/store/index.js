@@ -8,9 +8,11 @@ import products from '@/data/products'
 
 Vue.use(Vuex)
 
+// localStorage.setItem('basket', null) // drop basket if structure changes
+
 const state = {
 	products,
-	basket: [],
+	basket: JSON.parse(localStorage.getItem('basket')) || [],
 }
 
 const store = new Vuex.Store({
@@ -20,5 +22,17 @@ const store = new Vuex.Store({
 	actions,
 	mutations,
 })
+
+store.watch(
+	state => state.basket,
+	data => {
+		try {
+			localStorage.setItem('basket', JSON.stringify(data))
+		} catch (err) {
+			(err == QUOTA_EXCEEDED_ERR) && (console.log('localStorage is full'))
+		}	
+	},
+	{ deep: true }
+)
 
 export default store

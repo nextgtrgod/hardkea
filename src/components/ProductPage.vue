@@ -105,8 +105,11 @@
 	@import '../styles/variables.styl'
 
 	.product-page
+		max-width 1200px
+		margin auto
 		background-color: #FFF
 		color: $color.dark
+		box-shadow: 0 0 40px alpha(#111, .25)
 
 		&.mobile
 			.text-block
@@ -180,8 +183,8 @@
 			@media (min-width 1400px)
 				font-size 18px
 
-			@media (min-width 1600px)
-				font-size 20px
+			// @media (min-width 1600px)
+			// 	font-size 20px
 		
 
 			.text-block
@@ -196,13 +199,14 @@
 				
 				.image
 					font-size 0
+					overflow hidden
 
 					img
 						position absolute
 						right 0
-						bottom 0
-						// height 100%
-						width 100%
+						top 0
+						height 100%
+						// width 100%
 
 				h3
 					font-size 3.45em
@@ -230,11 +234,14 @@
 
 	.grid
 		display grid
-		height 100vh
+		height 100%
 		grid-template-columns repeat(4, 25%)
 		grid-auto-rows 25vw
 		grid-auto-flow dense
 		grid-row-gap 0
+
+		@media (min-width 960px)
+			grid-auto-rows 300px
 
 		&__item
 			position relative
@@ -255,8 +262,8 @@
 				left 0
 				right 0
 				bottom 0
-				// width 100%
-				height 100%
+				width 100%
+				// height 100%
 
 
 </style>
