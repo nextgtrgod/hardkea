@@ -4,14 +4,8 @@ import Events from '@/events'
 
 export default {
 	name: 'Aside',
-	data() {
-		return {
-
-		}
-	},
 	methods: {
 		openMenu: name => Events.$emit('modal-open', { name }),
-		imgUrl: name => require(`../assets/images/menu/${name}.svg`)
 	},
 	computed: {
 		...mapState({
