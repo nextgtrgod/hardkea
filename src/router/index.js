@@ -21,5 +21,8 @@ export default new Router({
             component: ProductPage
         }
     ],
-    mode: "history"
+    mode: "history",
+    // scrollBehavior(to, from, savedPosition) {
+    //     console.log(savedPosition)
+    // }
 })

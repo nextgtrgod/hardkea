@@ -3,14 +3,14 @@
 
 html, body
 	position relative
-	min-height 100%
+	display block
 	width 100%
-	-ms-touch-action: manipulation
-	touch-action: manipulation
 	height 100%
+	min-height 100%
 	margin 0
 	padding 0
-	display block
+	touch-action: manipulation
+	-ms-touch-action: manipulation
 	-webkit-text-size-adjust: none
 	-webkit-overflow-scrolling: touch
 	-webkit-tap-highlight-color: rgba(0,0,0, 0)
@@ -23,6 +23,16 @@ body
 	height 100%
 	overflow auto
 
+
+div, section
+	display block
+	box-sizing: border-box
+
+
+h1, h2, h3, h4, h5, p
+	margin 0
+
+
 img
 	border none
 	display inline-block
@@ -31,35 +41,27 @@ img
 	pointer-events none
 	user-select none
 
-input, textarea, select, option
-	margin 0
-	outline 0
-	box-shadow none
-	vertical-align top
 
-div
-	box-sizing: border-box
-
-section
-	display block
-
-ul
-li
+ul, li
 	margin 0
 	padding 0
 	list-style none
 
 a
-	color #FFF
-	color currentColor
+	color inherit
 	text-decoration none
 
-button
+
+button, input
+	margin 0
+	padding 0
+	text-align center
 	font-family: $font.family.default
 	background-color: transparent
+	box-shadow none
 	border none
-	cursor pointer
 	outline none
 
-input
-	font-family: $font.family.default
+button
+	cursor pointer
+	user-select none

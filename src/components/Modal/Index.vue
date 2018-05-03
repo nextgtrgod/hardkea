@@ -99,6 +99,7 @@ export default {
 			right 0
 			width 100%
 			padding 20px
+			padding-bottom 30px
 			background-color #FFF
 			transform translate3d(100%, 0, 0)
 			transition transform .4s

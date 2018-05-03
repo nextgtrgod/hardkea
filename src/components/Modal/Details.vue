@@ -146,13 +146,14 @@ export default {
 
 	p
 		font-size 16px
-		margin 15px auto 50px
+		line-height 1.25
+		margin-top 15px
+		margin-bottom 50px
 
 	.product-image
-		width 100%
-		height 350px
 		img
-			height 100%
+			width 100%
+			height auto
 	
 	h5
 		margin-top 40px
@@ -166,7 +167,7 @@ export default {
 		flex-direction column
 		justify-content center
 		align-items center
-		margin-right 30px
+		margin-right 20px
 		cursor pointer
 		&:hover
 		&.selected
@@ -181,12 +182,12 @@ export default {
 			margin-right 0
 
 		div
-			width 64px
-			height 64px
+			width 50px
+			height 50px
 			margin-bottom 10px
 			color #333
-			font-size 25px
-			line-height 62px
+			font-size 20px
+			line-height 48px
 			font-weight 300
 			text-transform uppercase
 			text-align center
@@ -195,19 +196,29 @@ export default {
 			box-sizing border-box
 			transition all .2s
 			user-select none
-		
+
+			@media (min-width 960px)
+				width 64px
+				height 64px
+				font-size 25px
+				line-height 62px
+	
 		span
-			font-size 16px
+			font-size 12px
 			font-weight 400
-			letter-spacing .6px
+			letter-spacing .2px
 			transition all .2s
+			
+			@media (min-width 960px)
+				font-size 16px
+				letter-spacing .6px
 	
 	.color
 		position relative
 		display inline-flex
-		margin-right 30px
-		width 64px
-		height 64px
+		margin-right 20px
+		width 50px
+		height 50px
 		background-size 105% 105%
 		background-position center
 		border 1px solid #FFF
@@ -219,6 +230,11 @@ export default {
 		&:last-of-type
 			margin-right 0
 
+		@media (min-width 960px)
+			width 64px
+			height 64px
+			margin-right 30px
+
 		svg
 			position absolute
 			top 0
@@ -226,7 +242,7 @@ export default {
 			right 0
 			bottom 0
 			margin auto
-			width 25px
+			width 40%
 			opacity 0
 			pointer-events none
 

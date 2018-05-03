@@ -51,120 +51,118 @@ export default {
 
 
 <style lang="stylus" scoped>
+@import '../styles/variables.styl'
 
-	@import '../styles/variables.styl'
+aside
+	position relative
+	display flex
+	align-items center
+	background-color #FFF
+	box-shadow: 0 7px 40px alpha(#111, .1)
+	box-sizing border-box
+	z-index 1
 
-	aside
-		display flex
-		align-items center
-		background-color #FFF
-		box-shadow: 0 7px 40px alpha(#111, .1)
-		box-sizing border-box
+	@media (min-width 960px)
+		position fixed
+		top 0
+		right 0
+		bottom 0
+		width 50px
+		flex-direction column
+		background-color: #FFF
+		box-shadow: -7px 0 40px alpha(#111, .1)
 
-		@media (min-width 960px)
-			position fixed
-			top 0
-			right 0
-			bottom 0
-			width 50px
-			flex-direction column
-			background-color: #FFF
-			box-shadow: -7px 0 40px alpha(#111, .1)
-			z-index 99
-	
-	a.logo
-		width 40px
-		height 40px
+a.logo
+	width 40px
+	height 40px
+	margin 5px
+	margin-right 10px
+	img
+		width auto
+		height 100%
+
+	@media (min-width 960px)
 		margin 5px
-		margin-right 10px
+		margin-bottom 40px
 		img
-			width auto
-			height 100%
+			width 100%
+			height auto
 
-		@media (min-width 960px)
-			margin 5px
-			margin-bottom 40px
-			img
-				width 100%
-				height auto
+ul
+	display flex
+	align-items center
+	justify-content center
+	margin-left auto
+	width 100%
+	height 50px
 
-	ul
-		display flex
+	@media (min-width 960px)
+		height 100%
+		margin 0
+		flex-direction column
+		justify-content flex-start
+
+	li
+		position relative
+		display inline-flex
 		align-items center
 		justify-content center
-		margin-left auto
-		width 100%
-		height 50px
+		height 100%
+		transition all .2s
+		&:last-child
+			margin-left auto
+		
+		&:hover
+			background-color #EEE
+			// svg
+			// 	fill: #FFF
+
+
+		&.basket
+			opacity .25
+			pointer-events none
+			cursor default
+			&.enabled
+				opacity 1
+				pointer-events all
+				cursor pointer
+				&:after
+					content: attr(data-count)
+					position absolute
+					top 5px
+					right 2px
+					width 22px
+					height 22px
+					text-align center
+					font-size: 11px
+					line-height 22px
+					background-color #333
+					border-radius 50%
+					color #FFF
+					pointer-events none
+
+		button
+			height 100%
+			padding 0 15px
 
 		@media (min-width 960px)
-			height 100%
 			margin 0
-			flex-direction column
-			justify-content flex-start
-
-		li
-			position relative
-			display inline-flex
-			align-items center
-			justify-content center
-			height 100%
-			transition all .2s
+			width 100%
+			height auto
 			&:last-child
-				margin-left auto
-			
-			&:hover
-				background-color #EFEFEF
-				// svg
-				// 	fill: #FFF
-
-
-			&.basket
-				opacity .25
-				pointer-events none
-				cursor default
-				&.enabled
-					opacity 1
-					pointer-events all
-					cursor pointer
-					&:after
-						content: attr(data-count)
-						position absolute
-						top 5px
-						right 2px
-						width 22px
-						height 22px
-						text-align center
-						font-size: 11px
-						line-height 22px
-						background-color #333
-						border-radius 50%
-						color #FFF
-						pointer-events none
+				margin-left 0
+				margin-top: auto
 
 			button
-				height 100%
-				padding 0 15px
+				padding 12px 10px
 
-			@media (min-width 960px)
-				margin 0
-				width 100%
-				height auto
-				&:last-child
-					margin-left 0
-					margin-top: auto
-
-				button
-					padding 12px 10px
-
-			svg
-				display block
-				margin auto
-				width 100%
-				max-width 30px
-				pointer-events none
-				// fill #333
-				// transition all .2s
-
-
+		svg
+			display block
+			margin auto
+			width 100%
+			max-width 30px
+			pointer-events none
+			// fill #333
+			// transition all .2s
 
 </style>

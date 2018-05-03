@@ -88,7 +88,7 @@ export default {
 	li.product
 		position relative
 		display flex
-		align-items flex-start
+		align-items flex-end
 		justify-content flex-start
 		margin-bottom 35px
 		color #333
@@ -98,7 +98,7 @@ export default {
 		button.delete
 			position absolute
 			top 0
-			left -32px
+			left -22px
 			bottom 0
 			width 32px
 			height 32px
@@ -107,23 +107,31 @@ export default {
 			background-position center
 			background-size 8px auto
 			background-repeat no-repeat
+			@media (min-width 960px)
+				left -32px
 
 		img
-			height 100px
+			height 80px
+			@media (min-width 960px)
+				height 100px
 
 		.description
-			margin-left 10px
+			margin-left 5px
+			@media (min-width 960px)
+				margin-left 10px
 
 		.price
-			margin-top 30px
 			margin-left auto
-			font-size 16px
+			font-size 14px
 			font-weight 700
-			letter-spacing .6px
+			margin-bottom 53px
+
+			@media (min-width 960px)
+				font-size 16px
+				letter-spacing .6px
 
 
 	h5
-		margin-top 30px
 		margin-bottom 20px
 		font-size: 16px
 		font-weight: 700
