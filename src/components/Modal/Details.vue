@@ -290,9 +290,9 @@ export default {
 		font-size: 16px
 		color: #333
 		font-weight: 500
-		line-height: 50px
+		line-height: 49px
 		letter-spacing .4px
-		border 1px solid
+		border: 1px solid #333
 		border-radius 8px
 		transition all .2s
 		box-sizing border-box

@@ -1,5 +1,8 @@
 <script>
 import Events from '@/events'
+import { Tween, autoPlay } from 'es6-tween'
+autoPlay(true)
+
 import Delivery from './Delivery'
 import Payment from './Payment'
 import Basket from './Basket'
@@ -18,6 +21,7 @@ export default {
 	data() {
 		return {
 			visible: false,
+			formVisible: false,
 			section: '',
 		}
 	},
@@ -26,7 +30,13 @@ export default {
 			this.section = name
 			this.visible = true
 		})
-		Events.$on('modal-close', () => this.visible = false)
+		Events.$on('modal-close', () => {
+			this.visible = false
+			this.formVisible = false
+		})
+
+		Events.$on('form-open', () => this.formVisible = true)
+		Events.$on('form-close', () => this.formVisible = false)
 
 		document.addEventListener('keyup', ({ keyCode }) => {
 			keyCode === 27 && Events.$emit('modal-close')
@@ -38,7 +48,17 @@ export default {
 	watch: {
 		'visible'(to, from) {
 			this.$refs['content'] && to && (this.$refs['content'].scrollTop = 0)
-		}
+		},
+		'formVisible'(to, from) {
+			if (to) {
+				let node = this.$refs['content']
+
+				new Tween({ height: node.scrollTop })
+					.to({ height: node.scrollHeight }, 1000)
+					.on('update', ({ height }) => node.scrollTop = height)
+					.start()
+			}
+		},
 	}
 }
 </script>
@@ -47,7 +67,7 @@ export default {
 <template lang="pug">
 	.modal(:class="{ visible }")
 		.overlay(@click="close")
-		.content(ref="content")
+		.content(ref="content", :class="{ 'form-visible': formVisible }")
 			button.close(@click="close")
 				img(src="../../assets/images/close.svg")
 
@@ -82,6 +102,7 @@ export default {
 			.content
 				transform translate3d(0, 0, 0)
 
+
 		.overlay
 			position absolute
 			top: 0
@@ -89,8 +110,9 @@ export default {
 			right: 0
 			bottom: 0
 			background-color: alpha(#111, .5)
+			-webkit-backdrop-filter: blur(10px) 
 			opacity 0
-			transition opacity .2s
+			transition all .2s
 
 		.content
 			position absolute
@@ -98,22 +120,22 @@ export default {
 			bottom 0
 			right 0
 			width 100%
-			padding 20px
-			padding-bottom 30px
 			background-color #FFF
 			transform translate3d(100%, 0, 0)
 			transition transform .4s
 			overflow-y auto
+
+			&.form-visible
+				overflow-y hidden
 
 			section
 				display none
 				&.visible
 					display block
 
-
 			@media (min-width 960px)
 				width 500px
-				padding 50px
+
 		
 		button.close
 			position absolute

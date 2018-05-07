@@ -4,11 +4,25 @@ import Events from '@/events'
 import Count from '@/components/Count'
 
 import formatNumber from '@/utils/formatNumber'
+import validateEmail from '@/utils/validateEmail'
 
 export default {
 	name: 'Basket',
 	components: {
 		Count,
+	},
+	data() {
+		return {
+			form: {
+				visible: false,
+				username: '',
+				email: '',
+				errors: [],
+			}
+		}
+	},
+	created() {
+		Events.$on('modal-close', () => this.form.visible = false)
 	},
 	computed: {
 		...mapState({
@@ -40,11 +54,45 @@ export default {
 		},
 
 		getPrice: ({ count, price, size, sizes }) => count * (size ? sizes[size] : price),
+
+		toggleForm() {
+			this.form.visible = !this.form.visible
+			Events.$emit(`form-${ this.form.visible ? 'open' : 'close' }`)
+		},
+
+		handleSubmit() {
+			if (!this.form.visible) {
+				this.form.visible = true
+				Events.$emit('form-open')
+				return
+			}
+			// clear prev errors
+			this.form.errors = []
+
+			let { username, email } = this.form
+
+			// check user data
+			!username.length && this.form.errors.push('username');
+
+			(!email.length || !validateEmail(email)) && 
+			this.form.errors.push('email') &&
+			(this.form.email = '')
+
+			if (!this.form.errors.length) {
+				console.log(`we're going to submit ${username} & ${email}`)
+			}
+		},
 	},
 	watch: {
 		products() {
 			!this.products.length && Events.$emit('modal-close')
 		},
+		'form.username'(to, from) {
+			to.length && (this.form.errors = this.form.errors.filter(error => error !== 'username'))
+		},
+		'form.email'(to, from) {
+			to.length && (this.form.errors = this.form.errors.filter(error => error !== 'email'))
+		}
 	},
 }
 </script>
@@ -52,33 +100,100 @@ export default {
 
 <template lang="pug">
 	section.basket
-		h2 Ваша корзина
+		.inner
+			h2 Ваша корзина
 
-		ul
-			li(v-for="(product, index) in products", :key="index" class="product")
-				button.delete(@click="deleteProduct(product.basketID)")
-				img(:src="imgUrl(product.id, product.color)")
-				.description
-					h5 {{ product.name }} {{ (product.size || '').toUpperCase() }}
-					count(v-model="product.count")
-				.price
-					| {{ formatNumber(getPrice(product)) }} ₽
-		
-		.total
-			h5 Итого:
-			span {{ formatNumber(total) }} ₽
+			ul
+				li(v-for="(product, index) in products", :key="index" class="product")
+					button.delete(@click="deleteProduct(product.basketID)")
+					img(:src="imgUrl(product.id, product.color)")
+					.description
+						h5 {{ product.name }} {{ (product.size || '').toUpperCase() }}
+						count(v-model="product.count")
+					.price
+						| {{ formatNumber(getPrice(product)) }} ₽
 
-		button.checkout Оформить заказ
+			.total
+				h5 Итого:
+				span {{ formatNumber(total) }} ₽
+			
+			form(:class="{ visible: form.visible }")
+				input(
+					type="text"
+					v-model="form.username"
+					:placeholder="form.errors.includes('username') ? 'Введите имя' : 'Имя'"
+					:class="{ error: form.errors.includes('username') }"
+					maxlength="64"
+				)
+				input(
+					type="email" 
+					v-model="form.email" 
+					:placeholder="form.errors.includes('email') ? 'Введите e-mail' : 'e-mail'"
+					:class="{ error: form.errors.includes('email') }"
+				)
 
-
+		button.checkout(@click="handleSubmit") Оформить заказ
 
 </template>
 
 
 <style lang="stylus" scoped>
-	
+
 	@import '../../styles/variables.styl'
 	@import '../../styles/modal.styl'
+
+
+	section
+		overflow hidden
+	
+	.inner
+		position relative
+
+		form
+			position absolute
+			top 0
+			left -50px
+			bottom 0
+			right 0
+			display flex
+			flex-direction column
+			align-items center
+			justify-content flex-end
+			width: calc(100% + 100px)
+			padding 0 50px
+			background-color #FFF
+			transform: translateX(100%)
+			transition: transform .3s
+			pointer-events: none
+			box-sizing border-box
+
+			&.visible
+				transform: translateX(0)
+				pointer-events: all
+
+			input
+				width 80%
+				margin 20px 0
+				padding 12px 15px
+				color #333
+				text-align left
+				font-size 17px
+				line-height 25px
+				border 1px solid
+				border-radius 8px
+				transition all .2s
+				box-sizing border-box
+
+				&::placeholder
+					color: alpha(#333, .5)
+					transition all .2s
+
+				&.error
+					color: #F00
+
+					&::placeholder
+						color: alpha(#F00, .5)
+				
 
 
 	ul
@@ -167,11 +282,11 @@ export default {
 		font-size: 16px
 		color: #333
 		font-weight: 500
-		line-height: 50px
+		line-height: 49px
 		letter-spacing .4px
-		border 1px solid
+		border: 1px solid #333
 		border-radius 8px
-		transition all .2s
+		transition: color .2s, background-color .2s
 		box-sizing border-box
 
 		&:hover
