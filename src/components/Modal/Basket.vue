@@ -5,6 +5,7 @@ import Count from '@/components/Count'
 
 import formatNumber from '@/utils/formatNumber'
 import validateEmail from '@/utils/validateEmail'
+import makeRequest from '@/utils/makeRequest'
 
 export default {
 	name: 'Basket',
@@ -60,7 +61,7 @@ export default {
 			Events.$emit(`form-${ this.form.visible ? 'open' : 'close' }`)
 		},
 
-		handleSubmit() {
+		async handleSubmit() {
 			if (!this.form.visible) {
 				this.form.visible = true
 				Events.$emit('form-open')
@@ -79,7 +80,14 @@ export default {
 			(this.form.email = '')
 
 			if (!this.form.errors.length) {
-				console.log(`we're going to submit ${username} & ${email}`)
+				await makeRequest({
+					url: '/api/sendOrder',
+					data: {
+						orderID: Date.now(),
+						username,
+						email,
+					},
+				})
 			}
 		},
 	},
@@ -126,7 +134,7 @@ export default {
 					maxlength="64"
 				)
 				input(
-					type="email" 
+					type="email"
 					v-model="form.email" 
 					:placeholder="form.errors.includes('email') ? 'Введите e-mail' : 'e-mail'"
 					:class="{ error: form.errors.includes('email') }"
