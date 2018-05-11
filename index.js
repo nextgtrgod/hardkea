@@ -4,7 +4,7 @@ const fs = require('fs')
 const path = require('path')
 const express = require('express')
 const bodyParser = require('body-parser')
-const nodemailer = require('nodemailer')
+const sendMail = require('./api/sendMail')
 
 const app = express()
 app.disable('x-powered-by')
@@ -24,6 +24,12 @@ orderID: ${orderID}
 username: ${username}
 email: ${email}
 `)
+
+	sendMail({
+		orderID,
+		name: username,
+		email,
+	})
 
 })
 
