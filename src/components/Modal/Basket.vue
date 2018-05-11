@@ -86,6 +86,7 @@ export default {
 						orderID: Date.now(),
 						username,
 						email,
+						products: JSON.stringify(this.products),
 					},
 				})
 			}
@@ -226,9 +227,9 @@ export default {
 			width 32px
 			height 32px
 			margin auto
-			background-image url('../../assets/images/delete.png')
+			background-image url('../../assets/images/delete.svg')
 			background-position center
-			background-size 8px auto
+			background-size 16px auto
 			background-repeat no-repeat
 			@media (min-width 960px)
 				left -32px

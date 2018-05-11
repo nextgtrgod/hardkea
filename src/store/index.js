@@ -4,7 +4,7 @@ import getters from './getters'
 import actions from './actions'
 import mutations from './mutations'
 
-import products from '@/data/products'
+import products from '../../api/products'
 
 Vue.use(Vuex)
 

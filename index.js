@@ -17,18 +17,13 @@ app.set('port', (process.env.PORT || 4000))
 
 app.post('/api/sendOrder', (req, res) => {
 
-	let { orderID, username, email } = req.body
-
-console.log(`
-orderID: ${orderID}
-username: ${username}
-email: ${email}
-`)
+	let { orderID, username, email, products } = req.body
 
 	sendMail({
 		orderID,
 		name: username,
 		email,
+		products: JSON.parse(products),
 	})
 
 })
