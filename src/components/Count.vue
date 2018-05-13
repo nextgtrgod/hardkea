@@ -15,6 +15,9 @@ export default {
 		max: {
 			type: Number,
 			default: 99,
+		},
+		onLowest: {
+			type: Function,
 		}
 	},
 	data() {
@@ -40,7 +43,9 @@ export default {
 			if (this.innerValue < this.min) this.innerValue = this.min
 			if (this.innerValue >= this.max) this.innerValue = this.max
 
-			this.$emit('input', this.innerValue)
+			this.$emit('input', this.innerValue);
+
+			(this.onLowest) && (newVal === this.min) && (this.onLowest());
 		}
 	}
 }

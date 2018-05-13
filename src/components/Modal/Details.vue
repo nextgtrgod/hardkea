@@ -94,6 +94,11 @@ export default {
 			img(:src="imgUrl")
 		p {{ product.text }}
 
+		h5
+			| {{ product.dimensions.width }}×{{ product.dimensions.height }}×{{ product.dimensions.depth }}см,
+			| {{ product.weight }}кг,
+			| {{ product.material }}
+
 		.sizes(v-if="product.sizes")
 			h5 Размер модели:
 			.size(
@@ -148,7 +153,12 @@ export default {
 		font-size 16px
 		line-height 1.25
 		margin-top 15px
-		margin-bottom 50px
+		margin-bottom 16px
+	
+		&+h5
+			margin-top 0
+			margin-bottom 50px
+			font-size 14px
 
 	.product-image
 		img
