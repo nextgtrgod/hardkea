@@ -2,6 +2,7 @@
 import { mapState } from 'vuex'
 import Events from '@/events'
 import Count from '@/components/Count'
+import maskedInput from 'vue-masked-input'
 
 import formatNumber from '@/utils/formatNumber'
 import validateEmail from '@/utils/validateEmail'
@@ -11,6 +12,7 @@ export default {
 	name: 'Basket',
 	components: {
 		Count,
+		maskedInput,
 	},
 	data() {
 		return {
@@ -18,6 +20,9 @@ export default {
 				visible: false,
 				username: '',
 				email: '',
+				phone: '',
+				rawPhone: '',
+				details: '',
 				errors: [],
 			},
 			buttonOffsetTop: 0,
@@ -74,10 +79,11 @@ export default {
 			// clear prev errors
 			this.form.errors = []
 
-			let { username, email } = this.form
+			let { username, email, phone, rawPhone, details } = this.form
 
 			// check user data
 			!username.length && this.form.errors.push('username');
+			(rawPhone.length < 11) && this.form.errors.push('phone');
 
 			(!email.length || !validateEmail(email)) && 
 			this.form.errors.push('email') &&
@@ -90,6 +96,9 @@ export default {
 						orderID: Date.now(),
 						username,
 						email,
+						phone,
+						rawPhone,
+						details,
 						products: JSON.stringify(this.products),
 					},
 				})
@@ -123,6 +132,9 @@ export default {
 		},
 		'form.email'(to, from) {
 			to.length && (this.form.errors = this.form.errors.filter(error => error !== 'email'))
+		},
+		'form.rawPhone'(to, from) {
+			(to.length === 11) && (this.form.errors = this.form.errors.filter(error => error !== 'phone'))
 		}
 	},
 }
@@ -165,19 +177,53 @@ export default {
 				)
 					img(src="../../assets/images/back.svg")
 
-				input(
-					type="text"
-					v-model="form.username"
-					:placeholder="form.errors.includes('username') ? 'Введите имя' : 'Имя'"
-					:class="{ error: form.errors.includes('username') }"
-					maxlength="64"
-				)
-				input(
-					type="email"
-					v-model="form.email" 
-					:placeholder="form.errors.includes('email') ? 'Введите e-mail' : 'e-mail'"
-					:class="{ error: form.errors.includes('email') }"
-				)
+				.field
+					input(
+						type="text"
+						v-model="form.username"
+						:class="{ error: form.errors.includes('username') }"
+						maxlength="64"
+						required
+						spellcheck="false"
+					)
+					span.placeholder {{ form.errors.includes('username') ? 'Введите имя' : 'Имя' }}
+					span.line
+
+				.field
+					input(
+						type="text"
+						v-model="form.email"
+						:class="{ error: form.errors.includes('email') }"
+						required
+						spellcheck="false"
+					)
+					span.placeholder {{ form.errors.includes('email') ? 'Введите e-mail' : 'E-mail' }}
+					span.line
+
+				.field
+					masked-input(
+						type="phone"
+						v-model="form.phone"
+						@input="form.rawPhone = arguments[1]"
+						mask='\+\1 111 111 1111'
+						placeholder-char=" "
+						:class="{ error: form.errors.includes('phone') }"
+						required
+						spellcheck="false"
+					)
+					span.placeholder {{ form.errors.includes('phone') ? 'Введите телефон' : 'Телефон' }}
+					span.line
+
+				.field
+					input(
+						type="text"
+						v-model="form.details"
+						:class="{ error: form.errors.includes('details') }"
+						required
+						spellcheck="false"
+					)
+					span.placeholder Адрес / комментарий
+					span.line
 
 		button.checkout(@click="handleSubmit") Оформить заказ
 
@@ -233,28 +279,67 @@ section
 				left -1px
 				height 30px
 
-		input
+		.field
+			position relative
 			width 80%
-			margin 20px 0
-			padding 12px 15px
-			color #333
-			text-align left
-			font-size 17px
-			line-height 25px
-			border 1px solid
-			border-radius 8px
-			transition all .2s
-			box-sizing border-box
+			margin 25px 0
 
-			&::placeholder
-				color: alpha(#333, .5)
+			input
+				width 100%
+				padding 8px 0
+				color #333
+				text-align left
+				font-size 17px
+				line-height 1
+				border-bottom 1px solid
 				transition all .2s
+				box-sizing border-box
 
-			&.error
-				color: #F00
+				// &::placeholder
+				// 	color: alpha(#333, .5)
+				// 	transition all .2s
 
-				&::placeholder
-					color: alpha(#F00, .5)
+				&.error
+					color: #F00
+
+					// &::placeholder
+					&~span.line
+						background-color: alpha(#F00, .5)
+
+					&~span.placeholder
+						color: alpha(#F00, .5)
+
+				&:focus
+				&:valid
+					&~span.line
+						width 100%
+
+					&~span.placeholder
+						transform: translateY(-125%) scale(0.75)
+
+			span
+				position absolute
+				pointer-events none
+
+				&.placeholder
+					left 0
+					bottom 10px
+					font-size 17px
+					line-height 1
+					color: alpha(#333, .5)
+					transition all .2s, color .3s
+					transform-origin 0 0
+			
+				&.line
+					left 0
+					right 0
+					bottom 0
+					height 2px
+					width 0
+					margin auto
+					background-color #333
+					transition: width .3s, background-color .3s
+					will-change: width
 			
 
 
@@ -350,7 +435,7 @@ button.checkout
 	display block
 	width 230px
 	margin auto
-	margin-top 50px
+	margin-top 30px
 	padding 0
 	font-size: 16px
 	color: #333
@@ -361,6 +446,9 @@ button.checkout
 	border-radius 8px
 	transition: color .2s, background-color .2s
 	box-sizing border-box
+
+	@media (min-width 960px)
+		margin-top 50px
 
 	&:hover
 		background-color #333
