@@ -35,6 +35,8 @@ export default {
 
 			this.products.map(product => sum += this.getPrice(product))
 
+			Events.$emit('total-update', { total: sum })
+
 			return sum
 		}
 	},

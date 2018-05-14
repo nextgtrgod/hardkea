@@ -1,1 +1,8 @@
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="42" height="42" viewBox="0 0 42 42"><defs><path id="mbnva" d="M1155 9a4 4 0 0 1 4-4h32a4 4 0 0 1 4 4v32a4 4 0 0 1-4 4h-32a4 4 0 0 1-4-4z"/><path id="mbnvb" d="M1195 11h-9.7v12.91h-11.6V11h-9.7v34h9.7V31.85h11.6V45h9.7z"/></defs><g><g transform="translate(-1154 -4)"><use fill="#333" xlink:href="#mbnva"/></g><g transform="translate(-1154 -4)"><use fill="#fff" xlink:href="#mbnvb"/></g></g></svg>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="42" height="42">
+  <defs>
+    <path id="a" d="M1155 9a4 4 0 0 1 4-4h32a4 4 0 0 1 4 4v32a4 4 0 0 1-4 4h-32a4 4 0 0 1-4-4z"/>
+    <path id="b" d="M1195 11h-9.7v12.91h-11.6V11h-9.7v34h9.7V31.85h11.6V45h9.7z"/>
+  </defs>
+  <use fill="#333" transform="translate(-1154 -4)" xlink:href="#a"/>
+  <use fill="#fff" transform="translate(-1154 -4)" xlink:href="#b"/>
+</svg>
