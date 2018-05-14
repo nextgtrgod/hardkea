@@ -19,11 +19,15 @@ export default {
 				username: '',
 				email: '',
 				errors: [],
-			}
+			},
+			buttonOffsetTop: 0,
 		}
 	},
 	created() {
 		Events.$on('modal-close', () => this.form.visible = false)
+	},
+	mounted() {
+		this.buttonOffsetTop = this.getButtonOffsetTop()
 	},
 	computed: {
 		...mapState({
@@ -38,7 +42,7 @@ export default {
 			Events.$emit('total-update', { total: sum })
 
 			return sum
-		}
+		},
 	},
 	methods: {
 		imgUrl: (id, color) => {
@@ -91,14 +95,27 @@ export default {
 				})
 			}
 		},
+
+		getButtonOffsetTop() {
+			let node = this.$refs['container']
+			if (!node) return 0
+
+			let offset = node.scrollHeight - window.innerHeight
+
+			return (offset < 0)
+				? 0
+				: offset
+		}
 	},
 	watch: {
 		products() {
 			!this.products.length && Events.$emit('modal-close')
 		},
 
-		'form.visible'() {
-			Events.$emit(`form-${ this.form.visible ? 'open' : 'close' }`)
+		'form.visible'(newVal) {
+			Events.$emit(`form-${ newVal ? 'open' : 'close' }`)
+
+			if (newVal) this.buttonOffsetTop = this.getButtonOffsetTop()
 		},
 		
 		'form.username'(to, from) {
@@ -113,7 +130,7 @@ export default {
 
 
 <template lang="pug">
-	section.basket
+	section(class="basket" ref="container")
 		.inner
 			h2 Ваша корзина
 
@@ -140,7 +157,12 @@ export default {
 				span {{ formatNumber(total) }} ₽
 			
 			form(:class="{ visible: form.visible }")
-				button(type="button" class="back" @click="closeForm")
+				button(
+					type="button"
+					class="back"
+					@click="closeForm"
+					:style="{ top: buttonOffsetTop + 'px' }"
+				)
 					img(src="../../assets/images/back.svg")
 
 				input(
@@ -197,11 +219,15 @@ section
 
 		button.back
 			position absolute
-			bottom 50vh
-			left 0
+			top 0
+			left 30px
 			width 50px
 			height 50px
 			background-color #333
+
+			@media (min-width 960px)
+				left 0
+
 			img
 				position relative
 				left -1px
@@ -238,7 +264,7 @@ ul.product-list
 
 // transition-group
 .product {
-	transition: all .4s
+	transition: transform .4s, opacity .4s
 }
 
 .product-list-enter, .product-list-leave-to {

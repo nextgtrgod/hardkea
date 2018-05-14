@@ -12,8 +12,6 @@ export default {
 		}
 	},
 	created() {
-		console.log(this.$route)
-
 		Events.$on('total-update', ({ total }) => this.total = total)
 	},
 	methods: {
