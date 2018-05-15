@@ -7,6 +7,7 @@ import maskedInput from 'vue-masked-input'
 import formatNumber from '@/utils/formatNumber'
 import validateEmail from '@/utils/validateEmail'
 import makeRequest from '@/utils/makeRequest'
+import createOrderID from '@/utils/createOrderID'
 
 export default {
 	name: 'Basket',
@@ -79,6 +80,7 @@ export default {
 			// clear prev errors
 			this.form.errors = []
 
+
 			let { username, email, phone, rawPhone, details } = this.form
 
 			// check user data
@@ -89,18 +91,20 @@ export default {
 			this.form.errors.push('email') &&
 			(this.form.email = '')
 
+
+			// send request
 			if (!this.form.errors.length) {
 				await makeRequest({
 					url: '/api/sendOrder',
-					data: {
-						orderID: Date.now(),
+					data: {	
+						orderID: createOrderID({ username, email, rawPhone }),
 						username,
 						email,
 						phone,
 						rawPhone,
 						details,
 						products: JSON.stringify(this.products),
-					},
+					}
 				})
 			}
 		},
@@ -194,6 +198,7 @@ export default {
 						type="text"
 						v-model="form.email"
 						:class="{ error: form.errors.includes('email') }"
+						maxlength="64"
 						required
 						spellcheck="false"
 					)
@@ -219,6 +224,7 @@ export default {
 						type="text"
 						v-model="form.details"
 						:class="{ error: form.errors.includes('details') }"
+						maxlength="120"
 						required
 						spellcheck="false"
 					)
@@ -339,7 +345,6 @@ section
 					margin auto
 					background-color #333
 					transition: width .3s, background-color .3s
-					will-change: width
 			
 
 
