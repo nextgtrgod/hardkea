@@ -144,6 +144,7 @@ export default {
 			width 50px
 			height 50px
 			background-color #333
+			z-index 1
 			img
 				width 35px
 
