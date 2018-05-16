@@ -271,6 +271,7 @@ export default {
 
 section
 	position relative
+	min-height 100%
 	overflow hidden
 
 .inner
@@ -293,6 +294,9 @@ section
 		transition: transform .3s
 		pointer-events: none
 		box-sizing border-box
+
+		@media (max-width 959px)
+			padding-bottom 5vh
 
 		&.visible
 			transform: translateX(0)
