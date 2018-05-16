@@ -294,6 +294,7 @@ section
 		transition: transform .3s
 		pointer-events: none
 		box-sizing border-box
+		z-index 1
 
 		@media (max-width 959px)
 			padding-bottom 5vh
