@@ -15,17 +15,30 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.set('port', (process.env.PORT || 4000))
 
 
-app.post('/api/sendOrder', (req, res) => {
+app.post('/api/sendOrder', async (req, res) => {
 
-	let { orderID, username, email, products } = req.body
+	let { orderID, username, email, products, phone, rawPhone, details } = req.body
 
-	sendMail({
+	console.log(`
+orderID: ${orderID}
+username: ${username}
+email: ${email}
+phone: ${rawPhone}
+details: ${details}
+`
+	)
+
+	let status = await sendMail({
 		orderID,
 		name: username,
 		email,
+		phone,
+		rawPhone,
+		details,
 		products: JSON.parse(products),
 	})
 
+	res.send({ status })
 })
 
 

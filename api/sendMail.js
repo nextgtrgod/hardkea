@@ -14,23 +14,33 @@ let transporter = nodemailer.createTransport({
 	}
 })
 
-let sendMail = ({ orderID, name, email, products }) => {
+let sendMail = data => new Promise((resolve, reject) => {
+
+	let { email } = data
 
 	let mailOptions = {
 		from: user,
 		to: email,
 		subject: 'hardkea',
-		html: render('order', {
-			name,
-			orderID,
-			products,
-		})
+		html: render('order', data)
 	}
 
 	transporter.sendMail(mailOptions, (err, info) => {
-		if (err) console.log(err)
-		else console.log(`Email sent: ${info.response}`)
+		let status
+
+		if (err) {
+			status = 'Произошла ошибка :('
+			console.log(err)
+		}
+		else {
+			status = 'Ваш заказ принят!'
+			console.log(`Email sent: ${info.response}`)
+		}
+
+		resolve(status)
 	})
-}
+
+})
+
 
 module.exports = sendMail

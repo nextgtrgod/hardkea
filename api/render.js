@@ -1,5 +1,7 @@
 const path = require('path')
 const pug = require('pug')
+const formatNumber = require('./utils/formatNumber')
+const auth = require('./auth')
 
 let cachedFunc = {}
 
@@ -13,12 +15,29 @@ let render = (fileName, data = {}) => {
 
 	switch (fileName) {
 		case 'order': {
-			let { name, orderID, products } = data
+			let { name, orderID, email, phone, details, products } = data
+
+			let total = products.reduce((sum, product) => {
+				let { count, price, size, sizes } = product
+
+				let subtotal = count * (size ? sizes[size] : price)
+
+				product.subtotal = formatNumber(subtotal)
+
+				return sum += subtotal
+			}, 0)
+
+			total = formatNumber(total)
 
 			html = cachedFunc[fileName]({
 				name,
 				orderID,
+				email,
+				phone,
+				details,
 				products,
+				total,
+				siteUrl: auth.url.site,
 			})
 
 			break;

@@ -1,15 +1,15 @@
 <script>
 import { mapState } from 'vuex'
 import Events from '@/events' 
-import Slider from '@/components/Slider'
+// import Slider from '@/components/Slider'
 
 import formatNumber from '@/utils/formatNumber'
 
 export default {
 	name: 'MainPage',
-	components: {
-		Slider,
-	},
+	// components: {
+	// 	Slider,
+	// },
 	data() {
 		return {
 			device: 'desktop',

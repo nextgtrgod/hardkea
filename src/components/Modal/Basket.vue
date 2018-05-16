@@ -27,6 +27,10 @@ export default {
 				errors: [],
 			},
 			buttonOffsetTop: 0,
+			request: {
+				status: '',
+				response: '',
+			},
 		}
 	},
 	created() {
@@ -94,18 +98,31 @@ export default {
 
 			// send request
 			if (!this.form.errors.length) {
-				await makeRequest({
-					url: '/api/sendOrder',
-					data: {	
-						orderID: createOrderID({ username, email, rawPhone }),
-						username,
-						email,
-						phone,
-						rawPhone,
-						details,
-						products: JSON.stringify(this.products),
-					}
-				})
+
+				this.request.status = 'loading'
+
+				try {
+					let res = await makeRequest({
+						url: '/api/sendOrder',
+						data: {	
+							orderID: createOrderID({ username, email, rawPhone }),
+							username,
+							email,
+							phone,
+							rawPhone,
+							details,
+							products: JSON.stringify(this.products),
+						}
+					})
+
+					this.request.status = 'done'
+					this.request.response = res.status
+
+				} catch (error) {
+					console.log(error)
+					this.request.status = 'done'
+					this.request.response = 'Произошла ошибка :('
+				}
 			}
 		},
 
@@ -113,7 +130,9 @@ export default {
 			let node = this.$refs['container']
 			if (!node) return 0
 
-			let offset = node.scrollHeight - window.innerHeight
+			let hiddenModalHeight = (window.innerHeight - 50)
+
+			let offset = node.scrollHeight - hiddenModalHeight - window.innerHeight
 
 			return (offset < 0)
 				? 0
@@ -127,6 +146,8 @@ export default {
 
 		'form.visible'(newVal) {
 			Events.$emit(`form-${ newVal ? 'open' : 'close' }`)
+
+			this.request.status = ''
 
 			if (newVal) this.buttonOffsetTop = this.getButtonOffsetTop()
 		},
@@ -147,6 +168,13 @@ export default {
 
 <template lang="pug">
 	section(class="basket" ref="container")
+		.send-status(:class="{ visible: request.status.length }")
+
+			svg.spinner(v-if="request.status === 'loading'" fill='none', stroke='#333', viewbox='0 0 60 60', version='1.1', xmlns='http://www.w3.org/2000/svg')
+				circle(cx='30', cy='30', r='25')
+
+			h2(v-if="request.status === 'done'") {{ request.response }}
+
 		.inner
 			h2 Ваша корзина
 
@@ -242,6 +270,7 @@ export default {
 
 
 section
+	position relative
 	overflow hidden
 
 .inner
@@ -458,5 +487,53 @@ button.checkout
 	&:hover
 		background-color #333
 		color: #FFF
+
+
+.send-status
+	position absolute
+	left 0
+	right 0
+	bottom 0
+	height calc(100vh - 50px)
+	display flex
+	align-items center
+	justify-content center
+	background-color #FFF
+	transform translateY(100%)
+	transition transform .3s
+	overflow hidden
+	z-index 9001
+
+	&.visible
+		transform translateX(0)
+
+	&>*
+		margin-top -50px
+
+
+.spinner
+	position relative
+	width: 60px
+	height: 60px
+	stroke-width: 3
+	stroke-dasharray: 100
+	animation: spin .75s, grow 2s
+	animation-iteration-count: infinite
+	animation-timing-function: linear
+
+@keyframes spin
+	0%
+		transform rotate(0deg)
+	100%
+		transform rotate(360deg)
+
+@keyframes grow
+	0%
+		stroke-dashoffset 0
+  	50%
+		stroke-dashoffset 100
+  	100%
+		stroke-dashoffset 0
+
 
 </style>
