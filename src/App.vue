@@ -40,6 +40,7 @@ export default {
 
 <style lang="stylus">
 @import './styles/normalize.styl'
+@import './styles/fonts.styl'
 @import './styles/variables.styl'
 
 body
