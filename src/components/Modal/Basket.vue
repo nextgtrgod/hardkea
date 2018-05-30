@@ -268,7 +268,7 @@ export default {
 				span.placeholder Адрес / комментарий
 				span.line
 
-			button.checkout(type="button" @click="handleSubmit") Оформить заказ
+			button.checkout(type="button" @click="handleSubmit") Отправить
 
 </template>
 
