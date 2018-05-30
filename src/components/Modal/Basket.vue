@@ -53,6 +53,8 @@ export default {
 
 			return sum
 		},
+
+		formStyle: () => ({ height: `${window.innerHeight}px` })
 	},
 	methods: {
 		imgUrl: (id, color) => {
@@ -207,7 +209,7 @@ export default {
 		button.showForm(type="button" @click="openForm") Оформить заказ
 
 
-		form(:class="{ visible: form.visible }")
+		form(:class="{ visible: form.visible }" :style="formStyle")
 			button(
 				type="button"
 				class="back"
