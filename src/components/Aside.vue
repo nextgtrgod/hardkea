@@ -164,7 +164,7 @@ ul
 					height 22px
 					text-align center
 					font-size: 11px
-					line-height 22px
+					line-height 23px
 					background-color #333
 					border-radius 50%
 					color #FFF
