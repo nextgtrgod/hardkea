@@ -26,7 +26,7 @@ export default {
 				details: '',
 				errors: [],
 			},
-			buttonOffsetTop: 0,
+			// buttonOffsetTop: 0,
 			request: {
 				status: '',
 				response: '',
@@ -37,7 +37,7 @@ export default {
 		Events.$on('modal-close', () => this.form.visible = false)
 	},
 	mounted() {
-		this.buttonOffsetTop = this.getButtonOffsetTop()
+		// this.buttonOffsetTop = this.getButtonOffsetTop()
 	},
 	computed: {
 		...mapState({
@@ -53,6 +53,8 @@ export default {
 
 			return sum
 		},
+
+		formStyle: () => ({ height: `${window.innerHeight}px` })
 	},
 	methods: {
 		imgUrl: (id, color) => {
@@ -71,6 +73,10 @@ export default {
 		},
 
 		getPrice: ({ count, price, size, sizes }) => count * (size ? sizes[size] : price),
+
+		openForm() {
+			this.form.visible = true
+		},
 
 		closeForm() {
 			this.form.visible = false
@@ -126,18 +132,18 @@ export default {
 			}
 		},
 
-		getButtonOffsetTop() {
-			let node = this.$refs['container']
-			if (!node) return 0
+		// getButtonOffsetTop() {
+		// 	let node = this.$refs['container']
+		// 	if (!node) return 0
 
-			let hiddenModalHeight = (window.innerHeight - 50)
+		// 	let hiddenModalHeight = (window.innerHeight - 50)
 
-			let offset = node.scrollHeight - hiddenModalHeight - window.innerHeight
+		// 	let offset = node.scrollHeight - hiddenModalHeight - window.innerHeight
 
-			return (offset < 0)
-				? 0
-				: offset
-		}
+		// 	return (offset < 0)
+		// 		? 0
+		// 		: offset
+		// }
 	},
 	watch: {
 		products() {
@@ -149,7 +155,7 @@ export default {
 
 			this.request.status = ''
 
-			if (newVal) this.buttonOffsetTop = this.getButtonOffsetTop()
+			// if (newVal) this.buttonOffsetTop = this.getButtonOffsetTop()
 		},
 		
 		'form.username'(to, from) {
@@ -199,67 +205,70 @@ export default {
 			.total
 				h5 Итого:
 				span {{ formatNumber(total) }} ₽
-			
-			form(:class="{ visible: form.visible }")
-				button(
-					type="button"
-					class="back"
-					@click="closeForm"
-					:style="{ top: buttonOffsetTop + 'px' }"
+
+		button.showForm(type="button" @click="openForm") Оформить заказ
+
+
+		form(:class="{ visible: form.visible }" :style="formStyle")
+			button(
+				type="button"
+				class="back"
+				@click="closeForm"
+
+			)
+				img(src="../../assets/images/back.svg")
+
+			.field
+				input(
+					type="text"
+					v-model="form.username"
+					:class="{ error: form.errors.includes('username') }"
+					maxlength="64"
+					required
+					spellcheck="false"
 				)
-					img(src="../../assets/images/back.svg")
+				span.placeholder {{ form.errors.includes('username') ? 'Введите имя' : 'Имя' }}
+				span.line
 
-				.field
-					input(
-						type="text"
-						v-model="form.username"
-						:class="{ error: form.errors.includes('username') }"
-						maxlength="64"
-						required
-						spellcheck="false"
-					)
-					span.placeholder {{ form.errors.includes('username') ? 'Введите имя' : 'Имя' }}
-					span.line
+			.field
+				input(
+					type="text"
+					v-model="form.email"
+					:class="{ error: form.errors.includes('email') }"
+					maxlength="64"
+					required
+					spellcheck="false"
+				)
+				span.placeholder {{ form.errors.includes('email') ? 'Введите e-mail' : 'E-mail' }}
+				span.line
 
-				.field
-					input(
-						type="text"
-						v-model="form.email"
-						:class="{ error: form.errors.includes('email') }"
-						maxlength="64"
-						required
-						spellcheck="false"
-					)
-					span.placeholder {{ form.errors.includes('email') ? 'Введите e-mail' : 'E-mail' }}
-					span.line
+			.field
+				masked-input(
+					type="phone"
+					v-model="form.phone"
+					@input="form.rawPhone = arguments[1]"
+					mask='\+\1 111 111 1111'
+					placeholder-char=" "
+					:class="{ error: form.errors.includes('phone') }"
+					required
+					spellcheck="false"
+				)
+				span.placeholder {{ form.errors.includes('phone') ? 'Введите телефон' : 'Телефон' }}
+				span.line
 
-				.field
-					masked-input(
-						type="phone"
-						v-model="form.phone"
-						@input="form.rawPhone = arguments[1]"
-						mask='\+\1 111 111 1111'
-						placeholder-char=" "
-						:class="{ error: form.errors.includes('phone') }"
-						required
-						spellcheck="false"
-					)
-					span.placeholder {{ form.errors.includes('phone') ? 'Введите телефон' : 'Телефон' }}
-					span.line
+			.field
+				input(
+					type="text"
+					v-model="form.details"
+					:class="{ error: form.errors.includes('details') }"
+					maxlength="120"
+					required
+					spellcheck="false"
+				)
+				span.placeholder Адрес / комментарий
+				span.line
 
-				.field
-					input(
-						type="text"
-						v-model="form.details"
-						:class="{ error: form.errors.includes('details') }"
-						maxlength="120"
-						required
-						spellcheck="false"
-					)
-					span.placeholder Адрес / комментарий
-					span.line
-
-		button.checkout(@click="handleSubmit") Оформить заказ
+			button.checkout(type="button" @click="handleSubmit") Отправить
 
 </template>
 
@@ -277,109 +286,110 @@ section
 .inner
 	position relative
 
-	form
+
+form
+	position absolute
+	left 0
+	right 0
+	bottom 0
+	width: 100%
+	height 100vh
+	display flex
+	flex-direction column
+	align-items center
+	justify-content center
+	padding 0 50px
+	background-color #FFF
+	transform: translateX(100%)
+	transition: transform .3s
+	pointer-events: none
+	box-sizing border-box
+	z-index 1
+
+	@media (max-width 959px)
+		padding 25px
+		padding-bottom 5vh
+
+	&.visible
+		transform: translateX(0)
+		pointer-events: all
+
+	button.back
 		position absolute
-		top -50px
-		left -50px
-		bottom 0
-		right 0
-		display flex
-		flex-direction column
-		align-items center
-		justify-content flex-end
-		width: calc(100% + 100px)
-		padding 0 50px
-		background-color #FFF
-		transform: translateX(100%)
-		transition: transform .3s
-		pointer-events: none
-		box-sizing border-box
-		z-index 1
+		top 0
+		left 0
+		width 50px
+		height 50px
+		background-color #333
 
-		@media (max-width 959px)
-			padding-bottom 5vh
-
-		&.visible
-			transform: translateX(0)
-			pointer-events: all
-
-		button.back
-			position absolute
-			top 0
-			left 30px
-			width 50px
-			height 50px
-			background-color #333
-
-			@media (min-width 960px)
-				left 0
-
-			img
-				position relative
-				left -1px
-				height 30px
-
-		.field
+		img
 			position relative
-			width 80%
-			margin 25px 0
+			left -1px
+			height 30px
 
-			input
-				width 100%
-				padding 8px 0
-				color #333
-				text-align left
-				font-size 17px
-				line-height 1
-				border-bottom 1px solid
-				transition all .2s
-				box-sizing border-box
+	.field
+		position relative
+		width 100%
+		margin 25px 0
+
+		@media (min-width 960px)
+			width 80%
+
+		input
+			width 100%
+			padding 8px 0
+			color #333
+			text-align left
+			font-size 17px
+			line-height 1
+			border-bottom 1px solid
+			transition all .2s
+			box-sizing border-box
+
+			// &::placeholder
+			// 	color: alpha(#333, .5)
+			// 	transition all .2s
+
+			&.error
+				color: #F00
 
 				// &::placeholder
-				// 	color: alpha(#333, .5)
-				// 	transition all .2s
+				&~span.line
+					background-color: alpha(#F00, .5)
 
-				&.error
-					color: #F00
+				&~span.placeholder
+					color: alpha(#F00, .5)
 
-					// &::placeholder
-					&~span.line
-						background-color: alpha(#F00, .5)
+			&:focus
+			&:valid
+				&~span.line
+					width 100%
 
-					&~span.placeholder
-						color: alpha(#F00, .5)
+				&~span.placeholder
+					transform: translateY(-125%) scale(0.75)
 
-				&:focus
-				&:valid
-					&~span.line
-						width 100%
+		span
+			position absolute
+			pointer-events none
 
-					&~span.placeholder
-						transform: translateY(-125%) scale(0.75)
-
-			span
-				position absolute
-				pointer-events none
-
-				&.placeholder
-					left 0
-					bottom 10px
-					font-size 17px
-					line-height 1
-					color: alpha(#333, .5)
-					transition all .2s, color .3s
-					transform-origin 0 0
-			
-				&.line
-					left 0
-					right 0
-					bottom 0
-					height 2px
-					width 0
-					margin auto
-					background-color #333
-					transition: width .3s, background-color .3s
-			
+			&.placeholder
+				left 0
+				bottom 10px
+				font-size 17px
+				line-height 1
+				color: alpha(#333, .5)
+				transition all .2s, color .3s
+				transform-origin 0 0
+		
+			&.line
+				left 0
+				right 0
+				bottom 0
+				height 2px
+				width 0
+				margin auto
+				background-color #333
+				transition: width .3s, background-color .3s
 
 
 ul.product-list
@@ -470,11 +480,17 @@ h5
 		line-height 40px
 
 
+
+
+button.showForm
+	margin auto
+
+
+button.showForm,
 button.checkout
 	display block
 	width 230px
-	margin auto
-	margin-top 30px
+	margin-top 40px
 	padding 0
 	font-size: 16px
 	color: #333
