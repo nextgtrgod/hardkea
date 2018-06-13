@@ -123,7 +123,7 @@ section
 	overflow hidden
 
 	@media (min-width 960px)
-		padding-top 52.08%
+		padding-top 50%
 		&:hover
 			h3
 				border-bottom: 2px solid !important

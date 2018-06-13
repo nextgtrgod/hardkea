@@ -47,7 +47,6 @@ body
 	font-family: $font.family.default
 	-webkit-font-smoothing: antialiased
 	-moz-osx-font-smoothing: grayscale
-	font-family: $font.family.default
 	color: $color-dark
 	background-color: #EEE
 
