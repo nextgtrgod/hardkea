@@ -1,0 +1,2 @@
+webpackJsonp([3],{qfNX:function(t,e){},yZlR:function(t,e,n){"use strict";Object.defineProperty(e,"__esModule",{value:!0});var r={render:function(){var t=this.$createElement;return(this._self._c||t)("h2",[this._v("Тут товар #"+this._s(this.$route.params.id))])},staticRenderFns:[]};var s=n("VU/8")({name:"ProductList"},r,!1,function(t){n("qfNX")},"data-v-0f57f840",null);e.default=s.exports}});
+//# sourceMappingURL=3.4ee3185ce844c3e7519a.js.map

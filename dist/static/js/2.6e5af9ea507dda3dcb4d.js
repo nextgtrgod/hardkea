@@ -1,0 +1,2 @@
+webpackJsonp([2],{LMFY:function(e,t){},VUwJ:function(e,t,n){"use strict";Object.defineProperty(t,"__esModule",{value:!0});var r={render:function(){var e=this.$createElement;return(this._self._c||e)("h2",[this._v("Тут список заказов")])},staticRenderFns:[]};var s=n("VU/8")({name:"OrderList"},r,!1,function(e){n("LMFY")},"data-v-3ec608b4",null);t.default=s.exports}});
+//# sourceMappingURL=2.6e5af9ea507dda3dcb4d.js.map
