@@ -28,13 +28,16 @@ export default {
 </script>
 
 
-<template lang="pug">
-#app
-	aside-menu
-	main
-		router-view
+<template>
+<div id="app">
+	<aside-menu/>
 
-	modal
+	<main>
+		<router-view/>
+	</main>
+
+	<modal/>
+</div>
 </template>
 
 

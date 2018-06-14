@@ -1,74 +1,43 @@
-<script>
-import { mapState } from 'vuex'
-import Events from '@/events' 
-// import Slider from '@/components/Slider'
+<template>
+<div class="main-page">
+	<section
+		v-for="product in products"
+		:key="product.id"
+		:class="{ inverted: product.inverted }"
+	>
+		<router-link :to="'/product/'+product.id">
+			<img :src="imgUrl(product.id)">
+		</router-link>
 
-import formatNumber from '@/utils/formatNumber'
+		<div class="text">
+			<h3>{{ product.name }}</h3>
+			<p>{{ product.description }}</p> 
+			<button @click="openDetails(product.id)">
+				{{ product.price | formatNumber }} ₽
+			</button>
+
+		</div>
+	</section>
+</div>
+</template>
+
+
+<script>
+import Events from '@/events' 
+import { mapState } from 'vuex'
+import checkDevice from '@/mixins/checkDevice'
 
 export default {
 	name: 'MainPage',
-	// components: {
-	// 	Slider,
-	// },
-	data() {
-		return {
-			device: 'desktop',
-			reqAnimFrameID: null,
-			// sliders: [
-			// 	{
-			// 		section: 'столов',
-			// 		slides: [
-			// 			{
-			// 				title: 'Orgoramus',
-			// 				description: 'Ахуенный столи чтобы колоть орехи на вечеринках и соло',
-			// 				price: 5760,
-			// 				image: 0,
-			// 				color: 'dark',
-			// 			},
-			// 		]
-			// 	},
-			// 	{
-			// 		section: 'кашпо',
-			// 		slides: [
-			// 			{
-			// 				title: 'Uglovatina',
-			// 				description: 'Описание кашпо в трех размерах и в трех оттенках бетона',
-			// 				price: 5760,
-			// 				image: 1
-			// 			},
-			// 		]
-			// 	},
-			// 	{
-			// 		section: 'светильников',
-			// 		slides: [
-			// 			{
-			// 				title: 'Svetosila',
-			// 				description: 'Ахуенный столи что бы колоть орехи на вечеринках и соло',
-			// 				price: 5760,
-			// 				image: 2,
-			// 			},
-			// 		]
-			// 	},
-			// ],
-		}
-	},
-	created() {
-		this.reqAnimFrameID = this.checkDevice()
-	},
-	beforeDestroy() {
-		cancelAnimationFrame(this.reqAnimFrameID)
-	},
+	mixins: [
+		checkDevice,
+	],
 	computed: {
 		...mapState({
 			products: state => state.products
 		}),
 	},
 	methods: {
-		checkDevice() {
-			this.device = (window.innerWidth >= 960) ? 'desktop' : 'mobile'
-
-			return requestAnimationFrame(this.checkDevice)
-		},
 		imgUrl(id) {
 			try {
 				return require(`@/assets/products/${id}/${this.device}.jpg`)
@@ -76,44 +45,17 @@ export default {
 				console.log(err)
 			}
 		},
-		openDetails: id => Events.$emit('modal-open', { name: 'details', productID: id }),
-
-		formatNumber: n => formatNumber(n),
+		openDetails: id => {
+			Events.$emit('modal-open', { name: 'details', productID: id })
+		},
 	}
 }
 </script>
 
 
-<template lang="pug">
-.main-page
-	//- multiple sliders on mobile
-	//- template(v-if="device === 'mobile'")
-	//- 	slider(
-	//- 		v-for="(slider, index) in sliders"
-	//- 		:key="index"
-	//- 		:slides="slider.slides"
-	//- 		:section="slider.section"
-	//- 	)
-
-	//- template(v-if="device === 'desktop'")
-	section(
-		v-for="product in products"
-		:key="product.id"
-		:class="{ inverted: product.inverted }"
-	)
-		router-link(:to="'/product/'+product.id")
-			img(:src="imgUrl(product.id)")
-		.text
-			h3 {{ product.name }}
-			p {{ product.description }}
-			button(@click="openDetails(product.id)")
-				| {{ formatNumber(product.price) }} ₽
-</template>
-
-
 <style lang="stylus" scoped>
-@import '../styles/variables.styl'
-@import '../styles/animations.styl'
+@import '../../styles/variables.styl'
+@import '../../styles/animations.styl'
 
 section
 	position relative

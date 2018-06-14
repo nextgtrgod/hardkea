@@ -1,36 +1,3 @@
-<script>
-import Events from '@/events'
-import formatNumber from '@/utils/formatNumber'
-
-export default {
-	name: 'ProductPage',
-	data() {
-		return {
-			device: 'desktop',
-			reqAnimFrameID: null,
-		}
-	},
-	created() {
-		this.reqAnimFrameID = this.checkDevice()
-	},
-	beforeDestroy: function() {
-		cancelAnimationFrame(this.reqAnimFrameID)
-	},
-	methods: {
-		checkDevice: function() {
-			this.device = (window.innerWidth >= 960) ? 'desktop' : 'mobile'
-
-			return requestAnimationFrame(this.checkDevice)
-		},
-		openDetails: id => Events.$emit('modal-open', { name: 'details', productID: id }),
-
-		formatNumber: n => formatNumber(n),
-	}
-
-}
-</script>
-
-
 <template lang="pug">
 .product-page(:class="device")
 	template(v-if="device === 'mobile'")
@@ -39,7 +6,7 @@ export default {
 			.text
 				h3 Orgoramus
 				p Ахуенный столи что бы колоть орехи на вечеринках и соло
-				button(@click="openDetails(1)") {{ formatNumber(7500) }} ₽
+				button(@click="openDetails(1)") {{ 7500 | formatNumber }} ₽
 		.description
 			| Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi...
 
@@ -71,7 +38,7 @@ export default {
 			.text
 				h3 Orgoramus
 				p Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi...
-				button {{ formatNumber(7500) }} ₽
+				button(@click="openDetails(1)") {{ 7500 | formatNumber }} ₽
 			.image
 				img(src="../assets/images/product/0.png")
 
@@ -96,7 +63,26 @@ export default {
 
 			.grid__item(data-column='1' data-row='1')
 				img(src="../assets/images/product/7.png")
+
 </template>
+
+
+<script>
+import Events from '@/events'
+import checkDevice from '@/mixins/checkDevice'
+
+export default {
+	name: 'ProductPage',
+	mixins: [
+		checkDevice,
+	],
+	methods: {
+		openDetails: id => {
+			Events.$emit('modal-open', { name: 'details', productID: id })
+		},
+	}
+}
+</script>
 
 
 <style lang="stylus" scoped>
