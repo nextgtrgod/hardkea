@@ -173,6 +173,7 @@ section
 		padding 20px
 		padding-top 40px
 		pointer-events none
+		backface-visibility hidden
 
 		@media (min-width 960px)
 			justify-content center
