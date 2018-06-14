@@ -17,8 +17,8 @@ export default {
 
 
 <style lang="stylus" scoped>
-@import '../../styles/variables.styl'
-@import '../../styles/modal.styl'
+@import '../../../styles/variables.styl'
+@import '../../../styles/modal.styl'
 
 
 </style>

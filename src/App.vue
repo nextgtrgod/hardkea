@@ -1,6 +1,19 @@
+<template>
+<div id="app">
+	<aside-menu/>
+
+	<main>
+		<router-view/>
+	</main>
+
+	<modal/>
+</div>
+</template>
+
+
 <script>
 import AsideMenu from '@/components/Aside'
-import Modal from '@/components/Modal/Index'
+import Modal from '@/components/public/modal/Index'
 
 export default {
 	name: "App",
@@ -26,19 +39,6 @@ export default {
 	}
 }
 </script>
-
-
-<template>
-<div id="app">
-	<aside-menu/>
-
-	<main>
-		<router-view/>
-	</main>
-
-	<modal/>
-</div>
-</template>
 
 
 <style lang="stylus">

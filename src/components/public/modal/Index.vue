@@ -69,7 +69,7 @@ export default {
 		.overlay(@click="close")
 		.content(ref="content", :class="{ 'form-visible': formVisible }")
 			button.close(@click="close")
-				img(src="../../assets/images/close.svg")
+				img(src="../../../assets/images/close.svg")
 
 			delivery(:class="{ visible: section === 'delivery' }")
 			payment(:class="{ visible: section === 'payment' }")
@@ -81,71 +81,70 @@ export default {
 
 
 <style lang="stylus" scoped>
+@import '../../../styles/variables.styl'
 
-	@import '../../styles/variables.styl'
+.modal
+	position fixed
+	top: 0
+	left: 0
+	right: 0
+	bottom: 0
+	z-index 100
+	pointer-events none
 
-
-	.modal
-		position fixed
-		top: 0
-		left: 0
-		right: 0
-		bottom: 0
-		z-index 100
-		pointer-events none
-
-		&.visible
-			pointer-events all
-			.overlay
-				opacity 1
-
-			.content
-				transform translate3d(0, 0, 0)
-
-
+	&.visible
+		pointer-events all
 		.overlay
-			position absolute
-			top: 0
-			left: 0
-			right: 0
-			bottom: 0
-			background-color: alpha(#111, .5)
-			-webkit-backdrop-filter: blur(10px) 
-			opacity 0
-			transition all .2s
+			opacity 1
 
 		.content
-			position absolute
-			top 0
-			bottom 0
-			right 0
-			width 100%
-			background-color #FFF
-			transform translate3d(100%, 0, 0)
-			transition transform .4s
-			overflow-y auto
+			transform translate3d(0, 0, 0)
 
-			&.form-visible
-				overflow-y hidden
 
-			section
-				display none
-				&.visible
-					display block
+.overlay
+	position absolute
+	top: 0
+	left: 0
+	right: 0
+	bottom: 0
+	background-color: alpha(#111, .5)
+	-webkit-backdrop-filter: blur(10px) 
+	opacity 0
+	transition all .2s
 
-			@media (min-width 960px)
-				width 500px
+.content
+	position absolute
+	top 0
+	bottom 0
+	right 0
+	width 100%
+	background-color #FFF
+	transform translate3d(100%, 0, 0)
+	transition transform .4s
+	overflow-y auto
 
-		
-		button.close
-			position absolute
-			top: 0
-			right: 0
-			width 50px
-			height 50px
-			background-color #333
-			z-index 1
-			img
-				width 35px
+	&.form-visible
+		overflow-y hidden
+
+	section
+		display none
+		&.visible
+			display block
+
+	@media (min-width 960px)
+		width 500px
+
+	
+button.close
+	position absolute
+	top: 0
+	right: 0
+	width 50px
+	height 50px
+	background-color #333
+	z-index 1
+	img
+		width 35px
+
 
 </style>

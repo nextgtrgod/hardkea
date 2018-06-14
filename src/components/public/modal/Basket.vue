@@ -4,7 +4,6 @@ import Events from '@/events'
 import Count from '@/components/Count'
 import maskedInput from 'vue-masked-input'
 
-import formatNumber from '@/utils/formatNumber'
 import validateEmail from '@/utils/validateEmail'
 import makeRequest from '@/utils/makeRequest'
 import createOrderID from '@/utils/createOrderID'
@@ -26,7 +25,6 @@ export default {
 				details: '',
 				errors: [],
 			},
-			// buttonOffsetTop: 0,
 			request: {
 				status: '',
 				response: '',
@@ -35,9 +33,6 @@ export default {
 	},
 	created() {
 		Events.$on('modal-close', () => this.form.visible = false)
-	},
-	mounted() {
-		// this.buttonOffsetTop = this.getButtonOffsetTop()
 	},
 	computed: {
 		...mapState({
@@ -66,7 +61,6 @@ export default {
 				console.log(err)
 			}
 		},
-		formatNumber: n => formatNumber(n),
 
 		deleteProduct(basketID) {
 			this.$store.commit('deleteFromBasket', basketID)
@@ -131,19 +125,6 @@ export default {
 				}
 			}
 		},
-
-		// getButtonOffsetTop() {
-		// 	let node = this.$refs['container']
-		// 	if (!node) return 0
-
-		// 	let hiddenModalHeight = (window.innerHeight - 50)
-
-		// 	let offset = node.scrollHeight - hiddenModalHeight - window.innerHeight
-
-		// 	return (offset < 0)
-		// 		? 0
-		// 		: offset
-		// }
 	},
 	watch: {
 		products() {
@@ -154,8 +135,6 @@ export default {
 			Events.$emit(`form-${ newVal ? 'open' : 'close' }`)
 
 			this.request.status = ''
-
-			// if (newVal) this.buttonOffsetTop = this.getButtonOffsetTop()
 		},
 		
 		'form.username'(to, from) {
@@ -200,11 +179,11 @@ export default {
 							:onLowest="() => deleteProduct(product.basketID)"
 						)
 					.price
-						| {{ formatNumber(getPrice(product)) }} ₽
+						| {{ getPrice(product) | formatNumber }} ₽
 
 			.total
 				h5 Итого:
-				span {{ formatNumber(total) }} ₽
+				span {{ total | formatNumber }} ₽
 
 		button.showForm(type="button" @click="openForm") Оформить заказ
 
@@ -216,7 +195,7 @@ export default {
 				@click="closeForm"
 
 			)
-				img(src="../../assets/images/back.svg")
+				img(src="../../../assets/images/back.svg")
 
 			.field
 				input(
@@ -274,8 +253,8 @@ export default {
 
 
 <style lang="stylus" scoped>
-@import '../../styles/variables.styl'
-@import '../../styles/modal.styl'
+@import '../../../styles/variables.styl'
+@import '../../../styles/modal.styl'
 
 
 section
@@ -425,7 +404,7 @@ li.product
 		width 32px
 		height 32px
 		margin auto
-		background-image url('../../assets/images/delete.svg')
+		background-image url('../../../assets/images/delete.svg')
 		background-position center
 		background-size 16px auto
 		background-repeat no-repeat
