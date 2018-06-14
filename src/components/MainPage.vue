@@ -113,6 +113,7 @@ export default {
 
 <style lang="stylus" scoped>
 @import '../styles/variables.styl'
+@import '../styles/animations.styl'
 
 section
 	position relative
@@ -121,6 +122,8 @@ section
 	color #333
 	box-shadow: 0 -7px 40px alpha(#111, .1)
 	overflow hidden
+	opacity 0
+	animation fade-in .4s forwards
 
 	@media (min-width 960px)
 		padding-top 50%

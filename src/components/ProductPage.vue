@@ -101,6 +101,7 @@ export default {
 
 <style lang="stylus" scoped>
 @import '../styles/variables.styl'
+@import '../styles/animations.styl'
 
 .product-page
 	max-width 1200px
@@ -108,6 +109,8 @@ export default {
 	background-color: #FFF
 	color: $color.dark
 	box-shadow: 0 0 40px alpha(#111, .25)
+	opacity 0
+	animation fade-in .4s forwards
 
 	&.mobile
 		.text-block
