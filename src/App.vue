@@ -12,7 +12,7 @@
 
 
 <script>
-import AsideMenu from '@/components/Aside'
+import AsideMenu from '@/components/public/Aside'
 import Modal from '@/components/public/modal/Index'
 
 export default {

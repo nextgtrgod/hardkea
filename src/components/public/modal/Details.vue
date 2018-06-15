@@ -49,7 +49,7 @@
 <script>
 import { mapGetters } from 'vuex'
 import Events from '@/events' 
-import Count from '@/components/Count'
+import Count from '@/components/ui/Count'
 
 import formatNumber from '@/utils/formatNumber'
 

@@ -1,3 +1,12 @@
+<template>
+<div class="count">
+	<button @click="decrease"> - </button>
+	<span>{{ innerValue }}</span>
+	<button @click="increase"> + </button>
+</div>
+</template>
+
+
 <script>
 import Events from '@/events'
 
@@ -52,43 +61,34 @@ export default {
 </script>
 
 
-<template lang="pug">
-	.count
-		button(@click="decrease") -
-		span {{ innerValue }}
-		button(@click="increase") +
-</template>
-
-
 <style lang="stylus" scoped>
-
-	@import '../styles/variables.styl'
+@import '../../styles/variables.styl'
 	
-	.count
-		display inline-flex
-		align-items center
-		justify-content center
-		color: #333;
-		font-size: 16px;
-		border: 1px solid #333
-		border-radius: 6px
+.count
+	display inline-flex
+	align-items center
+	justify-content center
+	color: #333;
+	font-size: 16px;
+	border: 1px solid #333
+	border-radius: 6px
 
-		&>*
-			width 40px
-			height 30px
-			padding 0
+	&>*
+		width 40px
+		height 30px
+		padding 0
+		margin 0
+		font-size 16px
+		line-height 30px
+		text-align center
+		background-color transparent
+		border none
+		outline none
+		user-select none
+
+		&::-webkit-inner-spin-button,
+		&::-webkit-outer-spin-button
+			-webkit-appearance: none
 			margin 0
-			font-size 16px
-			line-height 30px
-			text-align center
-			background-color transparent
-			border none
-			outline none
-			user-select none
-
-			&::-webkit-inner-spin-button,
-			&::-webkit-outer-spin-button
-				-webkit-appearance: none
-				margin 0
 
 </style>

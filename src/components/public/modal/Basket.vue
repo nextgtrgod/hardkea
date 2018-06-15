@@ -1,7 +1,7 @@
 <script>
 import { mapState } from 'vuex'
 import Events from '@/events'
-import Count from '@/components/Count'
+import Count from '@/components/ui/Count'
 import maskedInput from 'vue-masked-input'
 
 import validateEmail from '@/utils/validateEmail'

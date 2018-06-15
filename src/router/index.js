@@ -3,7 +3,7 @@ import Router from 'vue-router'
 
 // public
 import MainPage from '@/components/public/Index'
-import ProductPage from '@/components/ProductPage'
+import ProductPage from '@/components/public/ProductPage'
 //
 
 Vue.use(Router)
@@ -54,8 +54,8 @@ const router =  new Router({
 })
 
 router.beforeEach((to, from, next) => {
-    console.log(to)
-    console.log(from)
+    // console.log(to)
+    // console.log(from)
 
     next()
 })

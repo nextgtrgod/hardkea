@@ -1,0 +1,259 @@
+<script>
+import Events from '@/events'
+import { mapState } from 'vuex'
+import checkDevice from '@/mixins/checkDevice'
+
+export default {
+	name: 'ProductPage',
+	mixins: [
+		checkDevice,
+	],
+	computed: {
+		...mapState({
+			products: state => state.products,
+		}),
+		product() {
+			return this.products[this.$route.params.id]
+		},
+		articleImage() {
+			try {
+				return require(`@/assets/products/${this.$route.params.id}/mobile.jpg`)
+			}
+			catch (e) {
+				return 'http://via.placeholder.com/375x500'
+			}
+		},
+		gallery: () => {
+			let imageCount = 5;
+			let images = []
+
+			for (let i = 1; i <= imageCount; i++) {
+				// temp
+				let image
+
+				try {
+					image = require(`@/assets/images/product/${i}.jpg`)
+
+				} catch (e) {
+					console.log(e)
+
+					image = (i === 0)
+						? 'http://via.placeholder.com/1200x600'
+						: 'http://via.placeholder.com/600x600'
+				}
+
+				images.push(image)
+			}
+
+			return images
+		}
+	},
+	methods: {
+		openDetails: id => {
+			Events.$emit('modal-open', { name: 'details', productID: id })
+		},
+	},
+}
+</script>
+
+
+<template lang="pug">
+.product-page(:class="device")
+
+	template(v-if="device === 'mobile'")
+		.text-block(:class="{ inverted: product.inverted }")
+			img(:src="articleImage")
+			.text
+				h3 {{ product.name }}
+				p {{ product.description }}
+				button(@click="openDetails(1)")
+					| {{ product.price | formatNumber }} ₽
+		.description
+			| Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi...
+
+
+	template(v-if="device === 'desktop'")
+		.text-block
+			.text
+				h3 {{ product.name }}
+				p Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi...
+				button(@click="openDetails(1)")
+					| {{ product.price | formatNumber }} ₽
+			.image
+				img(:src="articleImage")
+
+	ul.gallery
+		li(
+			v-for="(image, index) in gallery"
+			:key="index"
+		)
+			img(:src="image")
+
+</template>
+
+
+<style lang="stylus" scoped>
+@import '../../styles/variables.styl'
+@import '../../styles/animations.styl'
+
+.product-page
+	max-width 1200px
+	margin auto
+	background-color: #FFF
+	color: $color.dark
+	box-shadow: 0 0 40px alpha(#111, .25)
+	opacity 0
+	animation fade-in .4s forwards
+
+	&.mobile
+		.text-block
+			position relative
+			color: $color.dark
+			width 100vw
+			padding-top 133%
+
+			&.inverted
+				color: #FFF
+
+				button
+					color: #FFF
+					border 1px solid #FFF
+					&:hover
+						background-color: #FFF
+						color: #333
+
+			img, .text
+				position absolute
+			
+			img
+				position absolute
+				left 0
+				right 0
+				bottom 0
+				width 100%
+				height auto
+
+			.text
+				top 0
+				padding 20px
+				padding-top 40px
+				backface-visibility hidden
+				pointer-events none
+
+				h3
+					margin-bottom 10px
+					font-size 35px
+					line-height 1
+					letter-spacing 1px
+					border-bottom: 2px solid transparent
+					transition: border .2s
+
+				p
+					max-width 280px
+					font-size 14px
+					line-height 1.25
+					letter-spacing .35px
+					margin-bottom 18px
+	
+	&.desktop
+		font-size 12px
+
+		@media (min-width 960px)
+			font-size 12px
+
+		@media (min-width 1200px)
+			font-size 16px
+
+		@media (min-width 1400px)
+			font-size 18px
+	
+
+		.text-block
+			display: flex
+			align-items: stretch
+			justify-content: space-between
+			padding-left: 4.4em
+
+			.text, .image
+				position relative
+				flex 1 0 50%
+			
+			.image
+				font-size 0
+				overflow hidden
+
+				img
+					position: absolute
+					right: -1px // css is awesome
+					top: 0
+					height: 100%
+
+			h3
+				font-size 3.45em
+				margin-top 1.2em
+				margin-bottom 0.84em
+			
+			p
+				font-size 1.18em
+				line-height 1.5
+				margin-bottom 2.5em
+				max-width 75%
+
+
+.description
+	padding 20px
+	font-size 14px
+	line-height 1.5
+
+
+button
+	width 100px
+	font-size 15px
+	line-height 2
+	color: $color.dark
+	border 1px solid #333
+	border-radius 6px
+	transition background .2s, color .2s
+	box-sizing border-box
+	pointer-events: all
+	&:hover
+		color #FFF
+		background-color: $color.dark
+
+	@media (min-width 960px)
+		width 120px
+		font-size 16px
+		margin-bottom 2.72em
+
+
+ul.gallery
+	display flex
+	flex-wrap wrap
+
+	li
+		flex: 1 0 100%
+		position: relative
+		padding-top: 100%
+		background-color: #EEE
+
+		&:first-child
+			padding-top: 50%
+
+		@media (min-width 960px)
+			flex: 1 0 50%
+			padding-top: 50%
+
+			&:first-child
+				flex: 1 0 100%
+
+		img
+			position: absolute
+			top: 0
+			left: 0
+			right: 0
+			bottom: 0
+			height: 100%
+			margin: auto
+
+
+</style>
