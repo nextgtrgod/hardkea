@@ -77,15 +77,17 @@ section
 				transform: scale(1.15)
 				opacity: .9
 
-	&.inverted
-		.text
-			color: #FFF
-			button
+
+	@media (min-width 960px)
+		&.inverted
+			.text
 				color: #FFF
-				border 1px solid #FFF
-				&:hover
-					background-color: #FFF
-					color: #333
+				button
+					color: #FFF
+					border 1px solid #FFF
+					&:hover
+						background-color: #FFF
+						color: #333
 
 	a
 		position absolute

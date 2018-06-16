@@ -13,7 +13,7 @@ export default {
 			products: state => state.products,
 		}),
 		product() {
-			return this.products[this.$route.params.id]
+			return this.products.find(product => product.id === +this.$route.params.id)
 		},
 		articleImage() {
 			try {
@@ -112,15 +112,15 @@ export default {
 			width 100vw
 			padding-top 133%
 
-			&.inverted
-				color: #FFF
+			// &.inverted
+			// 	color: #FFF
 
-				button
-					color: #FFF
-					border 1px solid #FFF
-					&:hover
-						background-color: #FFF
-						color: #333
+			// 	button
+			// 		color: #FFF
+			// 		border 1px solid #FFF
+			// 		&:hover
+			// 			background-color: #FFF
+			// 			color: #333
 
 			img, .text
 				position absolute
