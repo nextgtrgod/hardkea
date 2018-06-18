@@ -1,13 +1,65 @@
+<template>
+<div
+	v-if="product"
+	id="product"
+	:class="device"
+>
+
+	<template v-if="device === 'mobile'">
+		<div class="text-block" :class="{ inverted: product.inverted }">
+			<img :src="articleImage">
+			<div class="text">
+				<h3>{{ product.name }}</h3>
+				<p>{{ product.description }}</p>
+				<button @click="openDetails(product.id)">
+					{{ product.price | formatNumber }} ₽
+				</button>
+			</div>
+		</div>
+		<div class="description">
+			Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi...
+		</div>
+	</template>
+
+	<template v-if="device === 'desktop'">
+		<div class="text-block">
+			<div class="text">
+				<h3>{{ product.name }}</h3>
+				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi...</p>
+				<button @click="openDetails(product.id)">
+					{{ product.price | formatNumber }} ₽
+				</button>
+			</div>
+			<div class="image-wrap">
+				<img :src="articleImage">
+			</div>
+		</div>
+	</template>
+
+	<ul class="gallery">
+		<li v-for="(image, index) in gallery" :key="index">
+			<img :src="image">
+		</li>
+	</ul>
+
+</div>
+</template>
+
+
 <script>
 import Events from '@/events'
 import { mapState } from 'vuex'
 import checkDevice from '@/mixins/checkDevice'
+import openDetails from '@/mixins/openDetails'
 
 export default {
-	name: 'ProductPage',
 	mixins: [
 		checkDevice,
+		openDetails,
 	],
+	created() {
+		if (!this.product) this.$router.replace({ name: 'NotFound' })
+	},
 	computed: {
 		...mapState({
 			products: state => state.products,
@@ -48,55 +100,15 @@ export default {
 			return images
 		}
 	},
-	methods: {
-		openDetails: id => {
-			Events.$emit('modal-open', { name: 'details', productID: id })
-		},
-	},
 }
 </script>
-
-
-<template lang="pug">
-.product-page(:class="device")
-
-	template(v-if="device === 'mobile'")
-		.text-block(:class="{ inverted: product.inverted }")
-			img(:src="articleImage")
-			.text
-				h3 {{ product.name }}
-				p {{ product.description }}
-				button(@click="openDetails(1)")
-					| {{ product.price | formatNumber }} ₽
-		.description
-			| Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi...
-
-
-	template(v-if="device === 'desktop'")
-		.text-block
-			.text
-				h3 {{ product.name }}
-				p Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi...
-				button(@click="openDetails(1)")
-					| {{ product.price | formatNumber }} ₽
-			.image
-				img(:src="articleImage")
-
-	ul.gallery
-		li(
-			v-for="(image, index) in gallery"
-			:key="index"
-		)
-			img(:src="image")
-
-</template>
 
 
 <style lang="stylus" scoped>
 @import '../../styles/variables.styl'
 @import '../../styles/animations.styl'
 
-.product-page
+#product
 	max-width 1200px
 	margin auto
 	background-color: #FFF
@@ -174,11 +186,11 @@ export default {
 			justify-content: space-between
 			padding-left: 4.4em
 
-			.text, .image
+			.text, .image-wrap
 				position relative
 				flex 1 0 50%
 			
-			.image
+			.image-wrap
 				font-size 0
 				overflow hidden
 

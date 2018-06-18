@@ -1,25 +1,30 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
-// public
-import MainPage from '@/components/public/Index'
-import ProductPage from '@/components/public/ProductPage'
-//
-
 Vue.use(Router)
 
-const router =  new Router({
+const router = new Router({
     routes: [
+
+        // public
         {
             path: '/',
-            name: 'MainPage',
-            component: MainPage
+            component: () => import('@/components/public/Index'),
+            children: [
+                {
+                    path: '/',
+                    name: 'List',
+                    component: () => import('@/components/public/List')
+                },
+                {
+                    path: '/product/:id',
+                    name: 'Product',
+                    component: () => import('@/components/public/Product')
+                }
+            ],
         },
-        {
-            path: '/product/:id',
-            name: 'ProductPage',
-            component: ProductPage
-        },
+
+        // admin
         {
             path: '/admin',
             component: () => import('@/components/admin/Index'),
@@ -47,6 +52,13 @@ const router =  new Router({
                     component: () => import('@/components/admin/Product'),
                 }, 
             ]
+        },
+
+        // 404
+        {
+            path: '*',
+            name: 'NotFound',
+            component: () => import('@/components/public/NotFound'),
         },
 
     ],
