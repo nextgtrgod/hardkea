@@ -37,6 +37,7 @@ const router = new Router({
             children: [
                 {
                     path: 'orders',
+                    name: 'OrderList',
                     component: () => import('@/components/admin/OrderList'),
                 },
                 {
@@ -45,6 +46,7 @@ const router = new Router({
                 },
                 {
                     path: 'products',
+                    name: 'ProductList',
                     component: () => import('@/components/admin/ProductList'),
                 },
                 {

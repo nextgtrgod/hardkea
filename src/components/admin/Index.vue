@@ -1,9 +1,9 @@
 <template>
 <div id="admin">
 	<h2>Админочка</h2>
-	<router-link to='admin/products'>Товары</router-link>
+	<router-link :to="{ name: 'ProductList' }">Товары</router-link>
 	<br>
-	<router-link to='admin/orders'>Заказы</router-link>
+	<router-link :to="{ name: 'OrderList' }">Заказы</router-link>
 	<router-view/>
 </div>
 </template>
