@@ -31,7 +31,16 @@ const products = [
 		material: 'Бетон',
 		description: 'Ахуенный столи что бы колоть орехи на вечеринках и соло',
 		text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-		inverted: true,
+		inverted: {
+			mobile: {
+				main: true,
+				inner: false,
+			},
+			desktop: {
+				main: true,
+				inner: false,
+			},
+		},
 		image: {
 			desktop: 'desktop.jpg',
 			mobile: 'mobile.jpg',
@@ -57,7 +66,16 @@ const products = [
 		material: 'Стекло',
 		description: 'Ахуенный столи что бы колоть орехи на вечеринках и соло',
 		text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-		inverted: true,
+		inverted: {
+			mobile: {
+				main: true,
+				inner: false,
+			},
+			desktop: {
+				main: true,
+				inner: false,
+			},
+		},
 		image: {
 			desktop: 'desktop.jpg',
 			mobile: 'mobile.jpg',
