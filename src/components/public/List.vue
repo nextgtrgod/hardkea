@@ -3,7 +3,7 @@
 	<section
 		v-for="product in products"
 		:key="product.id"
-		:class="{ inverted: product.inverted }"
+		:class="{ inverted: checkInverted(product) }"
 	>
 		<router-link :to="'/product/'+product.id">
 			<img :src="imgUrl(product.id)">
@@ -47,6 +47,16 @@ export default {
 				console.log(err)
 			}
 		},
+		checkInverted(product) {
+			console.log(product)
+
+			if (!product.inverted) return false
+
+			return this.device === 'desktop'
+				? product.inverted.desktop.main
+				: product.inverted.mobile.main
+
+		}
 	}
 }
 </script>
@@ -77,16 +87,16 @@ section
 				opacity: .9
 
 
-	@media (min-width 960px)
-		&.inverted
-			.text
+	// @media (min-width 960px)
+	&.inverted
+		.text
+			color: #FFF
+			button
 				color: #FFF
-				button
-					color: #FFF
-					border 1px solid #FFF
-					&:hover
-						background-color: #FFF
-						color: #333
+				border 1px solid #FFF
+				&:hover
+					background-color: #FFF
+					color: #333
 
 	a
 		position absolute

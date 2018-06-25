@@ -6,7 +6,7 @@
 >
 
 	<template v-if="device === 'mobile'">
-		<div class="text-block" :class="{ inverted: product.inverted }">
+		<div class="text-block" :class="{ inverted: checkInverted(product) }">
 			<img :src="articleImage">
 			<div class="text">
 				<h3>{{ product.name }}</h3>
@@ -60,6 +60,18 @@ export default {
 	created() {
 		if (!this.product) this.$router.replace({ name: 'NotFound' })
 	},
+	methods: {
+		checkInverted(product) {
+			console.log(product)
+
+			if (!product.inverted) return false
+
+			return this.device === 'desktop'
+				? product.inverted.desktop.inner
+				: product.inverted.mobile.inner
+
+		},
+	},
 	computed: {
 		...mapState({
 			products: state => state.products,
@@ -69,7 +81,7 @@ export default {
 		},
 		articleImage() {
 			try {
-				return require(`@/assets/products/${this.$route.params.id}/mobile.jpg`)
+				return require(`@/assets/products/${this.$route.params.id}/article.jpg`)
 			}
 			catch (e) {
 				return 'http://via.placeholder.com/375x500'
@@ -98,7 +110,7 @@ export default {
 			}
 
 			return images
-		}
+		},
 	},
 }
 </script>
@@ -124,15 +136,15 @@ export default {
 			width 100vw
 			padding-top 133%
 
-			// &.inverted
-			// 	color: #FFF
+			&.inverted
+				color: #FFF
 
-			// 	button
-			// 		color: #FFF
-			// 		border 1px solid #FFF
-			// 		&:hover
-			// 			background-color: #FFF
-			// 			color: #333
+				button
+					color: #FFF
+					border 1px solid #FFF
+					&:hover
+						background-color: #FFF
+						color: #333
 
 			img, .text
 				position absolute
