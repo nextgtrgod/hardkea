@@ -18,7 +18,7 @@ export default {
 		AsideMenu,
 	},
 	created() {
-		this.$router.push({ name: 'ProductList' }) // temp
+		this.$router.replace({ name: 'ProductList' }) // temp
 	},
 }
 </script>
