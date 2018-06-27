@@ -1,0 +1,2 @@
+webpackJsonp([8],{"Fv+n":function(t,e){},yZlR:function(t,e,n){"use strict";Object.defineProperty(e,"__esModule",{value:!0});var r={render:function(){var t=this.$createElement,e=this._self._c||t;return e("div",{attrs:{id:"product"}},[e("h2",[this._v("Тут товар #"+this._s(this.$route.params.id))])])},staticRenderFns:[]};var s=n("VU/8")({name:"ProductList"},r,!1,function(t){n("Fv+n")},"data-v-55456953",null);e.default=s.exports}});
+//# sourceMappingURL=8.bf33a84a017ad43c9d6e.js.map

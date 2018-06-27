@@ -108,9 +108,13 @@ export default {
 	right: 0
 	bottom: 0
 	background-color: alpha(#111, .5)
-	-webkit-backdrop-filter: blur(10px) 
 	opacity 0
 	transition all .2s
+
+	@media (min-width: 960px)
+		@supports (-webkit-backdrop-filter: blur(10px))
+			-webkit-backdrop-filter: blur(10px)
+
 
 .content
 	position absolute

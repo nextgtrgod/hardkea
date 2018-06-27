@@ -9,6 +9,7 @@ const router = new Router({
         // public
         {
             path: '/',
+            name: 'Public',
             component: () => import('@/components/public/Index'),
             children: [
                 {
@@ -27,6 +28,7 @@ const router = new Router({
         // admin
         {
             path: '/admin',
+            name: 'Admin',
             component: () => import('@/components/admin/Index'),
             beforeEnter: (to, from, next) => {
                 console.log(to)
@@ -42,6 +44,7 @@ const router = new Router({
                 },
                 {
                     path: 'orders/:id',
+                    name: 'EditOrder',
                     component: () => import('@/components/admin/Order'),
                 },
                 {
@@ -51,6 +54,7 @@ const router = new Router({
                 },
                 {
                     path: 'products/:id',
+                    name: 'EditProduct',
                     component: () => import('@/components/admin/Product'),
                 }, 
             ]

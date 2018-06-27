@@ -1,5 +1,7 @@
 <template>
-<h2>Тут список заказов</h2>
+<div id="order-list">
+	<h2>Заказы</h2>
+</div>
 </template>
 
 
@@ -11,5 +13,11 @@ export default {
 
 
 <style lang="stylus" scoped>
+@import '../../styles/variables.styl'
+@import '../../styles/animations.styl'
+
+#order-list
+	opacity 0
+	animation fade-in .4s forwards
 
 </style>

@@ -5,6 +5,7 @@ import actions from './actions'
 import mutations from './mutations'
 
 import products from '../../api/products'
+import orders from '../../api/orders'
 
 Vue.use(Vuex)
 
@@ -12,6 +13,7 @@ Vue.use(Vuex)
 
 const state = {
 	products,
+	orders,
 	basket: JSON.parse(localStorage.getItem('basket')) || [],
 }
 

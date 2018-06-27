@@ -1,5 +1,5 @@
 <template>
-<div id="list">
+<div id="list" :class="{ blur }">
 	<section
 		v-for="product in products"
 		:key="product.id"
@@ -34,10 +34,19 @@ export default {
 		checkDevice,
 		openDetails,
 	],
+	data() {
+		return {
+			blur: false,
+		}
+	},
 	computed: {
 		...mapState({
 			products: state => state.products
 		}),
+	},
+	created() {
+		// Events.$on('modal-open', () => this.blur = true)
+		// Events.$on('modal-close', () => this.blur = false)
 	},
 	methods: {
 		imgUrl(id) {
@@ -66,15 +75,24 @@ export default {
 @import '../../styles/variables.styl'
 @import '../../styles/animations.styl'
 
+#list
+	opacity 0
+	animation fade-in .4s forwards
+	transition: filter .2s
+
+	// &.blur
+	// 	@media (min-width: 960px)
+	// 		@supports not (-webkit-backdrop-filter: blur(10px))
+	// 			filter: blur(20px)
+
 section
 	position relative
 	font-size 14px
 	padding-top 133%
-	color #333
+	color: #333
+	background-color: #FFF
 	box-shadow: 0 -7px 40px alpha(#111, .1)
 	overflow hidden
-	opacity 0
-	animation fade-in .4s forwards
 
 	@media (min-width 960px)
 		padding-top 50%
@@ -89,6 +107,7 @@ section
 
 	// @media (min-width 960px)
 	&.inverted
+		background-color: #333
 		.text
 			color: #FFF
 			button
@@ -97,6 +116,7 @@ section
 				&:hover
 					background-color: #FFF
 					color: #333
+
 
 	a
 		position absolute
