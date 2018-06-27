@@ -1,9 +1,5 @@
 <template>
-<div
-	v-if="product"
-	id="product"
-	:class="device"
->
+<div v-if="product" id="product" :class="device">
 
 	<template v-if="device === 'mobile'">
 		<div class="text-block" :class="{ inverted: checkInverted(product) }">
@@ -16,16 +12,14 @@
 				</button>
 			</div>
 		</div>
-		<div class="description">
-			Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi...
-		</div>
+		<div class="description" v-html="product.article"/>
 	</template>
 
 	<template v-if="device === 'desktop'">
 		<div class="text-block">
 			<div class="text">
 				<h3>{{ product.name }}</h3>
-				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi...</p>
+				<p v-html="product.article"/>
 				<button @click="openDetails(product.id)">
 					{{ product.price | formatNumber }} ₽
 				</button>

@@ -3,7 +3,7 @@
 		h3 {{ product.name }}
 		.product-image
 			img(:src="imgUrl")
-		p {{ product.text }}
+		p {{ product.description }}
 
 		h5
 			| {{ product.dimensions.width }}×{{ product.dimensions.height }}×{{ product.dimensions.depth }}см,
@@ -19,7 +19,7 @@
 				@click="selectSize(size)"
 			)
 				div {{ size }}
-				span {{ formatNumber(price) }} ₽
+				span {{ price | formatNumber }} ₽
 
 		.colors(v-if="product.colors")
 			h5 Цвет бетона:
@@ -40,7 +40,7 @@
 
 		.total
 			h5 Итого:
-			span {{ formatNumber(total) }} ₽
+			span {{ total | formatNumber }} ₽
 
 		button(@click="addToBasket") Добавить в корзину
 </template>

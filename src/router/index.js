@@ -9,7 +9,7 @@ const router = new Router({
         // public
         {
             path: '/',
-            name: 'Public',
+            // name: 'Public',
             component: () => import('@/components/public/Index'),
             children: [
                 {

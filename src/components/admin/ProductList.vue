@@ -105,20 +105,21 @@ ul
 
 
 li.product
-	flex: 0 0 320px
+	flex: 0 0 300px
 	position: relative
-	width: 320px
-	height: 425px
+	width: 300px
+	height: 400px
 	margin-right: 30px
 	margin-bottom: 30px
 	padding: 20px
 	padding-top: 40px
 	background-color: #FFF
-	box-shadow: 0 8px 40px alpha(#111, .3)
+	box-shadow: 0 25px 60px -10px alpha(#000, .3)
 	border-radius: 10px
 	transition: all .4s
 	box-sizing: border-box
 	overflow: hidden
+
 
 	&:hover
 		filter: saturate(120%) contrast(120%)

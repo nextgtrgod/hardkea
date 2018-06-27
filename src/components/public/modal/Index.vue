@@ -1,3 +1,25 @@
+<template>
+<div class="modal" :class="{ visible }">
+	<div class="overlay" @click="close"/>
+	<div
+		class="content"
+		ref="content"
+		:class="{ 'form-visible': formVisible }"
+	>
+		<button class="close" @click="close">
+			<img src="../../../assets/images/icons/close.svg">
+		</button>
+
+		<delivery :class="{ visible: section === 'delivery' }"/>
+		<payment :class="{ visible: section === 'payment' }"/>
+		<basket :class="{ visible: section === 'basket' }"/>
+		<about :class="{ visible: section === 'about' }"/>
+		<product-details :class="{ visible: section === 'details' }"/>
+	</div>
+</div>
+</template>
+
+
 <script>
 import Events from '@/events'
 import { Tween, autoPlay } from 'es6-tween'
@@ -62,22 +84,6 @@ export default {
 	}
 }
 </script>
-
-
-<template lang="pug">
-	.modal(:class="{ visible }")
-		.overlay(@click="close")
-		.content(ref="content", :class="{ 'form-visible': formVisible }")
-			button.close(@click="close")
-				img(src="../../../assets/images/close.svg")
-
-			delivery(:class="{ visible: section === 'delivery' }")
-			payment(:class="{ visible: section === 'payment' }")
-			basket(:class="{ visible: section === 'basket' }")
-			about(:class="{ visible: section === 'about' }")
-			product-details(:class="{ visible: section === 'details' }")
-
-</template>
 
 
 <style lang="stylus" scoped>

@@ -195,7 +195,7 @@ export default {
 				@click="closeForm"
 
 			)
-				img(src="../../../assets/images/back.svg")
+				img(src="../../../assets/images/icons/back.svg")
 
 			.field
 				input(
@@ -404,7 +404,7 @@ li.product
 		width 32px
 		height 32px
 		margin auto
-		background-image url('../../../assets/images/delete.svg')
+		background-image url('../../../assets/images/icons/delete.svg')
 		background-position center
 		background-size 16px auto
 		background-repeat no-repeat

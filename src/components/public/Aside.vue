@@ -8,7 +8,7 @@
 
 	<template v-else>
 		<router-link class="logo" to="/">
-			<img src="../../assets/images/home-alt.svg">
+			<img src="../../assets/images/home.svg">
 		</router-link> 
 	</template>
 		
