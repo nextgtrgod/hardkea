@@ -15,12 +15,12 @@ const router = new Router({
                 {
                     path: '/',
                     name: 'List',
-                    component: () => import('@/components/public/List')
+                    component: () => import('@/components/public/List'),
                 },
                 {
                     path: '/product/:id',
                     name: 'Product',
-                    component: () => import('@/components/public/Product')
+                    component: () => import('@/components/public/Product'),
                 }
             ],
         },

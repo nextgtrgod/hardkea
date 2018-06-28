@@ -49,47 +49,49 @@
 	<ui-button class="showForm" @click.native="openForm">Оформить заказ</ui-button>
 
 	<form :class="{ visible: form.visible }" :style="formStyle">
-		<button type="button" class="back" @click="closeForm">
-			<img src="../../../assets/images/icons/back.svg">
-		</button>
+		<div class="scroll">
+			<button type="button" class="back" @click="closeForm">
+				<img src="../../../assets/images/icons/back.svg">
+			</button>
 
-		<ui-input
-			v-model="form.username"
-			:error="form.errors.includes('username')"
-			placeholder="Имя"
-			class="field"
-		/>
+			<ui-input
+				v-model="form.username"
+				:error="form.errors.includes('username')"
+				placeholder="Имя"
+				class="field"
+			/>
 
-		<ui-input
-			v-model="form.email"
-			:error="form.errors.includes('email')"
-			placeholder="E-mail"
-			class="field"
-		/>
+			<ui-input
+				v-model="form.email"
+				:error="form.errors.includes('email')"
+				placeholder="E-mail"
+				class="field"
+			/>
 
-		<ui-input
-			type="phone"
-			v-model="form.phone"
-			:error="form.errors.includes('phone')"
-			placeholder="Телефон"
-			class="field"
-		/>
+			<ui-input
+				type="phone"
+				v-model="form.phone"
+				:error="form.errors.includes('phone')"
+				placeholder="Телефон"
+				class="field"
+			/>
 
-		<ui-input
-			v-model="form.address"
-			:error="form.errors.includes('address')"
-			placeholder="Адрес"
-			class="field"
-		/>
+			<ui-input
+				v-model="form.address"
+				:error="form.errors.includes('address')"
+				placeholder="Адрес"
+				class="field"
+			/>
 
-		<ui-input
-			v-model="form.details"
-			:error="form.errors.includes('details')"
-			placeholder="Комментарий"
-			class="field"
-		/>
+			<ui-input
+				v-model="form.details"
+				:error="form.errors.includes('details')"
+				placeholder="Комментарий"
+				class="field"
+			/>
 
-		<ui-button class="checkout" @click.native="handleSubmit">Отправить</ui-button>
+			<ui-button class="checkout" @click.native="handleSubmit">Отправить</ui-button>
+		</div>
 	</form>
 
 </section>
@@ -133,8 +135,6 @@ export default {
 	},
 	created() {
 		Events.$on('modal-close', () => this.form.visible = false)
-
-		console.log(this.form)
 	},
 	computed: {
 		...mapState({
@@ -286,21 +286,26 @@ form
 	bottom 0
 	width: 100%
 	height 100vh
-	display flex
-	flex-direction column
-	align-items center
-	justify-content center
-	padding 0 50px
+	padding 50px
 	background-color #FFF
 	transform: translateX(100%)
 	transition: transform .3s
 	pointer-events: none
 	box-sizing border-box
 	z-index 1
+	overflow auto
+
+	.scroll
+		min-height 100%
+		display flex
+		flex-direction column
+		align-items center
+		justify-content center
+
 
 	@media (max-width 959px)
-		padding 25px
-		padding-bottom 5vh
+		padding 60px 25px
+		
 
 	&.visible
 		transform: translateX(0)

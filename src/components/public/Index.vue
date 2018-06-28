@@ -14,7 +14,7 @@
 <script>
 import Events from '@/events'
 import AsideMenu from '@/components/public/Aside'
-import Modal from '@/components/public/Modal'
+import Modal from '@/components/public/modal/Index'
 
 export default {
 	name: 'Public',
