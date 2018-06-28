@@ -2,7 +2,7 @@
 <div class="ui-input">
 	<input
 		v-if="type === 'phone'"
-		type="phone"
+		type="tel"
 		v-mask="phoneMask"
 		v-model="innerValue"
 		:class="{ error }"
