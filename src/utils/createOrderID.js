@@ -4,7 +4,7 @@ const createOrderID = ({ username, email, rawPhone }) => {
 		[...(Date.now()).toString(36)].reduce((sum, current) => sum += current.charCodeAt(), 0),
 		[...username].reduce((sum, current) => sum += current.charCodeAt(), 0),
 		~~(Math.random() * 1000),
-		[...rawPhone].reduce((sum, current) => sum += +current, 0),
+		[...rawPhone].slice(1).reduce((sum, current) => sum += +current, 0),
 	].join('-')
 }
 

@@ -1,8 +1,107 @@
+<template>
+<section class="basket">
+
+	<div class="send-status" :class="{ visible: request.status.length }">
+		<svg 
+			v-if="request.status === 'loading'"
+			xmlns="http://www.w3.org/2000/svg"
+			version="1.1"
+			class="spinner" 
+			fill="none"
+			stroke="#333"
+			viewbox="0 0 60 60"
+		>
+			<circle cx="30" cy="30" r="25"/>
+		</svg>
+
+		<h2 v-if="request.status === 'done'">{{ request.response }}</h2>
+	</div>
+
+	<div class="inner">
+		<h2>Ваша корзина</h2>
+
+		<transition-group tag="ul" name="product-list" class="product-list">
+			<li
+				v-for="product in products"
+				:key="product.basketID"
+				class="product"
+			>
+				<button class="delete" @click="deleteProduct(product.basketID)"/>
+				<img :src="imgUrl(product.id, product.color)">
+				<div class="description">
+					<h5>{{ product.name }} {{ (product.size || '').toUpperCase() }}</h5>
+					<count
+						v-model="product.count"
+						:min="0"
+						:onLowest="() => deleteProduct(product.basketID)"
+					/>
+				</div>
+				<div class="price">{{ getPrice(product) | formatNumber }} ₽</div>
+			</li>
+		</transition-group>
+
+		<div class="total">
+			<h5>Итого:</h5>
+			<span>{{ total | formatNumber }} ₽</span>
+		</div>
+	</div>
+
+	<ui-button class="showForm" @click.native="openForm">Оформить заказ</ui-button>
+
+	<form :class="{ visible: form.visible }" :style="formStyle">
+		<button type="button" class="back" @click="closeForm">
+			<img src="../../../assets/images/icons/back.svg">
+		</button>
+
+		<ui-input
+			v-model="form.username"
+			:error="form.errors.includes('username')"
+			placeholder="Имя"
+			class="field"
+		/>
+
+		<ui-input
+			v-model="form.email"
+			:error="form.errors.includes('email')"
+			placeholder="E-mail"
+			class="field"
+		/>
+
+		<ui-input
+			type="phone"
+			v-model="form.phone"
+			:error="form.errors.includes('phone')"
+			placeholder="Телефон"
+			class="field"
+		/>
+
+		<ui-input
+			v-model="form.address"
+			:error="form.errors.includes('address')"
+			placeholder="Адрес"
+			class="field"
+		/>
+
+		<ui-input
+			v-model="form.details"
+			:error="form.errors.includes('details')"
+			placeholder="Комментарий"
+			class="field"
+		/>
+
+		<ui-button class="checkout" @click.native="handleSubmit">Отправить</ui-button>
+	</form>
+
+</section>
+</template>
+
+
 <script>
 import { mapState } from 'vuex'
 import Events from '@/events'
 import Count from '@/components/ui/Count'
-import maskedInput from 'vue-masked-input'
+import uiInput from '@/components/ui/Input'
+import uiButton from '@/components/ui/Button'
 
 import validateEmail from '@/utils/validateEmail'
 import makeRequest from '@/utils/makeRequest'
@@ -12,7 +111,8 @@ export default {
 	name: 'Basket',
 	components: {
 		Count,
-		maskedInput,
+		uiInput,
+		uiButton,
 	},
 	data() {
 		return {
@@ -21,7 +121,7 @@ export default {
 				username: '',
 				email: '',
 				phone: '',
-				rawPhone: '',
+				address: '',
 				details: '',
 				errors: [],
 			},
@@ -33,6 +133,8 @@ export default {
 	},
 	created() {
 		Events.$on('modal-close', () => this.form.visible = false)
+
+		console.log(this.form)
 	},
 	computed: {
 		...mapState({
@@ -85,21 +187,28 @@ export default {
 			this.form.errors = []
 
 
-			let { username, email, phone, rawPhone, details } = this.form
+			let { username, email, phone, address, details } = this.form
+
+			let rawPhone = phone.replace(/ /g,'');
 
 			// check user data
 			!username.length && this.form.errors.push('username');
-			(rawPhone.length < 11) && this.form.errors.push('phone');
+
+			(rawPhone.length < 12) && this.form.errors.push('phone');
 
 			(!email.length || !validateEmail(email)) && 
 			this.form.errors.push('email') &&
 			(this.form.email = '')
+
+			!address.length && this.form.errors.push('address');
 
 
 			// send request
 			if (!this.form.errors.length) {
 
 				this.request.status = 'loading'
+
+				console.log(createOrderID({ username, email, rawPhone }))
 
 				try {
 					let res = await makeRequest({
@@ -108,8 +217,8 @@ export default {
 							orderID: createOrderID({ username, email, rawPhone }),
 							username,
 							email,
-							phone,
-							rawPhone,
+							phone: rawPhone,
+							address,
 							details,
 							products: JSON.stringify(this.products),
 						}
@@ -143,113 +252,17 @@ export default {
 		'form.email'(to, from) {
 			to.length && (this.form.errors = this.form.errors.filter(error => error !== 'email'))
 		},
-		'form.rawPhone'(to, from) {
-			(to.length === 11) && (this.form.errors = this.form.errors.filter(error => error !== 'phone'))
-		}
+		'form.phone'(to, from) {
+			let rawPhone = to.replace(/ /g,'');
+
+			(rawPhone.length === 12) && (this.form.errors = this.form.errors.filter(error => error !== 'phone'))
+		},
+		'form.address'(to, from) {
+			to.length && (this.form.errors = this.form.errors.filter(error => error !== 'address'))
+		},
 	},
 }
 </script>
-
-
-<template lang="pug">
-	section(class="basket" ref="container")
-		.send-status(:class="{ visible: request.status.length }")
-
-			svg.spinner(v-if="request.status === 'loading'" fill='none', stroke='#333', viewbox='0 0 60 60', version='1.1', xmlns='http://www.w3.org/2000/svg')
-				circle(cx='30', cy='30', r='25')
-
-			h2(v-if="request.status === 'done'") {{ request.response }}
-
-		.inner
-			h2 Ваша корзина
-
-			transition-group(
-				tag="ul"
-				name="product-list"
-				class="product-list"
-			)
-				li(v-for="(product, index) in products", :key="product.basketID" class="product")
-					button.delete(@click="deleteProduct(product.basketID)")
-					img(:src="imgUrl(product.id, product.color)")
-					.description
-						h5 {{ product.name }} {{ (product.size || '').toUpperCase() }}
-						count(
-							v-model="product.count"
-							:min="0"
-							:onLowest="() => deleteProduct(product.basketID)"
-						)
-					.price
-						| {{ getPrice(product) | formatNumber }} ₽
-
-			.total
-				h5 Итого:
-				span {{ total | formatNumber }} ₽
-
-		button.showForm(type="button" @click="openForm") Оформить заказ
-
-
-		form(:class="{ visible: form.visible }" :style="formStyle")
-			button(
-				type="button"
-				class="back"
-				@click="closeForm"
-
-			)
-				img(src="../../../assets/images/icons/back.svg")
-
-			.field
-				input(
-					type="text"
-					v-model="form.username"
-					:class="{ error: form.errors.includes('username') }"
-					maxlength="64"
-					required
-					spellcheck="false"
-				)
-				span.placeholder {{ form.errors.includes('username') ? 'Введите имя' : 'Имя' }}
-				span.line
-
-			.field
-				input(
-					type="text"
-					v-model="form.email"
-					:class="{ error: form.errors.includes('email') }"
-					maxlength="64"
-					required
-					spellcheck="false"
-				)
-				span.placeholder {{ form.errors.includes('email') ? 'Введите e-mail' : 'E-mail' }}
-				span.line
-
-			.field
-				masked-input(
-					type="phone"
-					v-model="form.phone"
-					@input="form.rawPhone = arguments[1]"
-					mask='\+\1 111 111 1111'
-					placeholder-char=" "
-					:class="{ error: form.errors.includes('phone') }"
-					required
-					spellcheck="false"
-				)
-				span.placeholder {{ form.errors.includes('phone') ? 'Введите телефон' : 'Телефон' }}
-				span.line
-
-			.field
-				input(
-					type="text"
-					v-model="form.details"
-					:class="{ error: form.errors.includes('details') }"
-					maxlength="120"
-					required
-					spellcheck="false"
-				)
-				span.placeholder Адрес / комментарий
-				span.line
-
-			button.checkout(type="button" @click="handleSubmit") Отправить
-
-</template>
 
 
 <style lang="stylus" scoped>
@@ -314,62 +327,6 @@ form
 		@media (min-width 960px)
 			width 80%
 
-		input
-			width 100%
-			padding 8px 0
-			color #333
-			text-align left
-			font-size 17px
-			line-height 1
-			border-bottom 1px solid
-			transition all .2s
-			box-sizing border-box
-
-			// &::placeholder
-			// 	color: alpha(#333, .5)
-			// 	transition all .2s
-
-			&.error
-				color: #F00
-
-				// &::placeholder
-				&~span.line
-					background-color: alpha(#F00, .5)
-
-				&~span.placeholder
-					color: alpha(#F00, .5)
-
-			&:focus
-			&:valid
-				&~span.line
-					width 100%
-
-				&~span.placeholder
-					transform: translateY(-125%) scale(0.75)
-
-		span
-			position absolute
-			pointer-events none
-
-			&.placeholder
-				left 0
-				bottom 10px
-				font-size 17px
-				line-height 1
-				color: alpha(#333, .5)
-				transition all .2s, color .3s
-				transform-origin 0 0
-		
-			&.line
-				left 0
-				right 0
-				bottom 0
-				height 2px
-				width 0
-				margin auto
-				background-color #333
-				transition: width .3s, background-color .3s
-
 
 ul.product-list
 	margin-top 40px
@@ -394,7 +351,7 @@ li.product
 	margin-bottom 35px
 	color #333
 	&:last-child
-		margin-bottom 75px
+		margin-bottom 45px
 
 	button.delete
 		position absolute
@@ -467,26 +424,10 @@ button.showForm
 
 button.showForm,
 button.checkout
-	display block
-	width 230px
 	margin-top 40px
-	padding 0
-	font-size: 16px
-	color: #333
-	font-weight: 500
-	line-height: 49px
-	letter-spacing .4px
-	border: 1px solid #333
-	border-radius 8px
-	transition: color .2s, background-color .2s
-	box-sizing border-box
 
 	@media (min-width 960px)
 		margin-top 50px
-
-	&:hover
-		background-color #333
-		color: #FFF
 
 
 .send-status
