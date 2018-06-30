@@ -16,6 +16,7 @@
 		:maxlength="maxlength"
 		:required="required"
 		:spellcheck="spellcheck"
+		@blur="onBlur"
 	>
 	<span class="placeholder">
 		{{ error ? placeholderError : placeholder }}
@@ -32,8 +33,7 @@ export default {
 	name: 'uiInput',
 	props: {
 		value: {
-			type: String,
-			default: false,
+			type: [String, Number],
 		},
 		type: {
 			type: String,
@@ -69,6 +69,11 @@ export default {
 				placeholder: ' ',
 				showMaskOnHover: false,
 			},
+		}
+	},
+	methods: {
+		onBlur() {
+			this.innerValue = (this.innerValue || '').trim()
 		}
 	},
 	computed: {

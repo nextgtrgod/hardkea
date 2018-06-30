@@ -6,12 +6,13 @@
 		:class="{ inverted: checkInverted(product) }"
 	>
 		<router-link :to="'/product/'+product.id">
-			<img :src="imgUrl(product.id)">
+			<img v-if="device === 'desktop'" :src="product.image.desktop">
+			<img v-else :src="product.image.mobile">
 		</router-link>
 
 		<div class="text">
 			<h3>{{ product.name }}</h3>
-			<p>{{ product.description }}</p> 
+			<p v-html="product.description"/> 
 			<button @click="openDetails(product.id)">
 				{{ product.price | formatNumber }} ₽
 			</button>
@@ -49,13 +50,6 @@ export default {
 		// Events.$on('modal-close', () => this.blur = false)
 	},
 	methods: {
-		imgUrl(id) {
-			try {
-				return require(`@/assets/products/${id}/${this.device}.jpg`)
-			} catch (err) {
-				console.log(err)
-			}
-		},
 		checkInverted(product) {
 			console.log(product)
 
@@ -178,12 +172,13 @@ section
 				font-size 80px
 
 		p
-			max-width 280px
+			max-width 215px
 			font-size 14px
 			line-height 1.25
 			letter-spacing .35px
 			margin-bottom 18px
 			@media (min-width 960px)
+				max-width 280px
 				font-size 16px
 				letter-spacing .75px
 				margin-bottom 24px

@@ -56,7 +56,7 @@ const router = new Router({
                     path: 'products/:id',
                     name: 'EditProduct',
                     component: () => import('@/components/admin/Product'),
-                }, 
+                },
             ]
         },
 

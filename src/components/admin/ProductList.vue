@@ -71,6 +71,7 @@ export default {
 
 
 h2
+	font-size: 30px
 	margin-bottom: 30px
 
 

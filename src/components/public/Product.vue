@@ -3,7 +3,7 @@
 
 	<template v-if="device === 'mobile'">
 		<div class="text-block" :class="{ inverted: checkInverted(product) }">
-			<img :src="articleImage">
+			<img :src="product.image.article">
 			<div class="text">
 				<h3>{{ product.name }}</h3>
 				<p>{{ product.description }}</p>
@@ -25,13 +25,13 @@
 				</button>
 			</div>
 			<div class="image-wrap">
-				<img :src="articleImage">
+				<img :src="product.image.article">
 			</div>
 		</div>
 	</template>
 
 	<ul class="gallery">
-		<li v-for="(image, index) in gallery" :key="index">
+		<li v-for="(image, index) in product.image.gallery" :key="index">
 			<img :src="image">
 		</li>
 	</ul>
@@ -72,38 +72,6 @@ export default {
 		}),
 		product() {
 			return this.products.find(product => product.id === +this.$route.params.id)
-		},
-		articleImage() {
-			try {
-				return require(`@/assets/products/${this.$route.params.id}/article.jpg`)
-			}
-			catch (e) {
-				return 'http://via.placeholder.com/375x500'
-			}
-		},
-		gallery: () => {
-			let imageCount = 5;
-			let images = []
-
-			for (let i = 1; i <= imageCount; i++) {
-				// temp
-				let image
-
-				try {
-					image = require(`@/assets/images/product/${i}.jpg`)
-
-				} catch (e) {
-					console.log(e)
-
-					image = (i === 0)
-						? 'http://via.placeholder.com/1200x600'
-						: 'http://via.placeholder.com/600x600'
-				}
-
-				images.push(image)
-			}
-
-			return images
 		},
 	},
 }
