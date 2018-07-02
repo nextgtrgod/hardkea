@@ -36,6 +36,7 @@ const products = [
 				inner: false,
 			},
 		},
+		category: 4,
 	},
 	{
 		id: 2,
@@ -79,6 +80,7 @@ const products = [
 			xl: 20500,
 		},
 		colors: [1, 4],
+		category: 1,
 	},
 	{
 		id: 3,
@@ -115,6 +117,7 @@ const products = [
 			],
 		},
 		price: 7500,
+		category: 1,
 	},
 ]
 

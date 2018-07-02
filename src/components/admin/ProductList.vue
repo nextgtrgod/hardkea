@@ -8,9 +8,19 @@
 		<img src="../../assets/images/icons/plus.svg">
 		<span>Добавить товар</span>
 	</router-link>
-	<ul>
+
+	<div class="filter">
+		<ui-dropdown
+			v-model="selected.categoryName"
+			:options="categoryList"
+			placeholder="Показать"
+			class="dropdown"
+		/>
+	</div>
+
+	<ul class="products">
 		<li
-			v-for="product in products"
+			v-for="product in filteredProducts"
 			:key="product.id"
 			class="product"
 			:class="{ inverted: checkInverted(product) }"
@@ -29,9 +39,21 @@
 <script>
 import { mapState } from 'vuex'
 import Events from '@/events'
+import uiDropdown from '@/components/ui/Dropdown'
 
 export default {
 	name: 'ProductList',
+	components: {
+		uiDropdown,
+	},
+	data() {
+		return {
+			selected: {
+				categoryName: 'Все',
+				categoryId: 0,
+			}
+		}
+	},
 	methods: {
 		getImage(id) {
 			try {
@@ -53,9 +75,29 @@ export default {
 	},
 	computed: {
 		...mapState({
-			products: state => state.products
+			products: state => state.products,
+			categories: state => state.categories,
 		}),
-	}
+		categoryList() {
+			let list = Object.values(this.categories)
+
+			list.push('Все')
+
+			return list
+		},
+		filteredProducts() {
+			return this.selected.categoryName === 'Все'
+				? this.products
+				: this.products.filter(product => product.category === +this.selected.categoryId)
+		}
+	},
+	watch: {
+		'selected.categoryName'() {
+			this.selected.categoryId = this.categoryName === 'Все'
+				? 0
+				: Object.keys(this.categories).find(key => this.categories[key] === this.selected.categoryName)
+		},
+	},
 }
 </script>
 
@@ -72,13 +114,14 @@ export default {
 
 h2
 	font-size: 30px
-	margin-bottom: 30px
+	margin-bottom: 25px
 
 
 a.new-product
 	display: inline-flex
 	align-items: center
-	margin-top: 10px
+	height: 50px
+	margin-top: 0
 	margin-bottom: 30px
 	font-family: $font.family.fira
 
@@ -99,7 +142,15 @@ a.new-product
 		transition: all .2s
 
 
-ul
+.filter
+	margin: 20px 0
+	margin-bottom: 40px
+
+	.dropdown
+		max-width: 150px
+
+
+ul.products
 	display: flex
 	flex-wrap: wrap
 	align-items: center

@@ -1,60 +1,83 @@
 <template>
 <div id="product" v-if="current.id">
-	<div class="edit">
-		<h2>
-			{{
-				current.name.length
-					? current.name
-					: current.id === 'new'
-						? 'Новый товар'
-						: 'Какой-то товар'
-			}}
-		</h2>
+	<div class="edit-wrap">
+		<div class="edit">
+			<h2>
+				{{
+					current.name.length
+						? current.name
+						: current.id === 'new'
+							? 'Новый товар'
+							: 'Какой-то товар'
+				}}
+			</h2>
 
-		<form>
-			<ui-input
-				v-model="current.name"
-				placeholder="Название"
-				class="field"
-			/>
-			<ui-input
-				v-model="current.description"
-				placeholder="Описание"
-				class="field"
-			/>
-			<div class="dimensions">
-				<ui-input
-					v-model="current.dimensions.width"
-					placeholder="Ширина"
-					class="field"
-				/>
-				<ui-input
-					v-model="current.dimensions.height"
-					placeholder="Высота"
-					class="field"
-				/>
-				<ui-input
-					v-model="current.dimensions.depth"
-					placeholder="Глубина"
-					class="field"
-				/>
-				<ui-input
-					v-model="current.weight"
-					placeholder="Вес"
-					class="field"
-				/>
-			</div>
-			<ui-input
-				v-model="current.material"
-				placeholder="Материал"
-				class="field"
-			/>
-			<ui-input
-				v-model="current.article"
-				placeholder="Подробно"
-				class="field"
-			/>
-		</form>
+			<form>
+				<div class="column left">
+					<ui-input
+						v-model="current.name"
+						placeholder="Название"
+						class="field"
+					/>
+					<ui-dropdown
+						v-model="current.categoryName"
+						:options="categoryList"
+						placeholder="Категория"
+						class="field"
+					/>
+					<ui-input
+						v-model="current.material"
+						placeholder="Материал"
+						class="field"
+					/>
+					<div class="dimensions">
+						<ui-input
+							v-model="current.dimensions.width"
+							placeholder="X"
+							class="field"
+						/>
+						<ui-input
+							v-model="current.dimensions.height"
+							placeholder="Y"
+							class="field"
+						/>
+						<ui-input
+							v-model="current.dimensions.depth"
+							placeholder="Z"
+							class="field"
+						/>
+						<ui-input
+							v-model="current.weight"
+							placeholder="Вес"
+							class="field"
+						/>
+					</div>
+				</div>
+
+				<div class="column right">
+					<div
+						class="textfield-wrap"
+						:class="{ filled: current.description.length }"
+						data-label="Описание"
+					>
+						<ui-textfield
+							v-model="current.description"
+							class="textfield"
+						/>
+					</div>
+					<div
+						class="textfield-wrap"
+						:class="{ filled: current.article.length }"
+						data-label="Подробно"
+					>
+						<ui-textfield
+							v-model="current.article"
+							class="textfield"
+						/>
+					</div>
+				</div>
+			</form>
+		</div>
 	</div>
 
 	<div class="preview">
@@ -86,6 +109,11 @@
 				}"
 			>
 				<img :src="current.image.desktop">
+				<ui-drop
+					class="drop"
+					v-model="current.image.desktop"
+					:inverted="current.inverted.desktop.main"
+				/>
 				<span class="text">
 					<h3>{{ current.name }}</h3>
 					<p v-html="current.description"/> 
@@ -121,6 +149,11 @@
 				}"
 			>
 				<img :src="current.image.mobile">
+				<ui-drop
+					class="drop"
+					v-model="current.image.mobile"
+					:inverted="current.inverted.mobile.main"
+				/>
 				<span class="text">
 					<h3>{{ current.name }}</h3>
 					<p v-html="current.description"/>
@@ -149,8 +182,62 @@
 				</span>
 			</li>
 
-			<li class="article" :class="{ active: view === 'article' }">
+			<li
+				class="article"
+				:class="{
+					active: view === 'article',
+					inverted: current.inverted.mobile.inner
+				}"
+			>
+				<span class="product">
+					<img :src="current.image.article">
 
+					<ui-drop
+						class="drop"
+						v-model="current.image.article"
+						:inverted="current.inverted.mobile.inner"
+					/>
+				
+					<span class="text">
+						<h3>{{ current.name }}</h3>
+						<p v-html="current.description"/>
+						<button v-if="current.price">{{ current.price | formatNumber }} ₽</button>
+					</span>
+
+					<span class="text-color">
+						<button
+							class="black"
+							:class="{ active: !current.inverted.mobile.inner }"
+							@click="() => current.inverted.mobile.inner = false"
+						>
+							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 38.2 35">
+								<path fill="#FFF" d="M37 0s-.1 0 0 0c-.4.1-.6.3-.7.5L15.8 32.2l-14-12.7c-.2-.3-.7-.4-1-.3-.4.1-.7.4-.8.8-.1.4.1.8.5 1l14.9 13.5c.2.2.5.3.8.2.3 0 .5-.2.7-.5L38 1.6c.2-.3.2-.8 0-1.1s-.6-.5-1-.5z"/>
+							</svg>
+						</button>
+						<button
+							class="white"
+							:class="{ active: current.inverted.mobile.inner }"
+							@click="() => current.inverted.mobile.inner = true"
+						>
+							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 38.2 35">
+								<path fill="#333" d="M37 0s-.1 0 0 0c-.4.1-.6.3-.7.5L15.8 32.2l-14-12.7c-.2-.3-.7-.4-1-.3-.4.1-.7.4-.8.8-.1.4.1.8.5 1l14.9 13.5c.2.2.5.3.8.2.3 0 .5-.2.7-.5L38 1.6c.2-.3.2-.8 0-1.1s-.6-.5-1-.5z"/>
+							</svg>
+						</button>
+					</span>
+				</span>
+
+				<article v-html="current.article"/>
+
+				<ul class="gallery">
+					<li v-for="(image, index) in current.image.gallery" :key="index">
+						<img :src="image">
+
+						<ui-drop
+							class="drop"
+							v-model="current.image.gallery[index]"
+						/>
+					</li>
+				</ul>
 			</li>
 		</ul>
 	</div>
@@ -162,11 +249,17 @@
 import { mapState } from 'vuex'
 import Events from '@/events'
 import uiInput from '@/components/ui/Input'
+import uiDropdown from '@/components/ui/Dropdown'
+import uiDrop from '@/components/ui/Drop'
+import uiTextfield from '@/components/ui/Textfield'
 
 export default {
 	name: 'Product',
 	components: {
 		uiInput,
+		uiDropdown,
+		uiDrop,
+		uiTextfield,
 	},
 	data() {
 		return {
@@ -204,6 +297,8 @@ export default {
 						inner: false,
 					},
 				},
+				category: 4,
+				categoryName: '',
 			},
 			view: 'desktop',
 			interaction: true,
@@ -219,6 +314,12 @@ export default {
 		} else {
 			this.current.id = 'new'
 		}
+
+		this.current.categoryName = this.categories[this.current.category]
+
+		Events.$on('drag-start', () => this.interaction = false)
+		Events.$on('drag-stop', () => this.interaction = true)
+
 	},
 	methods: {
 		toggleView(name) {
@@ -230,8 +331,12 @@ export default {
 	},
 	computed: {
 		...mapState({
-			products: state => state.products
+			products: state => state.products,
+			categories: state => state.categories,
 		}),
+		categoryList() {
+			return Object.values(this.categories)
+		}
 		// product() {
 		// 	return this.products.find(product => product.id === this.$route.params.id)
 		// },
@@ -256,19 +361,105 @@ export default {
 		flex: 0 0 auto
 
 
+.edit-wrap
+	position: relative
+	width: 500px
+	height: 100vh
+	margin-top: -30px
+	margin-left: -30px
+	margin-right: 10px
+
+
 .edit
-	width: 280px
-	margin-right: 30px
+	position: fixed
+	width: 500px
+	height: 100vh
+	padding-right: 20px
+	padding-left: 30px
+	overflow: auto
+
+	&::-webkit-scrollbar
+		width: 0 !important
+
+	&:before
+	&:after
+		content: ''
+		position: fixed
+		left: 80px
+		width: 260px
+		height: 35px
+		z-index: 9001
+
+	&:before
+		top: 0
+		background: linear-gradient(to bottom, #EEE, alpha(#EEE, 0))
+
+	&:after
+		bottom: 0
+		background: linear-gradient(to top, #EEE, alpha(#EEE, 0))
 
 
 h2
-	font-size: 30px
+	margin-top: 30px
 	margin-bottom: 30px
+	font-size: 30px
 
 
 form
+	display: flex
+	align-items: flex-start
+	margin-top: -40px
+
+	.column
+		flex: 0 1 auto
+		margin-right: 30px
+
+		&.left
+			width: 40%
+		
+		&.right
+			width: 60%
+
 	.field
+	.textfield-wrap
+		position: relative
 		margin: 40px 0
+
+
+.textfield-wrap
+	position: relative
+	font-size: 0
+
+	&.filled
+		&:before
+			transform: translateY(-125%) scale(0.75)
+
+		&:after
+			width 100%
+
+	&:before
+		content: attr(data-label)
+		position absolute
+		left 0
+		top: 7px
+		font-size 17px
+		line-height 1
+		color: alpha(#333, .5)
+		transition all .2s, color .3s
+		transform-origin 0 0
+		pointer-events none
+
+	&:after
+		content: ''
+		position absolute
+		left 0
+		right 0
+		bottom 0
+		height 2px
+		width 0
+		margin auto
+		background-color #333
+		transition: width .3s, background-color .3s
 
 
 .dimensions
@@ -285,6 +476,7 @@ form
 .preview
 	width: 720px
 	margin-left: 10px
+	margin-bottom: 40px
 
 
 ul.tabs
@@ -303,6 +495,9 @@ ul.tabs
 		cursor: pointer
 		transition: opacity .2s
 
+		&:last-child
+			margin-right: 0
+
 		&:hover
 		&.active
 			opacity: 1
@@ -315,32 +510,44 @@ ul.views
 	position: relative
 
 	&.stop-interaction
-		h3, p, button
+		.text, h3, p, button, .text-color
 			pointer-events: none
 			user-select: none
 
-	li
+	li.desktop
+	li.mobile
+	li.article
 		position: absolute
 		top: 0
 		left: 0
 		right: 0
-		min-height: 360px
-		border-radius: 4px
-		box-shadow: 0 25px 60px -10px alpha(#000, .2)
+		height: 0
+		border-radius: 8px
+		box-shadow: 0 0 60px -10px alpha(#000, .2)
 		opacity: 0
-		transition: opacity .2s, color .2s
+		transition: opacity .2s, color .2s, background .2s
 		pointer-events: none
 		overflow: hidden
+		z-index: 0
 
 		&.active
-			// position: relative
+			position: relative
+			height: auto
+			min-height: 360px
 			pointer-events: all
 			opacity: 1
+			z-index: 9001
+
+		h3, p
+			user-select: none
 	
 	li.desktop
+		max-height: 360px
+		background-color: alpha(#FFF, .25)
 		color: #333
 
 		&.inverted
+			background-color: alpha(#333, .5)
 			color: #FFF
 
 			.text
@@ -356,11 +563,20 @@ ul.views
 		&:hover
 			img
 				transform: scale(1.15)
-				opacity: .9
+				// opacity: .9
 
 		img
 			width: 100%
 			transition: opacity 1.5s cubic-bezier(0.19, 1, 0.22, 1), transform 25s cubic-bezier(0.215, 0.61, 0.355, 1)
+			pointer-events: none
+
+
+		.drop
+			position: absolute
+			top: 0
+			left: 0
+			right: 0
+			bottom: 0
 
 		.text
 			position: absolute
@@ -398,7 +614,7 @@ ul.views
 	
 	li.mobile
 		width: 320px
-		height: 425px
+		height: 425px !important
 		padding: 20px
 		padding-top: 40px
 		color: #333
@@ -423,6 +639,13 @@ ul.views
 			right: 0
 			bottom: 0
 			width: 320px
+
+		.drop
+			position: absolute
+			top: 0
+			left: 0
+			right: 0
+			bottom: 0
 
 		.text
 			position: relative
@@ -453,6 +676,102 @@ ul.views
 				&:hover
 					background-color: #333
 					color: #FFF
+
+	li.article
+		width: 320px
+		background-color: #FFF
+
+		&.inverted
+			.product
+				color: #FFF
+
+				.text
+					button
+						color: #FFF
+						border: 1px solid #FFF
+
+						&:hover
+							background-color: #FFF
+							color: #333
+
+		.drop
+			position: absolute
+			top: 0
+			left: 0
+			right: 0
+			bottom: 0
+
+		.product
+			position: relative
+			display: block
+			height: 425px
+			padding: 20px
+			padding-top: 40px
+			background-color: #EEE
+			box-sizing: border-box
+			overflow: hidden
+
+			img
+				position: absolute
+				top: 0
+				left: 0
+				right: 0
+				bottom: 0
+				width: 320px
+
+			.text
+				position: relative
+				display: block
+
+				h3
+					margin-bottom: 10px
+					font-size: 35px
+					letter-spacing: 1px
+
+				p
+					max-width: 215px
+					margin-bottom: 18px
+					font-size: 14px
+					line-height: 1.25
+					letter-spacing: 0.35px
+
+				button
+					width: 100px
+					font-size: 15px
+					line-height: 2
+					color: #333
+					border: 1px solid #333
+					border-radius: 6px
+					transition: all .2s
+					box-sizing: border-box
+
+					&:hover
+						background-color: #333
+						color: #FFF
+
+		article
+			padding: 20px
+			font-size: 14px
+			line-height: 1.5
+			min-height: 21px
+
+		ul.gallery
+			display: flex
+			flex-wrap: wrap
+
+			li
+				position: relative
+				flex: 0 0 100%
+				height: 320px
+
+				&:first-child
+					height: 160px
+
+				&:nth-child(2n + 1)
+					background-color: #EEE
+
+				img
+					width: 100%
 
 
 .text-color

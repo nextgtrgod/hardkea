@@ -49,7 +49,7 @@ export default {
 		},
 		maxlength: {
 			type: Number,
-			default: 64,
+			default: 1000,
 		},
 		required: {
 			type: Boolean,
@@ -73,7 +73,7 @@ export default {
 	},
 	methods: {
 		onBlur() {
-			this.innerValue = (this.innerValue || '').trim()
+			this.innerValue = (this.innerValue + '').trim()
 		}
 	},
 	computed: {
@@ -106,11 +106,11 @@ export default {
 
 input
 	width 100%
-	padding 8px 0
+	padding 6px 0
 	color #333
 	text-align left
 	font-size 17px
-	line-height 1
+	line-height 19px
 	border-bottom 1px solid
 	transition all .2s
 	box-sizing border-box
@@ -139,7 +139,7 @@ span
 
 	&.placeholder
 		left 0
-		bottom 10px
+		bottom 8px
 		font-size 17px
 		line-height 1
 		color: alpha(#333, .5)

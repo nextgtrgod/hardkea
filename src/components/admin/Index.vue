@@ -31,7 +31,7 @@ export default {
 main
 	position: relative
 	left: 50px
-	width: calc(100% - 60px)
+	width: calc(100% - 50px)
 	padding: 30px
 	padding-bottom: 0
 	box-sizing: border-box
