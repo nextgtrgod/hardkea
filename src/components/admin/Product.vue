@@ -351,7 +351,7 @@ export default {
 
 #product
 	display: flex
-	flex-wrap: wrap
+	// flex-wrap: wrap
 	align-items: flex-start
 	justify-content: space-between
 	opacity: 0
@@ -361,20 +361,24 @@ export default {
 		flex: 0 0 auto
 
 
+$edit-width = 340px
+
 .edit-wrap
 	position: relative
-	width: 500px
+	width: $edit-width
 	height: 100vh
 	margin-top: -30px
 	margin-left: -30px
-	margin-right: 10px
+
+	@media (min-width 1300px)
+		width: 500px
 
 
 .edit
 	position: fixed
 	width: 500px
 	height: 100vh
-	padding-right: 20px
+	// padding-right: 20px
 	padding-left: 30px
 	overflow: auto
 
@@ -403,12 +407,17 @@ h2
 	margin-top: 30px
 	margin-bottom: 30px
 	font-size: 30px
+	pointer-events: none
 
 
 form
 	display: flex
 	align-items: flex-start
+	flex-wrap: wrap
 	margin-top: -40px
+
+	@media (min-width: 1300px)
+		flex-wrap: nowrap
 
 	.column
 		flex: 0 1 auto
@@ -475,11 +484,11 @@ form
 
 .preview
 	width: 720px
-	margin-left: 10px
 	margin-bottom: 40px
 
 
 ul.tabs
+	position: relative
 	display: flex
 	align-items: center
 	margin-bottom: 12px

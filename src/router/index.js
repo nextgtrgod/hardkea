@@ -31,8 +31,8 @@ const router = new Router({
             name: 'Admin',
             component: () => import('@/components/admin/Index'),
             beforeEnter: (to, from, next) => {
-                console.log(to)
-                console.log(from)
+                
+                if (to.name === 'Admin') router.replace({ name: 'ProductList' })
 
                 next()
             },
