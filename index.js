@@ -5,8 +5,12 @@ const path = require('path')
 const express = require('express')
 const bodyParser = require('body-parser')
 const sendMail = require('./api/sendMail')
+const cors = require('cors')
 
 const app = express()
+
+app.use(cors())
+
 app.disable('x-powered-by')
 
 app.use(bodyParser.json())

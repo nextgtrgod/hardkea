@@ -109,6 +109,8 @@ import validateEmail from '@/utils/validateEmail'
 import makeRequest from '@/utils/makeRequest'
 import createOrderID from '@/utils/createOrderID'
 
+import { apiBase } from '@/config/index'
+
 export default {
 	name: 'Basket',
 	components: {
@@ -212,7 +214,7 @@ export default {
 
 				try {
 					let res = await makeRequest({
-						url: '/api/sendOrder',
+						url: `${apiBase}/api/sendOrder`,
 						data: {	
 							orderID: createOrderID({ username, email, rawPhone }),
 							username,

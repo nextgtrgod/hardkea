@@ -1,9 +1,14 @@
 <template>
 <div id="admin">
 	<aside-menu/>
+
 	<main>
 		<router-view/>
 	</main>
+
+	<modal>
+		<h2>Удалить Кашпо?</h2>
+	</modal>
 </div>
 </template>
 
@@ -11,11 +16,13 @@
 <script>
 import Events from '@/events'
 import AsideMenu from '@/components/admin/Aside'
+import Modal from '@/components/admin/Modal'
 
 export default {
 	name: 'Admin',
 	components: {
 		AsideMenu,
+		Modal,
 	},
 }
 </script>
