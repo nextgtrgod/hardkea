@@ -1,3 +1,40 @@
+import { API } from '@/config/index'
+import makeRequest from '@/utils/makeRequest'
+
 export default {
+
+	async loadProducts({ commit }) {
+
+		try {
+			let res = await makeRequest({
+				method: 'GET',
+				url: API.products,
+			})
+
+			commit('setProducts', res.data)
+
+		} catch (err) {
+			console.log('damn! load products error')
+			console.log(err)
+		}
+
+	},
+
+	async loadCategories({ commit }) {
+
+		try {
+			let res = await makeRequest({
+				method: 'GET',
+				url: API.categories,
+			})
+
+			commit('setCategories', res.data)
+
+		} catch (err) {
+			console.log('damn! load categories error')
+			console.log(err)
+		}
+
+	}
 
 }

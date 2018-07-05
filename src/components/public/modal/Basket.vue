@@ -2,17 +2,7 @@
 <section class="basket">
 
 	<div class="send-status" :class="{ visible: request.status.length }">
-		<svg 
-			v-if="request.status === 'loading'"
-			xmlns="http://www.w3.org/2000/svg"
-			version="1.1"
-			class="spinner" 
-			fill="none"
-			stroke="#333"
-			viewbox="0 0 60 60"
-		>
-			<circle cx="30" cy="30" r="25"/>
-		</svg>
+		<ui-spinner v-if="request.status === 'loading'"/>
 
 		<h2 v-if="request.status === 'done'">{{ request.response }}</h2>
 	</div>
@@ -104,12 +94,13 @@ import Events from '@/events'
 import Count from '@/components/ui/Count'
 import uiInput from '@/components/ui/Input'
 import uiButton from '@/components/ui/Button'
+import uiSpinner from '@/components/ui/Spinner'
 
 import validateEmail from '@/utils/validateEmail'
 import makeRequest from '@/utils/makeRequest'
 import createOrderID from '@/utils/createOrderID'
 
-import { apiBase } from '@/config/index'
+import { API } from '@/config/index'
 
 export default {
 	name: 'Basket',
@@ -117,6 +108,7 @@ export default {
 		Count,
 		uiInput,
 		uiButton,
+		uiSpinner,
 	},
 	data() {
 		return {
@@ -214,7 +206,7 @@ export default {
 
 				try {
 					let res = await makeRequest({
-						url: `${apiBase}/api/sendOrder`,
+						url: API.sendOrder,
 						data: {	
 							orderID: createOrderID({ username, email, rawPhone }),
 							username,
@@ -457,31 +449,5 @@ button.checkout
 
 	&>*
 		margin-top -50px
-
-
-.spinner
-	position relative
-	width: 60px
-	height: 60px
-	stroke-width: 3
-	stroke-dasharray: 100
-	animation: spin .75s, grow 2s
-	animation-iteration-count: infinite
-	animation-timing-function: linear
-
-@keyframes spin
-	0%
-		transform rotate(0deg)
-	100%
-		transform rotate(360deg)
-
-@keyframes grow
-	0%
-		stroke-dashoffset 0
-  	50%
-		stroke-dashoffset 100
-  	100%
-		stroke-dashoffset 0
-
 
 </style>

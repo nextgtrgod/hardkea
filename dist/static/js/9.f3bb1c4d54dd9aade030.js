@@ -1,0 +1,2 @@
+webpackJsonp([9],{VUwJ:function(e,t,n){"use strict";Object.defineProperty(t,"__esModule",{value:!0});var r={render:function(){this.$createElement;this._self._c;return this._m(0)},staticRenderFns:[function(){var e=this.$createElement,t=this._self._c||e;return t("div",{attrs:{id:"order-list"}},[t("h2",[this._v("Заказы")])])}]};var i=n("VU/8")({name:"OrderList"},r,!1,function(e){n("cXT5")},"data-v-8d7a3968",null);t.default=i.exports},cXT5:function(e,t){}});
+//# sourceMappingURL=9.f3bb1c4d54dd9aade030.js.map

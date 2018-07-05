@@ -19,18 +19,43 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.set('port', (process.env.PORT || 4000))
 
 
+app.get('/api/products', (req, res) => {
+
+	fs.readFile(`${__dirname}/api/products.json`, 'utf8', (err, data) => {
+		if (err) throw err
+
+		res.send({
+			data: JSON.parse(data)
+		})
+	})
+
+})
+
+app.get('/api/categories', (req, res) => {
+
+	fs.readFile(`${__dirname}/api/categories.json`, 'utf8', (err, data) => {
+		if (err) throw err
+
+		res.send({
+			data: JSON.parse(data)
+		})
+	})
+
+})
+
+
 app.post('/api/sendOrder', async (req, res) => {
 
 	let { orderID, username, email, products, phone, rawPhone, details } = req.body
 
-	console.log(`
-orderID: ${orderID}
-username: ${username}
-email: ${email}
-phone: ${rawPhone}
-details: ${details}
-`
-	)
+// 	console.log(`
+// orderID: ${orderID}
+// username: ${username}
+// email: ${email}
+// phone: ${rawPhone}
+// details: ${details}
+// `
+// 	)
 
 	let status = await sendMail({
 		orderID,

@@ -1,5 +1,13 @@
 export default {
 
+	setProducts(state, data) {
+		state.products = data
+	},
+
+	setCategories(state, data) {
+		state.categories = data
+	},
+
 	addToBasket(state, data) {
 
 		// added product

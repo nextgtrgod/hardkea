@@ -101,7 +101,13 @@ section
 
 	// @media (min-width 960px)
 	&.inverted
-		background-color: #333
+		// background-color: #333
+
+		@media (min-width 960px)
+			&:hover
+				img
+					opacity: .96
+
 		.text
 			color: #FFF
 			button

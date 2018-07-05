@@ -1,5 +1,5 @@
 
-let category = {
+let categories = {
 	1: 'Кашпо и вазоны',
 	2: 'Освещение',
 	3: 'Раковины',
@@ -9,4 +9,4 @@ let category = {
 	7: 'Аксессуары',
 }
 
-export default category
+export default categories

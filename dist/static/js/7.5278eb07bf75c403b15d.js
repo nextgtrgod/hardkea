@@ -1,2 +1,0 @@
-webpackJsonp([7],{SDrG:function(e,t,r){"use strict";Object.defineProperty(t,"__esModule",{value:!0});var n={render:function(){var e=this.$createElement,t=this._self._c||e;return t("div",{attrs:{id:"order"}},[t("h2",[this._v("Тут заказ #"+this._s(this.$route.params.id))])])},staticRenderFns:[]};var s=r("VU/8")({name:"Order"},n,!1,function(e){r("mbFv")},"data-v-b255238e",null);t.default=s.exports},mbFv:function(e,t){}});
-//# sourceMappingURL=7.5278eb07bf75c403b15d.js.map

@@ -4,8 +4,6 @@ import getters from './getters'
 import actions from './actions'
 import mutations from './mutations'
 
-import categories from '../../api/categories'
-import products from '../../api/products'
 import orders from '../../api/orders'
 
 Vue.use(Vuex)
@@ -13,8 +11,6 @@ Vue.use(Vuex)
 // localStorage.setItem('basket', null) // drop basket if structure changes
 
 const state = {
-	categories,
-	products,
 	orders,
 	basket: JSON.parse(localStorage.getItem('basket')) || [],
 }
