@@ -178,6 +178,7 @@ svg {
 	right: 0;
 	margin: auto;
 	transition: all .2s;
+	pointer-events: none;
 }
 
 ul {
@@ -212,13 +213,13 @@ ul {
 		box-sizing: border-box;
 		cursor: pointer;
 
-		&:first-child {
-			padding-top: 10px
-		}
+		// &:first-child {
+		// 	padding-top: 10px
+		// }
 
-		&:last-child {
-			padding-bottom: 10px
-		}
+		// &:last-child {
+		// 	padding-bottom: 10px
+		// }
 
 		&:hover {
 			background-color: @color-dark;

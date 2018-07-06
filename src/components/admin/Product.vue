@@ -30,25 +30,36 @@
 						placeholder="Материал"
 						class="field"
 					/>
+					<ui-input
+						v-model="current.price"
+						type="number"
+						placeholder="Цена (без размеров)"
+						class="field"
+					/>
+
 					<div class="dimensions">
 						<ui-input
-							v-model="current.dimensions.width"
-							placeholder="X"
+							v-model="current.dimensions.x"
+							type="number"
+							placeholder="X (см)"
 							class="field"
 						/>
 						<ui-input
-							v-model="current.dimensions.height"
+							v-model="current.dimensions.y"
+							type="number"
 							placeholder="Y"
 							class="field"
 						/>
 						<ui-input
-							v-model="current.dimensions.depth"
+							v-model="current.dimensions.z"
+							type="number"
 							placeholder="Z"
 							class="field"
 						/>
 						<ui-input
-							v-model="current.weight"
-							placeholder="Вес"
+							v-model="current.dimensions.w"
+							type="number"
+							placeholder="Вес (кг)"
 							class="field"
 						/>
 					</div>
@@ -75,6 +86,55 @@
 							class="textfield"
 						/>
 					</div>
+				</div>
+
+				<div class="column full">
+					<h3>Размеры</h3>
+					
+					<ul class="sizes">
+						<li
+							v-for="(size, key) in current.sizes"
+							:key="key"
+							:class="{ active: size.price > 0 }"
+						>
+							<div class="size">
+								<span>{{ key }}</span>
+								<ui-input-simple
+									v-model="size.price"
+									class="price"
+								/>
+							</div>
+
+							<ui-input
+								v-model="size.x"
+								type="number"
+								placeholder="X (см)"
+								class="field"
+							/>
+							<ui-input
+								v-model="size.y"
+								type="number"
+								placeholder="Y"
+								class="field"
+							/>
+							<ui-input
+								v-model="size.z"
+								type="number"
+								placeholder="Z"
+								class="field"
+							/>
+							<ui-input
+								v-model="size.w"
+								type="number"
+								placeholder="Вес (кг)"
+								class="field"
+							/>
+						</li>
+					</ul>
+				</div>
+
+				<div class="column full">
+					<h3>Цвета</h3>
 				</div>
 			</form>
 		</div>
@@ -252,6 +312,9 @@ import uiInput from '@/components/ui/Input'
 import uiDropdown from '@/components/ui/Dropdown'
 import uiDrop from '@/components/ui/Drop'
 import uiTextfield from '@/components/ui/Textfield'
+import uiInputSimple from '@/components/ui/InputSimple'
+
+import productModel from '../../../api/models/product'
 
 export default {
 	name: 'Product',
@@ -260,46 +323,11 @@ export default {
 		uiDropdown,
 		uiDrop,
 		uiTextfield,
+		uiInputSimple,
 	},
 	data() {
 		return {
-			current: {
-				name: '',
-				dimensions: {
-					height: 0,
-					width: 0,
-					depth: 0,
-				},
-				material: '',
-				weight: 0,
-				description: '',
-				article: '',
-				image: {
-					desktop: '',
-					mobile: '',
-					gallery: ['', '', '', '', ''],
-				},
-				colors: [1, 2, 3, 4],
-				price: 0,
-				sizes: {
-					s: 2500,
-					m: 5500,
-					l: 11700,
-					xl: 20500,
-				},
-				inverted: {
-					mobile: {
-						main: false,
-						inner: false,
-					},
-					desktop: {
-						main: false,
-						inner: false,
-					},
-				},
-				category: 4,
-				categoryName: '',
-			},
+			current: productModel,
 			view: 'desktop',
 			interaction: true,
 		}
@@ -309,7 +337,10 @@ export default {
 
 			this.current = this.products.find(product => +product.id === +this.$route.params.id)
 
-			if (!this.current) this.$router.replace({ name: 'NotFound' })
+			if (!this.current) {
+				this.$router.replace({ name: 'NotFound' })
+				return
+			}
 
 		} else {
 			this.current.id = 'new'
@@ -390,9 +421,12 @@ $edit-width = 340px
 		content: ''
 		position: fixed
 		left: 80px
-		width: 260px
+		width: calc(100vw - 80px)
 		height: 35px
 		z-index: 9001
+
+		// @media (min-width 1300px)
+		// 	width: 500px
 
 	&:before
 		top: 0
@@ -416,8 +450,8 @@ form
 	flex-wrap: wrap
 	margin-top: -40px
 
-	@media (min-width: 1300px)
-		flex-wrap: nowrap
+	// @media (min-width: 1300px)
+	// 	flex-wrap: nowrap
 
 	.column
 		flex: 0 1 auto
@@ -425,9 +459,23 @@ form
 
 		&.left
 			width: 40%
+			@media (min-width: 1300px)
+				width: calc(40% - 30px)
 		
 		&.right
 			width: 60%
+			margin-top: -40px
+			@media (min-width: 1300px)
+				margin-top: 0
+				width: calc(60% - 30px)
+
+		&.full
+			width: 100%
+			margin-bottom: 30px
+
+			h3
+				margin-bottom: 20px
+				font-size: 21px
 
 	.field
 	.textfield-wrap
@@ -469,6 +517,62 @@ form
 		margin auto
 		background-color #333
 		transition: width .3s, background-color .3s
+
+
+ul.sizes
+	li
+		display: flex
+		align-items: center
+		margin-bottom: 20px
+
+		&:last-child
+			margin-bottom: 10px
+
+		&.active
+			.field
+				opacity: 1
+				pointer-events: all
+			
+			.size
+				span
+					background-color: #333
+					color: #FFF
+
+		.size
+			display: inline-flex
+			flex-direction: column
+			align-items: center
+			justify-content: center
+			margin-right: 10px
+
+			span
+				width: 64px
+				height: 64px
+				margin-bottom: 5px
+				text-align: center
+				text-transform: uppercase
+				font-size: 25px
+				font-weight: 300
+				line-height: 62px
+				// background-color: #FFF
+				border: 1px solid #333
+				border-radius: 50%
+				// cursor: pointer
+				transition: all .2s
+				user-select: none
+				box-sizing: border-box
+
+				// &:hover
+				// 	background-color: #333
+				// 	color: #FFF
+
+		
+		.field
+			margin: 0 10px
+			margin-bottom: 5px
+			opacity: .4
+			pointer-events: none
+			transition: opacity .2s
 
 
 .dimensions

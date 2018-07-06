@@ -73,7 +73,9 @@ export default {
 	},
 	methods: {
 		onBlur() {
-			this.innerValue = (this.innerValue + '').trim()
+			if (this.type !== 'number') {
+				this.innerValue = (this.innerValue + '').trim()
+			}
 		}
 	},
 	computed: {
@@ -83,10 +85,19 @@ export default {
 	},
 	watch: {
 		value(newVal) {
-			this.innerValue = newVal
+			if (this.type === 'number') {
+				this.innerValue = +newVal
+			} else {
+				this.innerValue = newVal
+			}
+			
 		},
 		innerValue(newVal) {
-			this.$emit('input', newVal)
+			if (this.type === 'number') {	
+				this.$emit('input', +newVal)
+			} else {
+				this.innerValue = +newVal
+			}
 		},
 	}
 }
@@ -138,13 +149,14 @@ span
 	pointer-events none
 
 	&.placeholder
-		left 0
-		bottom 8px
-		font-size 17px
-		line-height 1
+		left: 0
+		bottom: 8px
+		font-size: 17px
+		line-height: 1
 		color: alpha(#333, .5)
-		transition all .2s, color .3s
-		transform-origin 0 0
+		transition: all .2s, color .3s
+		transform-origin: 0 0
+		white-space: nowrap
 
 	&.line
 		left 0
