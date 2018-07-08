@@ -9,6 +9,7 @@ const products = [
 		article: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi.',
 		image: {
 			desktop: 'https://image.ibb.co/iYb0SJ/desktop.jpg',
+			sidebar: 'https://image.ibb.co/hN5948/product_1.jpg',
 			mobile: 'https://image.ibb.co/bKGTEy/mobile.jpg',
 			article: 'https://image.ibb.co/fZgpMd/article.jpg',
 			gallery: [
@@ -26,7 +27,6 @@ const products = [
 			w: 50,
 		},
 		price: 4500,
-		colors: [1, 2, 3, 4],
 		sizes: {
 			s:  { price: 0, x: 0, y: 0, z: 0, w: 0 },
 			m:  { price: 0, x: 0, y: 0, z: 0, w: 0 },
@@ -43,7 +43,12 @@ const products = [
 				inner: false,
 			},
 		},
-		colors: [],
+		colors: {
+			1: '',
+			2: '',
+			3: '',
+			4: '',
+		},
 	},
 	{
 		id: 2,
@@ -72,6 +77,7 @@ const products = [
 		image: {
 			desktop: 'https://image.ibb.co/cCsbZy/desktop.jpg',
 			mobile: 'https://image.ibb.co/nA1ygd/mobile.jpg',
+			sidebar: 'https://image.ibb.co/hN5948/product_1.jpg',
 			article: 'https://image.ibb.co/cC8GZy/article.jpg',
 			gallery: [
 				'https://image.ibb.co/gUWepy/1.jpg',
@@ -87,7 +93,12 @@ const products = [
 			l:  { price: 11700, x: 30, y: 20, z: 40, w: 60 },
 			xl: { price: 20500, x: 30, y: 20, z: 40, w: 70 },
 		},
-		colors: [1, 4],
+		colors: {
+			1: '',
+			2: 'https://image.ibb.co/c3GVcT/product_2.jpg',
+			3: 'https://image.ibb.co/hN5948/product_1.jpg',
+			4: '',
+		},
 	},
 	{
 		id: 3,
@@ -106,6 +117,7 @@ const products = [
 		image: {
 			desktop: 'https://image.ibb.co/g6EZMd/desktop.jpg',
 			mobile: 'https://image.ibb.co/cziiEy/mobile.jpg',
+			sidebar: 'https://image.ibb.co/hN5948/product_1.jpg',
 			article: 'https://image.ibb.co/bwNz6d/article.jpg',
 			gallery: [
 				'https://image.ibb.co/gUWepy/1.jpg',
@@ -121,7 +133,12 @@ const products = [
 			l:  { price: 0, x: 0, y: 0, z: 0, w: 0 },
 			xl: { price: 0, x: 0, y: 0, z: 0, w: 0 },
 		},
-		colors: [],
+		colors: {
+			1: '',
+			2: '',
+			3: '',
+			4: '',
+		},
 		inverted: {
 			mobile: {
 				main: true,

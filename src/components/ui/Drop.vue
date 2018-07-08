@@ -17,13 +17,20 @@
 
 	<slot/>
 
-	<button class="upload" :class="{ visible: !value.length }" @click="openFile">
+	<button
+		class="upload"
+		:class="{ visible: !value.length }"
+		@click="openFile"
+		:style="buttonStyle"
+	>
 		<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 448">
 			<path d="M480 64H96c-17.7 0-32 14.3-32 32v320c0 17.7 14.3 32 32 32h384c17.7 0 32-14.3 32-32V96c0-17.7-14.3-32-32-32zm10.7 352c0 5.9-4.8 10.7-10.7 10.7H96c-5.9 0-10.7-4.8-10.7-10.7V96c0-5.9 4.8-10.7 10.7-10.7h384c5.9 0 10.7 4.8 10.7 10.7v320z"/>
 			<path d="M437.3 0H32C14.3 0 0 14.3 0 32v341.3c0 17.7 14.3 32 32 32h10.7V384H32c-5.9 0-10.7-4.8-10.7-10.7V32c0-5.9 4.8-10.7 10.7-10.7h405.3c5.9 0 10.7 4.8 10.7 10.7v10.7h21.3V32c0-17.7-14.3-32-32-32z"/>
 			<path d="M242.2 216.5c-4.2-4.2-10.9-4.2-15.1 0l-160 160 15.1 15.1 152.5-152.5 163.1 163.1 15.1-15.1-170.7-170.6zM391.5 216.5c-4.2-4.2-10.9-4.2-15.1 0l-53.3 53.3 15.1 15.1 45.8-45.8 109.8 109.8 15.1-15.1-117.4-117.3zM309.3 106.7c-29.5 0-53.3 23.9-53.3 53.3s23.9 53.3 53.3 53.3 53.3-23.9 53.3-53.3c.1-29.5-23.8-53.3-53.3-53.3zm0 85.3c-17.7 0-32-14.3-32-32s14.3-32 32-32 32 14.3 32 32-14.3 32-32 32z"/>
 		</svg>
 	</button>
+
+	<span v-if="!value.length" class="placeholder">{{ placeholder }}</span>
 
 	<input
 		type="file"
@@ -65,6 +72,16 @@ export default {
 					'image/jpeg',
 				]
 			},
+		},
+		buttonOffset: {
+			type: Array,
+			default() {
+				return [0, 0] // x, y
+			},
+		},
+		placeholder: {
+			type: String,
+			default: '',
 		}
 	},
 	data() {
@@ -113,7 +130,12 @@ export default {
 
 			reader.onloadend = () => resolve(reader.result)
 		}),
-	}
+	},
+	computed: {
+		buttonStyle() {
+			return { transform: `translate(${this.buttonOffset[0]}px, ${this.buttonOffset[1]}px)` }
+		}
+	},
 }
 </script>
 
@@ -170,8 +192,8 @@ button.upload {
 	right: 0;
 	bottom: 0;
 	margin: auto;
-	width: 50px;
-	height: 50px;
+	width: 40px;
+	height: 40px;
 	opacity: 0;
 	transition: opacity .2s;
 	pointer-events: none;
@@ -189,7 +211,15 @@ button.upload {
 		width: 100%;
 		fill: #333;
 	}
+}
 
+span.placeholder {
+	position: absolute;
+	right: 20px;
+	bottom: 15px;
+	font-size: 14px;
+	pointer-events: none;
+	opacity: .75;
 }
 
 </style>

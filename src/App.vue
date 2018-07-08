@@ -26,7 +26,7 @@ export default {
 	async mounted() {
 
 		await Store.dispatch('loadProducts')
-		await Store.dispatch('loadCategories')
+		// await Store.dispatch('loadCategories')
 		this.loaded = true
 
 	},

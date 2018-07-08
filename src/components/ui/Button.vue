@@ -26,7 +26,7 @@ export default {
 
 .ui-button
 	display block
-	width 230px
+	min-width 230px
 	padding 0
 	font-size: 16px
 	color: #333
@@ -35,7 +35,7 @@ export default {
 	letter-spacing .4px
 	border: 1px solid #333
 	border-radius 8px
-	transition: color .2s, background-color .2s
+	transition: color .2s, background-color .2s, border .2s
 	box-sizing border-box
 
 	&:hover

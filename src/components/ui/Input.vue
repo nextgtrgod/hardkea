@@ -59,6 +59,10 @@ export default {
 			type: Boolean,
 			default: false,
 		},
+		min: {
+			type: Number,
+			default: 0,
+		}
 	},
 	data() {
 		return {
@@ -75,6 +79,8 @@ export default {
 		onBlur() {
 			if (this.type !== 'number') {
 				this.innerValue = (this.innerValue + '').trim()
+			} else {
+				this.innerValue = +this.innerValue
 			}
 		}
 	},
@@ -90,13 +96,12 @@ export default {
 			} else {
 				this.innerValue = newVal
 			}
-			
 		},
 		innerValue(newVal) {
-			if (this.type === 'number') {	
+			if (this.type === 'number') {
 				this.$emit('input', +newVal)
 			} else {
-				this.innerValue = +newVal
+				this.$emit('input', newVal)
 			}
 		},
 	}

@@ -76,7 +76,7 @@ export default class Parallax {
 
 			switch (item._animationMode) {
 				case 'textShadow':
-					item.style[item._animationMode] = `${item._tx}px ${item._ty / 2}px 10px rgba(0,0,0, 0.2)`
+					item.style[item._animationMode] = `${item._tx}px ${item._ty / 2}px 10px rgba(0,0,0, 0.15)`
 					break;
 				
 				case 'transform':

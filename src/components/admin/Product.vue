@@ -135,6 +135,53 @@
 
 				<div class="column full">
 					<h3>Цвета</h3>
+					
+					<ul class="colors">
+						<li
+							v-for="(value, key) in current.colors"
+							:key="key"
+						>
+							<img class="color" :src="apiBase + '/images/colors/color-' + key + '.png'">
+
+							<div class="upload">
+								<img class="preview" :src="current.colors[key]">
+
+								<button
+									v-if="current.colors[key].length"
+									type="button"
+									class="delete"
+									:disabled="!interaction"
+									@click="current.colors[key] = ''"
+								>
+									<img src="../../assets/images/icons/delete.svg">
+								</button>
+
+								<ui-drop
+									class="drop"
+									v-model="current.colors[key]"
+									placeholder="1 × 1"
+								/>
+							</div>
+						</li>
+					</ul>
+				</div>
+
+				<div class="column full">
+					<div class="form-buttons">
+						<ui-button
+							@click.native="handleSubmit"
+							:class="{ single: current.id === 'new' }"
+						>
+							Сохранить
+						</ui-button>
+						<ui-button
+							v-if="current.id !== 'new'"
+							class="delete"
+							@click.native="openDialog"
+						>
+							Удалить
+						</ui-button>
+					</div>
 				</div>
 			</form>
 		</div>
@@ -173,11 +220,16 @@
 					class="drop"
 					v-model="current.image.desktop"
 					:inverted="current.inverted.desktop.main"
+					placeholder="2 × 1"
 				/>
 				<span class="text">
-					<h3>{{ current.name }}</h3>
-					<p v-html="current.description"/> 
-					<button v-if="current.price">{{ current.price | formatNumber }} ₽</button>
+					<h3 v-if="current.name.length">{{ current.name }}</h3>
+					<h3 v-else>Название</h3>
+
+					<p v-if="current.description.length" v-html="current.description"/> 
+					<p v-else>Описание товара на несколько строк</p>
+
+					<button>{{ current.price | formatNumber }} ₽</button>
 				</span>
 				<span class="text-color">
 					<button
@@ -213,11 +265,17 @@
 					class="drop"
 					v-model="current.image.mobile"
 					:inverted="current.inverted.mobile.main"
+					:buttonOffset="[ 0, 50 ]"
+					placeholder="3 × 4"
 				/>
 				<span class="text">
-					<h3>{{ current.name }}</h3>
-					<p v-html="current.description"/>
-					<button v-if="current.price">{{ current.price | formatNumber }} ₽</button>
+					<h3 v-if="current.name.length">{{ current.name }}</h3>
+					<h3 v-else>Название</h3>
+
+					<p v-if="current.description.length" v-html="current.description"/> 
+					<p v-else>Описание товара на несколько строк</p>
+
+					<button>{{ current.price | formatNumber }} ₽</button>
 				</span>
 
 				<span class="text-color">
@@ -256,12 +314,18 @@
 						class="drop"
 						v-model="current.image.article"
 						:inverted="current.inverted.mobile.inner"
+						:buttonOffset="[ 0, 50 ]"
+						placeholder="3 × 4"
 					/>
 				
 					<span class="text">
-						<h3>{{ current.name }}</h3>
-						<p v-html="current.description"/>
-						<button v-if="current.price">{{ current.price | formatNumber }} ₽</button>
+						<h3 v-if="current.name.length">{{ current.name }}</h3>
+						<h3 v-else>Название</h3>
+
+						<p v-if="current.description.length" v-html="current.description"/> 
+						<p v-else>Описание товара на несколько строк</p>
+
+						<button>{{ current.price | formatNumber }} ₽</button>
 					</span>
 
 					<span class="text-color">
@@ -286,7 +350,8 @@
 					</span>
 				</span>
 
-				<article v-html="current.article"/>
+				<article v-if="current.article.length" v-html="current.article"/>
+				<article v-else>Тут подробное описание товара на много строк.</article>
 
 				<ul class="gallery">
 					<li v-for="(image, index) in current.image.gallery" :key="index">
@@ -295,6 +360,7 @@
 						<ui-drop
 							class="drop"
 							v-model="current.image.gallery[index]"
+							:placeholder="(index === 0) ? '2 × 1' : '1 × 1'"
 						/>
 					</li>
 				</ul>
@@ -313,8 +379,11 @@ import uiDropdown from '@/components/ui/Dropdown'
 import uiDrop from '@/components/ui/Drop'
 import uiTextfield from '@/components/ui/Textfield'
 import uiInputSimple from '@/components/ui/InputSimple'
+import uiButton from '@/components/ui/Button'
 
-import productModel from '../../../api/models/product'
+import productModel from '../../../api/data/product'
+
+import { apiBase } from '@/config'
 
 export default {
 	name: 'Product',
@@ -324,18 +393,57 @@ export default {
 		uiDrop,
 		uiTextfield,
 		uiInputSimple,
+		uiButton,
 	},
 	data() {
 		return {
 			current: productModel,
 			view: 'desktop',
 			interaction: true,
+			apiBase,
 		}
 	},
 	created() {
 		if (this.$route.params.id !== 'new') {
 
 			this.current = this.products.find(product => +product.id === +this.$route.params.id)
+
+			// patch product sizes if needed
+			// add new sizes from model
+			Object.keys(productModel.sizes).map(key => {
+
+				if (!Object.keys(this.current.sizes).includes(key)) {
+					this.current.sizes[key] = productModel.sizes[key]
+				}
+
+			})
+			// remove old sizes from current product
+			Object.keys(this.current.sizes).map(key => {
+
+				if (!Object.keys(productModel.sizes).includes(key)) {
+					delete this.current.sizes[key]
+				}
+
+			})
+
+			// patch product colors if needed
+			// add new colors from model
+			Object.keys(productModel.colors).map(key => {
+
+				if (!Object.keys(this.current.colors).includes(key)) {
+					this.current.colors[key] = productModel.colors[key]
+				}
+
+			})
+			// remove old colors from current product
+			Object.keys(this.current.sizes).map(key => {
+
+				if (!Object.keys(productModel.colors).includes(key)) {
+					delete this.current.colors[key]
+				}
+
+			})
+
 
 			if (!this.current) {
 				this.$router.replace({ name: 'NotFound' })
@@ -359,6 +467,18 @@ export default {
 		dropEdit() {
 
 		},
+		handleSubmit() {
+			console.log(this.current)
+		},
+		openDialog() {
+			Events.$emit('modal-open', {
+				content: this.current.name,
+				accept: this.handleDelete,
+			})
+		},
+		handleDelete() {
+			console.log('delete')
+		}
 	},
 	computed: {
 		...mapState({
@@ -390,6 +510,10 @@ export default {
 
 	&>*
 		flex: 0 0 auto
+
+
+// p.blokk
+// 	font-family: $font.family.blokk
 
 
 $edit-width = 340px
@@ -537,6 +661,7 @@ ul.sizes
 				span
 					background-color: #333
 					color: #FFF
+					opacity: 1
 
 		.size
 			display: inline-flex
@@ -558,6 +683,7 @@ ul.sizes
 				border: 1px solid #333
 				border-radius: 50%
 				// cursor: pointer
+				opacity: .5
 				transition: all .2s
 				user-select: none
 				box-sizing: border-box
@@ -573,6 +699,76 @@ ul.sizes
 			opacity: .4
 			pointer-events: none
 			transition: opacity .2s
+
+
+ul.colors
+	display: flex
+	align-items: center
+	justify-content: space-between
+	// margin-bottom: 40px
+
+	li
+		flex: 0 0 25%
+		padding: 0 5px
+		display: inline-flex
+		flex-direction: column
+		align-items: center
+		justify-content: space-beetween
+		box-sizing: border-box
+
+		&:hover
+			.upload
+				button.delete
+					opacity: 1
+					pointer-events: all
+
+		img.color
+			width: 60px
+			height: 60px
+
+		.upload
+			position: relative
+			width: 100%
+			margin-top: 15px
+
+			button.delete
+				position: absolute
+				top: -10px
+				right: -10px
+				display: flex
+				flex-direction: column
+				align-items: center
+				justify-content: center
+				width: 25px
+				height: 25px
+				background-color: #FFF
+				border-radius: 50%
+				box-shadow: 2px 5px 15px -2px alpha(#000, .1)
+				opacity: 0
+				pointer-events: none
+				transition: opacity .2s
+				z-index: 1
+
+				&:disabled
+					opacity: 0
+					pointer-events: none
+
+				img
+					width: 90%
+
+			.preview
+				position: absolute
+				top: 0
+				left: 0
+				right: 0
+				bottom: 0
+				width: 100%
+				border-radius: 6px
+
+			.drop
+				height: 100px
+				border-radius: 6px
+				overflow: hidden
 
 
 .dimensions
@@ -710,7 +906,8 @@ ul.views
 				margin-bottom 14px
 
 			button
-				width: 72px
+				min-width: 72px
+				padding: 0 5px
 				color: #333
 				font-size: 10px
 				letter-spacing: 0.2px
@@ -731,10 +928,12 @@ ul.views
 		padding: 20px
 		padding-top: 40px
 		color: #333
+		background-color: alpha(#FFF, .25)
 		box-sizing: border-box
 
 		&.inverted
 			color: #FFF
+			background-color: alpha(#333, .5)
 
 			.text
 				button
@@ -777,7 +976,8 @@ ul.views
 				letter-spacing: 0.35px
 
 			button
-				width: 100px
+				min-width: 100px
+				padding: 0 5px
 				font-size: 15px
 				line-height: 2
 				color: #333
@@ -797,6 +997,7 @@ ul.views
 		&.inverted
 			.product
 				color: #FFF
+				background-color: alpha(#333, .5)
 
 				.text
 					button
@@ -822,6 +1023,7 @@ ul.views
 			padding-top: 40px
 			background-color: #EEE
 			box-sizing: border-box
+			transition: all .2s
 			overflow: hidden
 
 			img
@@ -922,5 +1124,25 @@ ul.views
 			width: 45%
 			opacity: 0
 			transition: opacity .2s
+
+
+.form-buttons
+	display: flex
+	align-items: center
+	justify-content: space-between
+	margin: 30px 0 20px
+
+	button
+		flex: 0 1 calc(50% - 10px)
+		min-width: auto
+
+		&.single
+			margin: auto
+
+		&.delete
+			&:hover
+				background-color: #ff3d3d
+				border: 1px solid #ff3d3d
+
 
 </style>

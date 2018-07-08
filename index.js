@@ -70,7 +70,7 @@ app.post('/api/sendOrder', async (req, res) => {
 	res.send({ status })
 })
 
-
+app.use('/images', express.static(path.join(__dirname, 'api', 'images')))
 app.use(express.static(path.join(__dirname, 'dist')))
 
 app.get('*', (req, res) => res.sendFile(__dirname + '/dist/index.html'))

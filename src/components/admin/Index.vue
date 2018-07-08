@@ -6,9 +6,7 @@
 		<router-view/>
 	</main>
 
-	<modal>
-		<h2>Удалить Кашпо?</h2>
-	</modal>
+	<modal/>
 </div>
 </template>
 

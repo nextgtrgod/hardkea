@@ -2,12 +2,13 @@
 const product = {
 	name: '',
 	category: 4,
-	material: '',
+	material: 'Бетон',
 	description: '',
 	article: '',
 	image: {
 		desktop: '',
 		mobile: '',
+		sidebar: '',
 		article: '',
 		gallery: ['', '', '', '', ''],
 	},
@@ -24,7 +25,12 @@ const product = {
 		l:  { price: 0, x: 0, y: 0, z: 0, w: 0 },
 		xl: { price: 0, x: 0, y: 0, z: 0, w: 0 },
 	},
-	colors: [1, 2, 3, 4],
+	colors: {
+		1: '',
+		2: '',
+		3: '',
+		4: '',
+	},
 	inverted: {
 		mobile: {
 			main: false,
