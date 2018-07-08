@@ -7,30 +7,45 @@ const bodyParser = require('body-parser')
 const sendMail = require('./api/sendMail')
 const cors = require('cors')
 
+const ProductController = require('./api/controllers/Product')
+
+let productController = new ProductController()
+
+
 const app = express()
 
 app.use(cors())
-
 app.disable('x-powered-by')
-
-app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.json({ limit: '100mb' }))
+app.use(bodyParser.urlencoded({ limit: '100mb', extended: true }))
 
 app.set('port', (process.env.PORT || 4000))
 
 
-app.get('/api/products', (req, res) => {
+// all about products
+app.get('/api/products', async (req, res) => {
 
-	fs.readFile(`${__dirname}/api/products.json`, 'utf8', (err, data) => {
-		if (err) throw err
-
-		res.send({
-			data: JSON.parse(data)
-		})
-	})
-
+	let data = await productController.get()
+	res.send({ data })
 })
 
+app.post('/api/products/:id', async (req, res) => {
+
+	let data = req.params.id === 'new'
+		? await productController.add()
+		: await productController.save(req.params.id)
+
+	res.send({ data })
+})
+
+app.delete('/api/products/:id', async (req, res) => {
+
+	let data = await productController.delete(req.params.id)
+	res.send({ data })
+})
+
+
+// all about orders
 app.get('/api/categories', (req, res) => {
 
 	fs.readFile(`${__dirname}/api/categories.json`, 'utf8', (err, data) => {
@@ -47,15 +62,6 @@ app.get('/api/categories', (req, res) => {
 app.post('/api/sendOrder', async (req, res) => {
 
 	let { orderID, username, email, products, phone, rawPhone, details } = req.body
-
-// 	console.log(`
-// orderID: ${orderID}
-// username: ${username}
-// email: ${email}
-// phone: ${rawPhone}
-// details: ${details}
-// `
-// 	)
 
 	let status = await sendMail({
 		orderID,

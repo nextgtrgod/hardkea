@@ -13,6 +13,9 @@
 	>
 		<img src="../../assets/images/icons/order.svg">
 	</router-link>
+	<button class="logout" @click="openDialog">
+		<img src="../../assets/images/icons/logout.svg">
+	</button>
 </aside>
 </template>
 
@@ -23,6 +26,17 @@ import Events from '@/events'
 
 export default {
 	name: 'Aside',
+	methods: {
+		openDialog() {
+			Events.$emit('modal-open', {
+				content: 'Выйти из админки?',
+				accept: this.logout,
+			})
+		},
+		logout() {
+			Events.$emit('logout')
+		}
+	},
 	computed: {
 		...mapState({
 			newOrders: state => state.orders.length
@@ -42,13 +56,14 @@ aside
 	top 0
 	left 0
 	bottom 0
+	display: flex
 	width 50px
 	flex-direction column
 	background-color: #FFF
 	box-shadow: -7px 0 40px alpha(#111, .1)
 
 
-a
+a, button
 	position: relative
 	display: inline-flex
 	align-items: center
@@ -89,6 +104,12 @@ a.orders
 		border-radius: 50%
 		color: #FFF
 		pointer-events: none
+
+
+button.logout
+	margin-top: auto
+	margin-left: 2px
+	// margin-bottom: 10px
 
 
 </style>

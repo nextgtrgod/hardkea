@@ -385,6 +385,8 @@ import productModel from '../../../api/data/product'
 
 import { apiBase } from '@/config'
 
+import makeRequest from '@/utils/makeRequest'
+
 export default {
 	name: 'Product',
 	components: {
@@ -464,20 +466,32 @@ export default {
 		toggleView(name) {
 			this.view = name
 		},
+
 		dropEdit() {
 
 		},
-		handleSubmit() {
-			console.log(this.current)
+		async handleSubmit() {
+			let res = await makeRequest({
+				method: 'POST',
+				url: `${apiBase}/api/products/${this.current.id}`,
+				data: this.current,
+			})
+
+			console.log(res)
 		},
+
 		openDialog() {
 			Events.$emit('modal-open', {
-				content: this.current.name,
+				content: `Удалить ${this.current.name}?`,
 				accept: this.handleDelete,
 			})
 		},
-		handleDelete() {
-			console.log('delete')
+
+		async handleDelete() {
+			let res = await makeRequest({
+				method: 'DELETE',
+				url: `${apiBase}/api/products/${this.current.id}`,
+			})
 		}
 	},
 	computed: {
@@ -485,6 +499,7 @@ export default {
 			products: state => state.products,
 			categories: state => state.categories,
 		}),
+
 		categoryList() {
 			return Object.values(this.categories)
 		}

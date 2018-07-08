@@ -4,7 +4,7 @@
 	<div class="content">
 		<slot/>
 
-		<h2>Удалить {{ content }}?</h2>
+		<h2>{{ content }}</h2>
 
 		<div class="buttons">
 			<ui-button @click.native="handleAccept">Да</ui-button>
@@ -27,7 +27,7 @@ export default {
 	data() {
 		return {
 			visible: false,
-			content: 'Кашпо',
+			content: '',
 		}
 	},
 	created() {
@@ -72,7 +72,7 @@ export default {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	background-color: fade(#000, 50%);
+	background-color: fade(#000, 65%);
 	opacity: 0;
 	transition: opacity .2s;
 	pointer-events: none;
@@ -89,6 +89,7 @@ export default {
 	left: 0;
 	right: 0;
 	bottom: 0;
+	-webkit-backdrop-filter: blur(5px);
 }
 
 .content {
