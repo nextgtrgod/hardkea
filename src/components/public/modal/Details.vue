@@ -2,34 +2,43 @@
 	section.details(v-if="product.id")
 		h3 {{ product.name }}
 		.product-image
-			img(:src="imgUrl")
+			img(v-if="!anyColors" :src="product.image.sidebar")
+			img(v-else :src="product.colors[selected.color]")
 		p {{ product.description }}
 
-		h5
-			| {{ product.dimensions.width }}×{{ product.dimensions.height }}×{{ product.dimensions.depth }}см,
-			| {{ product.weight }}кг,
+		h5(v-if="!anySizes")
+			| {{ product.dimensions.x }}×{{ product.dimensions.y }}×{{ product.dimensions.z }}см,
+			| {{ product.dimensions.w }}кг,
 			| {{ product.material }}
 
-		.sizes(v-if="product.sizes")
+		h5(v-else)
+			| {{ size.x }}×{{ size.y }}×{{ size.z }}см,
+			| {{ size.w }}кг,
+			| {{ product.material }}
+
+		.sizes(v-if="anySizes")
 			h5 Размер модели:
 			.size(
-				v-for="(price, size) in product.sizes"
-				:key="price"
+				v-for="(params, size) in product.sizes"
+				:key="size"
+				v-if="params.price > 0"
 				:class="{ selected: selected.size === size }"
 				@click="selectSize(size)"
 			)
 				div {{ size }}
-				span {{ price | formatNumber }} ₽
+				span {{ params.price | formatNumber }} ₽
 
-		.colors(v-if="product.colors")
+		.colors(v-if="anyColors")
 			h5 Цвет бетона:
 			.color(
-				v-for="(color, index) in product.colors"
-				:key="index"
-				:class="{ selected: selected.color === color }"
-				:data-color="color"
-				@click="selectColor(color)"
+				v-for="(url, key) in product.colors"
+				:key="key"
+				v-if="url.length"
+				:class="{ selected: selected.color === key }"
+				:data-color="key"
+				@click="selectColor(key)"
 			)
+				img(:src="apiBase + '/images/colors/color-' + key + '.png'")
 				svg(xmlns="http://www.w3.org/2000/svg" viewBox="0 0 38.2 35")
 					path(d="M37 0s-.1 0 0 0c-.4.1-.6.3-.7.5L15.8 32.2l-14-12.7c-.2-.3-.7-.4-1-.3-.4.1-.7.4-.8.8-.1.4.1.8.5 1l14.9 13.5c.2.2.5.3.8.2.3 0 .5-.2.7-.5L38 1.6c.2-.3.2-.8 0-1.1s-.6-.5-1-.5z")
 
@@ -53,6 +62,8 @@ import Count from '@/components/ui/Count'
 
 import formatNumber from '@/utils/formatNumber'
 
+import { apiBase } from '@/config'
+
 export default {
 	name: 'Details',
 	components: {
@@ -67,7 +78,8 @@ export default {
 				size: '',
 				color: null,
 				count: 1,
-			}
+			},
+			apiBase,
 		}
 	},
 	mounted() {
@@ -83,22 +95,26 @@ export default {
 
 			this.product = this.$store.getters.product(productID)
 			
-			this.product.sizes && (this.selected.size = Object.keys(this.product.sizes)[0])
-			this.product.colors && (this.selected.color = this.product.colors[0])
+			this.selected.size = Object.keys(this.product.sizes).filter(key => {
+				return this.product.sizes[key].price > 0
+			})[0] || ''
+
+			this.selected.color = Object.keys(this.product.colors).filter(key => {
+				return this.product.colors[key].length
+			})[0] || null
 		})
 	},
 	computed: {
-		imgUrl() {
-			try {
-				let { color } = this.selected
-
-				return color
-					? require(`@/assets/products/${this.product.id}/product-${color}.jpg`)
-					: require(`@/assets/products/${this.product.id}/product.jpg`)
-			} catch(err) {
-				console.log(err)
-			}
+		anySizes() {
+			return !!Object.values(this.product.sizes).find(size => size.price)
 		},
+
+		anyColors() {
+			return !!Object.values(this.product.colors).find(url => url.length)
+		},
+		size() {
+			return this.product.sizes[this.selected.size]
+		}
 	},
 	methods: {
 		formatNumber: n => formatNumber(n),
@@ -116,6 +132,7 @@ export default {
 
 			let data = {
 				id: this.product.id,
+				name: this.product.name,
 				count,
 			}
 
@@ -129,7 +146,7 @@ export default {
 	beforeUpdate() {
 		let { size, count } = this.selected
 
-		this.total = count * (size ? this.product.sizes[size] : this.product.price)
+		this.total = count * (size ? this.product.sizes[size].price : this.product.price)
 	},
 }
 </script>

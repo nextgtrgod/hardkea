@@ -8,7 +8,7 @@
 				<h3>{{ product.name }}</h3>
 				<p>{{ product.description }}</p>
 				<button @click="openDetails(product.id)">
-					{{ product.price | formatNumber }} ₽
+					{{ lowestPrice | formatNumber }} ₽
 				</button>
 			</div>
 		</div>
@@ -21,7 +21,7 @@
 				<h3>{{ product.name }}</h3>
 				<p v-html="product.article"/>
 				<button @click="openDetails(product.id)">
-					{{ product.price | formatNumber }} ₽
+					{{ lowestPrice | formatNumber }} ₽
 				</button>
 			</div>
 			<div class="image-wrap">
@@ -45,18 +45,19 @@ import Events from '@/events'
 import { mapState } from 'vuex'
 import checkDevice from '@/mixins/checkDevice'
 import openDetails from '@/mixins/openDetails'
+import lowestPrice from '@/mixins/lowestPrice'
 
 export default {
 	mixins: [
 		checkDevice,
 		openDetails,
+		lowestPrice,
 	],
 	created() {
 		if (!this.product) this.$router.replace({ name: 'NotFound' })
 	},
 	methods: {
 		checkInverted(product) {
-			console.log(product)
 
 			if (!product.inverted) return false
 

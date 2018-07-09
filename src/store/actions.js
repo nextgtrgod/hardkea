@@ -14,7 +14,7 @@ export default {
 			commit('setProducts', res.data)
 
 		} catch (err) {
-			console.log('damn! load products error')
+			console.log('damn! loading products error')
 			console.log(err)
 		}
 
@@ -31,7 +31,7 @@ export default {
 			commit('setCategories', res.data)
 
 		} catch (err) {
-			console.log('damn! load categories error')
+			console.log('damn! loading categories error')
 			console.log(err)
 		}
 

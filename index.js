@@ -32,10 +32,10 @@ app.get('/api/products', async (req, res) => {
 app.post('/api/products/:id', async (req, res) => {
 
 	let data = req.params.id === 'new'
-		? await productController.add()
-		: await productController.save(req.params.id)
+		? await productController.add(req.body)
+		: await productController.save(req.body)
 
-	res.send({ data })
+	res.send(data)
 })
 
 app.delete('/api/products/:id', async (req, res) => {

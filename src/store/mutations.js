@@ -26,7 +26,7 @@ export default {
 		if (index >= 0) state.basket[index].count += product.count // only inc count
 		else {
 			state.basket.push(Object.assign({},
-				product,
+				data,
 				{ basketID: Date.now() }
 			))
 		}

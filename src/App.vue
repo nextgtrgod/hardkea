@@ -13,6 +13,10 @@ import Events from '@/events'
 import Store from '@/store'
 import uiSpinner from '@/components/ui/Spinner'
 
+// import pr from '../api/products.js'
+
+// console.log(JSON.stringify(pr))
+
 export default {
 	name: "App",
 	components: {

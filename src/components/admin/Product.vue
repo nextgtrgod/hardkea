@@ -1,5 +1,5 @@
 <template>
-<div id="product" v-if="current.id">
+<div id="product" v-if="current && current.id">
 	<div class="edit-wrap">
 		<div class="edit">
 			<h2>
@@ -171,6 +171,7 @@
 						<ui-button
 							@click.native="handleSubmit"
 							:class="{ single: current.id === 'new' }"
+							:disabled="loading"
 						>
 							Сохранить
 						</ui-button>
@@ -178,6 +179,7 @@
 							v-if="current.id !== 'new'"
 							class="delete"
 							@click.native="openDialog"
+							:disabled="loading"
 						>
 							Удалить
 						</ui-button>
@@ -229,7 +231,7 @@
 					<p v-if="current.description.length" v-html="current.description"/> 
 					<p v-else>Описание товара на несколько строк</p>
 
-					<button>{{ current.price | formatNumber }} ₽</button>
+					<button>{{ lowestPrice | formatNumber }} ₽</button>
 				</span>
 				<span class="text-color">
 					<button
@@ -403,12 +405,21 @@ export default {
 			view: 'desktop',
 			interaction: true,
 			apiBase,
+			loading: false,
 		}
 	},
 	created() {
+		Events.$on('api-loading', () => this.loading = true)
+		Events.$on('api-loaded', () => this.loading = false)
+
 		if (this.$route.params.id !== 'new') {
 
 			this.current = this.products.find(product => +product.id === +this.$route.params.id)
+
+			if (!this.current) {
+				this.$router.replace({ name: 'NotFound' })
+				return
+			}
 
 			// patch product sizes if needed
 			// add new sizes from model
@@ -446,12 +457,6 @@ export default {
 
 			})
 
-
-			if (!this.current) {
-				this.$router.replace({ name: 'NotFound' })
-				return
-			}
-
 		} else {
 			this.current.id = 'new'
 		}
@@ -467,9 +472,6 @@ export default {
 			this.view = name
 		},
 
-		dropEdit() {
-
-		},
 		async handleSubmit() {
 			let res = await makeRequest({
 				method: 'POST',
@@ -502,10 +504,18 @@ export default {
 
 		categoryList() {
 			return Object.values(this.categories)
-		}
-		// product() {
-		// 	return this.products.find(product => product.id === this.$route.params.id)
-		// },
+		},
+
+		lowestPrice() {
+			let nonZero = [
+				this.current.price,
+				...Object.values(this.current.sizes).map(value => value.price)
+			].filter(price => price > 0)
+
+			return nonZero.length
+				? Math.min(...nonZero)
+				: 0
+		},
 	}
 }
 </script>

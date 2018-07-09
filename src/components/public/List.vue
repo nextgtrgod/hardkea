@@ -14,7 +14,7 @@
 			<h3>{{ product.name }}</h3>
 			<p v-html="product.description"/> 
 			<button @click="openDetails(product.id)">
-				{{ product.price | formatNumber }} ₽
+				{{ getLowestPrice(product) | formatNumber }} ₽
 			</button>
 
 		</div>
@@ -28,12 +28,14 @@ import Events from '@/events'
 import { mapState } from 'vuex'
 import checkDevice from '@/mixins/checkDevice'
 import openDetails from '@/mixins/openDetails'
+import lowestPrice from '@/mixins/lowestPrice'
 
 export default {
 	name: 'List',
 	mixins: [
 		checkDevice,
 		openDetails,
+		lowestPrice,
 	],
 	data() {
 		return {
@@ -51,7 +53,6 @@ export default {
 	},
 	methods: {
 		checkInverted(product) {
-			console.log(product)
 
 			if (!product.inverted) return false
 

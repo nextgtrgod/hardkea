@@ -17,7 +17,7 @@
 				class="product"
 			>
 				<button class="delete" @click="deleteProduct(product.basketID)"/>
-				<img :src="imgUrl(product.id, product.color)">
+				<img :src="imgUrl(product)">
 				<div class="description">
 					<h5>{{ product.name }} {{ (product.size || '').toUpperCase() }}</h5>
 					<count
@@ -132,7 +132,8 @@ export default {
 	},
 	computed: {
 		...mapState({
-			products: state => state.basket
+			products: state => state.basket,
+			productsAll: state => state.products,
 		}),
 
 		total() {
@@ -148,21 +149,28 @@ export default {
 		formStyle: () => ({ height: `${window.innerHeight}px` })
 	},
 	methods: {
-		imgUrl: (id, color) => {
-			try {
-				return color
-					? require(`@/assets/products/${id}/product-${color}.jpg`)
-					: require(`@/assets/products/${id}/product.jpg`)
-			} catch(err) {
-				console.log(err)
-			}
+		imgUrl(product) {
+
+			let productFull = this.productsAll.find(p => p.id === product.id)
+
+			return product.color
+				? productFull.colors[+product.color]
+				: productFull.image.sidebar
 		},
 
 		deleteProduct(basketID) {
 			this.$store.commit('deleteFromBasket', basketID)
 		},
 
-		getPrice: ({ count, price, size, sizes }) => count * (size ? sizes[size] : price),
+		getPrice({ id, count, price, size, sizes }) {
+
+			let productFull = this.productsAll.find(p => p.id === id)
+
+			return count * (size
+				? productFull.sizes[size].price
+				: productFull.price
+			)
+		},
 
 		openForm() {
 			this.form.visible = true

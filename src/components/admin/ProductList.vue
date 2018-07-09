@@ -63,7 +63,6 @@ export default {
 			}
 		},
 		checkInverted(product) {
-			console.log(product)
 
 			if (!product.inverted) return false
 
@@ -89,7 +88,7 @@ export default {
 			return this.selected.categoryName === 'Все'
 				? this.products
 				: this.products.filter(product => product.category === +this.selected.categoryId)
-		}
+		},
 	},
 	watch: {
 		'selected.categoryName'() {

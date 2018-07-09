@@ -1,5 +1,5 @@
 <template>
-<button class="ui-button" :type="type">
+<button class="ui-button" :type="type" :disabled="disabled">
 	<slot/>
 </button>
 </template>
@@ -14,7 +14,11 @@ export default {
 		type: {
 			type: String,
 			default: 'button'
-		}
+		},
+		disabled: {
+			type: Boolean,
+			default: false,
+		},
 	},
 }
 </script>
@@ -35,11 +39,15 @@ export default {
 	letter-spacing .4px
 	border: 1px solid #333
 	border-radius 8px
-	transition: color .2s, background-color .2s, border .2s
+	transition: color .2s, background-color .2s, border .2s, opacity .2s
 	box-sizing border-box
 
 	&:hover
 		background-color #333
 		color: #FFF
+
+	&:disabled
+		opacity: .5
+		pointer-events: none !important
 
 </style>
