@@ -90,6 +90,10 @@ a, button
 
 
 a.orders
+	&[data-label='0']
+		&:after
+			display: none
+
 	&:after
 		content: attr(data-label)
 		position: absolute

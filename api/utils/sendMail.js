@@ -1,6 +1,6 @@
 const nodemailer = require('nodemailer')
-const auth = require('./auth')
-const render = require('./render')
+const auth = require('../data/auth')
+const render = require('../utils/render')
 
 let { host, port, user, pass } = auth
 
@@ -26,18 +26,18 @@ let sendMail = data => new Promise((resolve, reject) => {
 	}
 
 	transporter.sendMail(mailOptions, (err, info) => {
-		let status
+		let message
 
 		if (err) {
-			status = 'Произошла ошибка :('
+			message = 'Произошла ошибка :('
 			console.log(err)
 		}
 		else {
-			status = 'Ваш заказ принят!'
+			message = 'Ваш заказ принят!'
 			console.log(`Email sent: ${info.response}`)
 		}
 
-		resolve(status)
+		resolve(message)
 	})
 
 })

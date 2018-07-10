@@ -20,6 +20,23 @@ export default {
 
 	},
 
+	async loadOrders({ commit }) {
+
+		try {
+			let res = await makeRequest({
+				method: 'GET',
+				url: API.orders,
+			})
+
+			commit('setOrders', res.data)
+
+		} catch (err) {
+			console.log('damn! loading orders error')
+			console.log(err)
+		}
+
+	},
+
 	async loadCategories({ commit }) {
 
 		try {

@@ -11,6 +11,8 @@ const API = {
 
 	products: apiBase + '/api/products',
 
+	orders: apiBase + '/api/orders',
+
 	categories: apiBase + '/api/categories',
 
 }

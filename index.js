@@ -4,13 +4,13 @@ const fs = require('fs')
 const path = require('path')
 const express = require('express')
 const bodyParser = require('body-parser')
-const sendMail = require('./api/sendMail')
 const cors = require('cors')
 
 const ProductController = require('./api/controllers/Product')
+const OrderController = require('./api/controllers/Order')
 
 let productController = new ProductController()
-
+let orderController = new OrderController()
 
 const app = express()
 
@@ -46,6 +46,30 @@ app.delete('/api/products/:id', async (req, res) => {
 
 
 // all about orders
+app.get('/api/orders', async (req, res) => {
+
+	let data = await orderController.get()
+	res.send({ data })	
+})
+
+app.post('/api/orders/:id', async (req, res) => {
+
+	let data = req.params.id === 'new'
+		? await orderController.add(req.body)
+		: await orderController.save(req.body)
+
+	res.send(data)
+})
+
+app.delete('/api/orders/:id', async (req, res) => {
+
+	let data = await orderController.delete(req.params.id)
+	res.send({ data })
+})
+
+
+
+
 app.get('/api/categories', (req, res) => {
 
 	fs.readFile(`${__dirname}/api/categories.json`, 'utf8', (err, data) => {
@@ -56,24 +80,6 @@ app.get('/api/categories', (req, res) => {
 		})
 	})
 
-})
-
-
-app.post('/api/sendOrder', async (req, res) => {
-
-	let { orderID, username, email, products, phone, rawPhone, details } = req.body
-
-	let status = await sendMail({
-		orderID,
-		name: username,
-		email,
-		phone,
-		rawPhone,
-		details,
-		products: JSON.parse(products),
-	})
-
-	res.send({ status })
 })
 
 app.use('/images', express.static(path.join(__dirname, 'api', 'images')))

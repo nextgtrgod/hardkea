@@ -4,6 +4,10 @@ export default {
 		state.products = data
 	},
 
+	setOrders(state, data) {
+		state.orders = data
+	},
+
 	setCategories(state, data) {
 		state.categories = data
 	},

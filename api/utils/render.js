@@ -1,7 +1,7 @@
 const path = require('path')
 const pug = require('pug')
-const formatNumber = require('./utils/formatNumber')
-const auth = require('./auth')
+const formatNumber = require('./formatNumber')
+const auth = require('../data/auth')
 
 let cachedFunc = {}
 

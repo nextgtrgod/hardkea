@@ -15,6 +15,8 @@
 
 <script>
 import Events from '@/events'
+import Store from '@/store'
+
 import AsideMenu from '@/components/admin/Aside'
 import Modal from '@/components/admin/Modal'
 import uiSpinner from '@/components/ui/Spinner'
@@ -26,9 +28,11 @@ export default {
 		Modal,
 		uiSpinner,
 	},
-	created() {
+	async created() {
 		Events.$on('api-loading', () => this.loading = true)
 		Events.$on('api-loaded', () => this.loading = false)
+
+		await Store.dispatch('loadOrders')
 	},
 	data() {
 		return {

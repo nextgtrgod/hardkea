@@ -1,5 +1,7 @@
 const fs = require('fs')
 const path = require('path')
+const readFile = require('../utils/readFile')
+const writeFile = require('../utils/writeFile')
 
 class ProductController {
 	constructor() {
@@ -9,25 +11,25 @@ class ProductController {
 	}
 
 	async get() {
-		let products = await this.readFile()
+		let products = await readFile(this.path)
 
 		return products
 	}
 
 	async save(data) {
-		let products = await this.readFile()
+		let products = await readFile(this.path)
 
 		let index = products.findIndex(product => product.id === data.id)
 
 		products[index] = data
 
-		let status = await this.writeFile(products)
+		let status = await writeFile(products, this.path)
 
 		return status
 	}
 
 	async add(data) {
-		let products = await this.readFile()
+		let products = await readFile(this.path)
 
 		let maxIndex = 0
 
@@ -37,48 +39,19 @@ class ProductController {
 
 		products.push(data)
 
-		let status = await this.writeFile(products)
+		let status = await writeFile(products, this.path)
 
 		return status
 	}
 
 	async delete(id) {
-		let products = await this.readFile()
+		let products = await readFile(this.path)
 
 		products = products.filter(product => product.id !== +id)
 
-		let status = await this.writeFile(products)
+		let status = await writeFile(products, this.path)
 
 		return status
-	}
-
-	async writeFile(data) {
-		return new Promise((resolve, reject) => {
-
-			if (typeof data !== 'string') data = JSON.stringify(data)
-
-			fs.writeFile(this.path, data, (err, data) => {
-				if (err) {
-					reject({ status: 'error', error: err })
-					throw err
-				}
-
-				resolve({ status: 'success' })
-			})
-		})
-	}
-
-	async readFile() {
-		return new Promise((resolve, reject) => {
-			fs.readFile(this.path, 'utf8', (err, data) => {
-				if (err) {
-					reject(err)
-					throw err
-				}
-
-				resolve(JSON.parse(data))
-			})
-		})
 	}
 }
 

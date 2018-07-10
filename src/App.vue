@@ -13,9 +13,8 @@ import Events from '@/events'
 import Store from '@/store'
 import uiSpinner from '@/components/ui/Spinner'
 
-// import pr from '../api/products.js'
-
-// console.log(JSON.stringify(pr))
+// import obj from '../backup/orders.js'
+// console.log(JSON.stringify(obj))
 
 export default {
 	name: "App",
