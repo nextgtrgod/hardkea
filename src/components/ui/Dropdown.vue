@@ -192,7 +192,7 @@ ul {
 	display: flex;
 	flex-direction: column;
 	background-color: #FFF;
-	box-shadow: 0 20px 60px fade(#000, 10%);
+	box-shadow: 0 10px 60px 5px fade(#000, 10%);
 	opacity: 0;
 	transition: opacity .2s;
 	pointer-events: none;

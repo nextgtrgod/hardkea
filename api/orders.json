@@ -2,6 +2,7 @@
     {
         "id": 1,
         "orderID": "196-550",
+        "status": 1,
         "username": "Александр",
         "email": "dfa895@yandex.ru",
         "products": [{ "id": 1, "count": 2 }],
@@ -13,9 +14,10 @@
     {
         "id": 2,
         "orderID": "205-399",
+        "status": 2,
         "username": "Евгения Викторовна",
         "email": "randomtext@gmail.com",
-        "products": [{ "id": 2, "size": "s", "color": 1, "count": 2 }],
+        "products": [{ "id": 2, "size": "s", "color": 1, "count": 2 }, { "id": 1, "count": 2 }],
         "phone": "+79996009090",
         "address": "Lenina street, 1",
         "details": "",

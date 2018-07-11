@@ -9,7 +9,7 @@
 	<router-link
 		:to="{ name: 'OrderList' }"
 		class="orders"
-		:data-label="newOrders"
+		:data-label="newOrders.length"
 	>
 		<img src="../../assets/images/icons/order.svg">
 	</router-link>
@@ -39,8 +39,12 @@ export default {
 	},
 	computed: {
 		...mapState({
-			newOrders: state => state.orders.length
+			orders: state => state.orders
 		}),
+
+		newOrders() {
+			return this.orders.filter(order => +order.status === 1)
+		},
 	}
 }
 </script>

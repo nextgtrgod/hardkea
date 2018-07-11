@@ -19,6 +19,7 @@
 
 	<button
 		class="upload"
+		type="button"
 		:class="{ visible: !value.length }"
 		@click="openFile"
 		:style="buttonStyle"

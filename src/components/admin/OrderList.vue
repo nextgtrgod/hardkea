@@ -2,26 +2,23 @@
 <div id="order-list" v-if="orders.length">
 	<h2>Заказы</h2>
 
-	<ul class="head">
-		<li>#id</li>
+	<ul class="head grid">
+		<li class="order-id">#id</li>
+		<li class="status">Статус</li>
+		<li class="price">Стоимость</li>
 		<li>Имя</li>
 		<li>E-mail</li>
-		<li>Телефон</li>
-		<li>Адрес</li>
+		<li class="phone">Телефон</li>
+		<li class="address">Адрес</li>
 	</ul>
 
 	<transition-group tag="ul" name="list" class="list">
-		<li
+		<order
 			v-for="order in orders"
 			:key="order.id"
+			:id="order.id"
 			class="order"
-		>
-			<span>{{ order.orderID }}</span>
-			<span>{{ order.username }}</span>
-			<span>{{ order.email }}</span>
-			<span>{{ order.phone }}</span>
-			<span>{{ order.address }}</span>
-		</li>
+		/>
 	</transition-group>
 </div>
 </template>
@@ -30,20 +27,35 @@
 <script>
 import { mapState } from 'vuex'
 import Events from '@/events'
+import Order from '@/components/admin/Order'
 import uiDropdown from '@/components/ui/Dropdown'
+
+import statuses from '../../../api/data/orderStatus'
 
 export default {
 	name: 'OrderList',
 	components: {
-		uiDropdown,
+		Order,
+	},
+	data() {
+		return {
+			statuses,
+			expanded: null,
+		}
 	},
 	methods: {
-
+		openDetails(id) {
+			this.expanded = id
+		}
 	},
 	computed: {
 		...mapState({
 			orders: state => state.orders
 		}),
+
+		statusList() {
+			return Object.values(this.statuses)
+		},
 	}
 }
 </script>
@@ -52,6 +64,8 @@ export default {
 <style lang="stylus" scoped>
 @import '../../styles/variables.styl'
 @import '../../styles/animations.styl'
+@import '../../styles/order.styl'
+
 
 #order-list
 	opacity 0
@@ -64,33 +78,14 @@ h2
 
 
 ul.head
-	display: flex
-	align-items: center
 	font-weight: bold
-
-	li
-		flex: 0 0 20%
-		padding: 20px
-		box-sizing: border-box
+	font-family: $font.family.fira
+	letter-spacing: .5px
 
 
 ul.list
 	display: flex
 	flex-direction: column
-
-li.order
-	display: inline-flex
-	align-items: center
-	height: 50px
-	margin-bottom: 30px
-	background-color: #FFF
-	box-shadow: 0 4px 40px -10px rgba(0,0,0, .05)
-	cursor: pointer
-
-	&>span
-		flex: 0 0 20%
-		padding: 0 20px
-		box-sizing: border-box
 
 
 // transition-group

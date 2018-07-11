@@ -473,13 +473,24 @@ export default {
 		},
 
 		async handleSubmit() {
+			let data = Object.assign({}, this.current)
+
+			let category = Object.keys(this.categories).find(key => {
+				return this.categories[key] === data.categoryName
+			})
+
+			data.category = +category
+			this.current.category = +category
+
+			delete data.categoryName
+
 			let res = await makeRequest({
 				method: 'POST',
 				url: `${apiBase}/api/products/${this.current.id}`,
-				data: this.current,
+				data,
 			})
 
-			console.log(res)
+			// console.log(res)
 		},
 
 		openDialog() {

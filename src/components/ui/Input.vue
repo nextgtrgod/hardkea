@@ -122,7 +122,7 @@ export default {
 
 input
 	width 100%
-	padding 6px 0
+	padding 7px 0 6px
 	color #333
 	text-align left
 	font-size 17px

@@ -42,11 +42,11 @@ const router = new Router({
                     name: 'OrderList',
                     component: () => import('@/components/admin/OrderList'),
                 },
-                {
-                    path: 'orders/:id',
-                    name: 'EditOrder',
-                    component: () => import('@/components/admin/Order'),
-                },
+                // {
+                //     path: 'orders/:id',
+                //     name: 'EditOrder',
+                //     component: () => import('@/components/admin/Order'),
+                // },
                 {
                     path: 'products',
                     name: 'ProductList',

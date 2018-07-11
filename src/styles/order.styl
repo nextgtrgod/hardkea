@@ -1,0 +1,31 @@
+
+.grid
+	display: flex
+	width: 100%
+	align-items: center
+	
+	&>*
+		flex: 0 0 calc(100% / 6)
+		padding: 20px
+		box-sizing: border-box
+
+	.order-id
+		flex-basis: auto
+		width: 110px
+		font-weight: bold
+		font-family: $font.family.fira
+	
+	.status
+		flex-basis: auto
+		width: 150px
+
+	.phone
+		flex-basis: auto
+		width: 160px
+	
+	.price
+		flex-basis: auto
+		width: 150px
+	
+	.address
+		flex-grow: 1
