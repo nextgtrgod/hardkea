@@ -237,11 +237,13 @@ ul.product-list
 			font-family: $font.family.fira
 
 		.name
+			width: 75px
 			margin-left: 110px
 
 		.count
 			width: 40px
 			margin-left: auto
+			text-align: right
 		
 		.subtotal
 			width: 100px
