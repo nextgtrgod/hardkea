@@ -15,42 +15,55 @@
 
 	<div class="details" :class="{ visible: expanded }">
 		<div class="inner">
-			<div class="products">
-				<ul class="product-list">
-					<li class="head">
-						<span class="name">Название</span>
-						<span class="count">Количество</span>
-						<span class="subtotal">Стоимость</span>
-					</li>
-					<li
-						v-for="(product, index) in products"
-						:key="index"
-						class="product"
-					>
-						<span class="image-wrap">
-							<img :src="product.image.sidebar">
-						</span>
-						<h4>{{ product.name }} {{ (product.size || '').toUpperCase() }}</h4>
-						<span class="count">×{{ product.count }}</span>
-						<span class="subtotal">{{ '999 999' }} ₽</span>
-					</li>
-				</ul>
+			<div class="column">
+				<div class="products">
+					<ul class="product-list">
+						<li class="head">
+							<span class="name">Название</span>
+							<span class="count">Количество</span>
+							<span class="subtotal">Стоимость</span>
+						</li>
+						<li
+							v-for="(product, index) in products"
+							:key="index"
+							class="product"
+						>
+							<span class="image-wrap">
+								<img :src="product.image.sidebar">
+							</span>
+							<h4>{{ product.name }} {{ (product.size || '').toUpperCase() }}</h4>
+							<span class="count">×{{ product.count }}</span>
+							<span class="subtotal">{{ '999 999' }} ₽</span>
+						</li>
+					</ul>
 
-				<div class="total">{{ '999 999' }} ₽</div>
+					<h5>Итого:</h5>
+					<div class="total">{{ '999 999' }} ₽</div>
+				</div>
 			</div>
 
-			<ui-dropdown
-				v-model="order.statusName"
-				:options="statusList"
-				placeholder="Статус заказа"
-				class="field dropdown"
-			/>
+			<div class="column">
+				<div class="row">
+					<ui-dropdown
+						v-model="order.statusName"
+						:options="statusList"
+						placeholder="Статус заказа"
+						class="field dropdown"
+					/>
 
-			<ui-input
-				v-model="order.address"
-				placeholder="Адрес"
-				class="field"
-			/>
+					<ui-input
+						v-model="order.address"
+						placeholder="Адрес"
+						class="field"
+					/>
+				</div>
+
+				<div class="row buttons">
+					<ui-button class="save" @click.native="save">Сохранить</ui-button>
+					<ui-button class="delete" @click.native="openDialog">Удалить</ui-button>
+				</div>
+			</div>
+
 
 			<!-- <ui-button @click.native="save">Сохранить</ui-button> -->
 
@@ -120,6 +133,17 @@ export default {
 				data,
 			})
 		},
+
+		async handleDelete() {
+			console.log(`deleting #${this.order.orderID}`)
+		},
+
+		openDialog() {
+			Events.$emit('modal-open', {
+				content: `Удалить заказ #${this.order.orderID} ?`,
+				accept: this.handleDelete,
+			})
+		},
 	},
 	computed: {
 		...mapState({
@@ -180,7 +204,7 @@ export default {
 	pointer-events: none
 
 	&.visible
-		height: 400px
+		height: 395px
 		transition-delay: 0s
 		pointer-events: all
 
@@ -190,9 +214,9 @@ export default {
 	
 	.inner
 		display: flex
-		align-items: flex-start
-		padding: 20px
-		padding-top: 30px
+		// align-items: flex-start
+		// padding: 20px
+		// padding-top: 30px
 		opacity: 0
 		transition: opacity .2s 0s
 
@@ -206,15 +230,40 @@ export default {
 			width: 150px
 
 
+.column
+	display: inline-flex
+	flex-direction: column
+	align-items: flex-start
+	padding: 30px 20px
+
+.row
+	display: flex
+	align-items: flex-start
+
+
+.buttons
+	margin-top: auto
+
+
+button.delete
+	margin-left: 20px
+
+	&:hover
+		background-color: #ff3d3d
+		border: 1px solid #ff3d3d
+
+
 .products
-	margin-right: 100px
+	margin-right: 10px
+	padding-right: 40px
+	border-right: 1px solid #EEE
 
 
 ul.product-list
 	display: flex
 	flex-direction: column
 	width: 400px
-	height: 300px
+	margin-bottom: 10px
 	// border-right: 1px dashed alpha(#333, .5)
 
 	li
@@ -259,6 +308,10 @@ ul.product-list
 		.subtotal
 			font-weight: normal
 
+
+h5
+	font-size: 16px
+	margin-bottom: 5px
 
 .total
 	padding-top: 5px
