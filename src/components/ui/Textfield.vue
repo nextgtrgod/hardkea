@@ -7,6 +7,7 @@
 	@keydown.ctrl.enter="breakLine"
 	rows='1'
 	ref="node"
+	:readonly="readonly"
 />
 <textarea
 	v-else
@@ -14,6 +15,7 @@
 	:placeholder="placeholder"
 	rows='1'
 	ref="node"
+	:readonly="readonly"
 />
 </template>
 
@@ -41,7 +43,11 @@ export default {
 		minRows: {
 			type: Number,
 			default: 1,
-		}
+		},
+		readonly: {
+			type: Boolean,
+			default: false,
+		}, 
 	},
 	data() {
 		return {

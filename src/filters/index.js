@@ -1,1 +1,6 @@
 import './formatNumber'
+import './getDate'
+import './getTime'
+import './getMonthName'
+import './getYear'
+import './pad'

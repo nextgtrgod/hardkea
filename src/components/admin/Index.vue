@@ -29,6 +29,10 @@ export default {
 		uiSpinner,
 	},
 	async created() {
+		Events.$on('logout', () => {
+			console.log('logout')
+		})
+
 		Events.$on('api-loading', () => this.loading = true)
 		Events.$on('api-loaded', () => this.loading = false)
 

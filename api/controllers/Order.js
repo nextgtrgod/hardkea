@@ -3,6 +3,7 @@ const path = require('path')
 const readFile = require('../utils/readFile')
 const writeFile = require('../utils/writeFile')
 const sendMail = require('../utils/sendMail')
+const createOrderID = require('../utils/createOrderID') 
 
 class OrderController {
 	constructor() {
@@ -25,6 +26,11 @@ class OrderController {
 		orders.map(order => order.id > maxIndex && (maxIndex = order.id))
 
 		data.id = maxIndex + 1
+
+		let { username, phone } = data
+		data.orderID = createOrderID({ username, phone })
+		data.status = 1 // Новый
+		data.created_at = Date.now()
 
 		orders.push(data)
 

@@ -10,7 +10,7 @@ const createOrderID = ({ username, phone }) => {
 	return [
 		Math.abs(arr[0] - arr[1]),
 		Math.abs(arr[2] - arr[3]),
-	]
+	].join('-')
 }
 
-export default createOrderID
+module.exports = createOrderID

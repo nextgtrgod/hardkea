@@ -98,7 +98,6 @@ import uiSpinner from '@/components/ui/Spinner'
 
 import validateEmail from '@/utils/validateEmail'
 import makeRequest from '@/utils/makeRequest'
-import createOrderID from '@/utils/createOrderID'
 
 import { API } from '@/config/index'
 
@@ -210,24 +209,32 @@ export default {
 
 				this.request.status = 'loading'
 
-				console.log(createOrderID({ username, email, rawPhone }))
+				let products = this.products.map(product => {
+
+					let copyProduct = Object.assign({}, product)
+
+					delete copyProduct.basketID
+
+					return copyProduct
+				})
 
 				try {
 					let res = await makeRequest({
 						url: API.sendOrder,
-						data: {	
-							orderID: createOrderID({ username, email, rawPhone }),
+						data: {
 							username,
-							email,
+							email: email.toLowerCase(),
 							phone: rawPhone,
 							address,
 							details,
-							products: JSON.stringify(this.products),
+							products,
 						}
 					})
 
 					this.request.status = 'done'
-					this.request.response = res.status
+					this.request.response = res.status === 'success'
+						? 'Ваш заказ принят'
+						: 'Произошла ошибка :('
 
 				} catch (error) {
 					console.log(error)

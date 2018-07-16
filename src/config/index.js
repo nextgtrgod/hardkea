@@ -7,7 +7,7 @@ const API = {
 
 	base: apiBase,
 
-	sendOrder: apiBase + '/api/sendOrder',
+	sendOrder: apiBase + '/api/orders/new',
 
 	products: apiBase + '/api/products',
 
