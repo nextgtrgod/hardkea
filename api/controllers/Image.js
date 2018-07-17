@@ -4,7 +4,7 @@ const sharp = require('sharp')
 
 const apiBase = require('../data/config')
 
-let pathPrefix = path.join(__dirname, '..', 'images', 'products')
+let pathPrefix = path.join(__dirname, '..')
 
 
 class ImageController {
@@ -33,15 +33,20 @@ class ImageController {
 	
 			let imgBuffer = Buffer.from(img, 'base64')
 	
-			// console.log('saving image...');
-	
 			sharp(imgBuffer)
+				.toFormat(extension, { quality: 80, progressive: true, compressionLevel: 9 })
 				.toBuffer()
-				.then(data => {
+				.then(async (data) => {
 	
-					let name = `${fileName}-${(Date.now()).toString(36)}.${extension}`
+					let hash = (Date.now()).toString(36)
+
+					let name = `${fileName}-${hash}.${extension}`
+
+
+					if (!prevUrl.startsWith('http')) await this.delete(prevUrl)
+
 	
-					fs.writeFile(path.join(pathPrefix, `${productID}`, name), data, 'base64', err => {
+					fs.writeFile(path.join(pathPrefix, 'images', 'products', `${productID}`, name), data, 'base64', err => {
 						if (err) throw err
 
 						cb(`/images/products/${productID}/${name}`)
@@ -55,17 +60,24 @@ class ImageController {
 		})
 	}
 
-	delete(path) {
+	delete(filePath) {
 		return new Promise((resolve, reject) => {
 
-			fs.unlink(path, err => {
-				if (err) {
-					reject()
-					throw err
+			fs.exists(pathPrefix + filePath, exists => {
+				if (exists) {
+					fs.unlink(pathPrefix + filePath, err => {
+						if (err) {
+							reject()
+							throw err
+						}
+		
+						resolve()
+					})
 				}
 
 				resolve()
 			})
+
 		})
 	}
 }

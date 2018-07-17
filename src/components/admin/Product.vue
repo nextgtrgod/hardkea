@@ -490,7 +490,7 @@ export default {
 				data,
 			})
 
-			// console.log(res)
+			this.current.image = res.image
 		},
 
 		openDialog() {

@@ -24,26 +24,24 @@ class ProductController {
 
 		let index = products.findIndex(product => product.id === data.id)
 
-		await Promise.all([ 
-			imageController.upload({
-				input: data.image.desktop,
-				cb: url => data.image.desktop = url,
-				productID: data.id,
-				fileName: 'desktop',
-				prevUrl: product[index].image.desktop,
-			})
-		])
+
+		await this.uploadImages(data, products[index])
+
+
+		products[index].image.desktop = ''
+		products[index].image.mobile = ''
+		products[index].image.sidebar = ''
+		products[index].image.article = ''
+
 
 		products[index] = data
 
-		console.log('images saved!', data.image.desktop)
 
-		// temp
-		// data.image.desktop = 'https://image.ibb.co/iYb0SJ/desktop.jpg'
+		console.log('images saved!')
 
-		let status = await writeFile(products, this.path)
+		await writeFile(products, this.path)
 
-		return status
+		return data
 	}
 
 	async create(data) {
@@ -57,9 +55,32 @@ class ProductController {
 
 		products.push(data)
 
-		let status = await writeFile(products, this.path)
+		await writeFile(products, this.path)
 
-		return status
+		return data
+	}
+
+	async uploadImages(data, old) {
+
+		let promises = [
+			'desktop',
+			'mobile',
+			'sidebar',
+			'article',
+		].map(key => {
+
+			return imageController.upload({
+				input: data.image[key],
+				cb: url => data.image[key] = url,
+				productID: data.id,
+				fileName: key,
+				prevUrl: old.image[key],
+			})
+
+		})
+
+		await Promise.all(promises)
+
 	}
 
 	async delete(id) {

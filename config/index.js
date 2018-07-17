@@ -11,9 +11,13 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-      '/images': {
+      '/images/*': {
         target: 'http://localhost:4000/images',
+        changeOrigin: true,
         secure: false,
+        pathRewrite: {
+          '^/images': ''
+        }
       }
     },
 
