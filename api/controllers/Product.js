@@ -24,14 +24,22 @@ class ProductController {
 
 		let index = products.findIndex(product => product.id === data.id)
 
+		await Promise.all([ 
+			imageController.upload({
+				input: data.image.desktop,
+				cb: url => data.image.desktop = url,
+				productID: data.id,
+				fileName: 'desktop',
+				prevUrl: product[index].image.desktop,
+			})
+		])
+
 		products[index] = data
 
-		await Promise.all([ imageController.upload(data.image.desktop) ])
-
-		console.log('images saved!')
+		console.log('images saved!', data.image.desktop)
 
 		// temp
-		data.image.desktop = 'https://image.ibb.co/iYb0SJ/desktop.jpg'
+		// data.image.desktop = 'https://image.ibb.co/iYb0SJ/desktop.jpg'
 
 		let status = await writeFile(products, this.path)
 

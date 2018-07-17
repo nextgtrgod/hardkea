@@ -1,1 +1,115 @@
-[{"id":1,"name":"Stolik","material":"Бетон","description":"Ахуенный столи что бы колоть орехи на вечеринках и соло","article":"Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi.","image":{"desktop":"https://image.ibb.co/iYb0SJ/desktop.jpg","sidebar":"https://image.ibb.co/hN5948/product_1.jpg","mobile":"https://image.ibb.co/bKGTEy/mobile.jpg","article":"https://image.ibb.co/fZgpMd/article.jpg","gallery":["https://image.ibb.co/gUWepy/1.jpg","https://image.ibb.co/fR5YGd/2.jpg","https://image.ibb.co/e8cDGd/3.jpg","https://image.ibb.co/mTN8hJ/4.jpg","https://image.ibb.co/fOYENJ/5.jpg"]},"dimensions":{"x":30,"y":100,"z":90,"w":50},"price":4500,"sizes":{"s":{"price":0,"x":0,"y":0,"z":0,"w":0},"m":{"price":0,"x":0,"y":0,"z":0,"w":0},"l":{"price":0,"x":0,"y":0,"z":0,"w":0},"xl":{"price":0,"x":0,"y":0,"z":0,"w":0}},"inverted":{"mobile":{"main":false,"inner":false},"desktop":{"main":false,"inner":false}},"colors":{"1":"","2":"","3":"","4":""},"category":4},{"id":2,"name":"Ninja","category":1,"dimensions":{"x":30,"y":100,"z":90,"w":50},"price":2500,"material":"Бетон","description":"Ахуенный столи что бы колоть орехи на вечеринках и соло","article":"Потому что не воздух будет, академик будет! Ну вот можно сфотографировать Мурманский полуостров. Можно стать воздушным асом. Можно стать воздушной планетой. И будешь уверен, что эту планету примут по учебнику. Значит, на пользу физике пойдёт одна планета. Величина, оторванная в область дипломатии, даёт свои колебания на всю дипломатию. А Илья Муромец даёт колебания только на семью на свою. Спичка в библиотеке работает. В кинохронику ходят и зажигают в кинохронике большой лист. В библиотеке маленький лист разжигают.","inverted":{"mobile":{"main":true,"inner":false},"desktop":{"main":true,"inner":false}},"image":{"desktop":"https://image.ibb.co/cCsbZy/desktop.jpg","mobile":"https://image.ibb.co/nA1ygd/mobile.jpg","sidebar":"https://image.ibb.co/hN5948/product_1.jpg","article":"https://image.ibb.co/cC8GZy/article.jpg","gallery":["https://image.ibb.co/gUWepy/1.jpg","https://image.ibb.co/fR5YGd/2.jpg","https://image.ibb.co/e8cDGd/3.jpg","https://image.ibb.co/mTN8hJ/4.jpg","https://image.ibb.co/fOYENJ/5.jpg"]},"sizes":{"s":{"price":500,"x":30,"y":20,"z":40,"w":40},"m":{"price":5500,"x":40,"y":25,"z":60,"w":50},"l":{"price":11700,"x":50,"y":30,"z":79,"w":60},"xl":{"price":20500,"x":60,"y":40,"z":80,"w":70}},"colors":{"1":"","2":"https://image.ibb.co/c3GVcT/product_2.jpg","3":"https://image.ibb.co/hN5948/product_1.jpg","4":""}},{"id":3,"name":"Konusoobra","category":1,"dimensions":{"x":30,"y":100,"z":90,"w":50},"price":0,"material":"Стекло","description":"Ахуенный столи что бы колоть орехи на вечеринках и соло","article":"Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi.","image":{"desktop":"https://image.ibb.co/g6EZMd/desktop.jpg","mobile":"https://image.ibb.co/cziiEy/mobile.jpg","sidebar":"https://image.ibb.co/hN5948/product_1.jpg","article":"https://image.ibb.co/bwNz6d/article.jpg","gallery":["https://image.ibb.co/gUWepy/1.jpg","https://image.ibb.co/fR5YGd/2.jpg","https://image.ibb.co/e8cDGd/3.jpg","https://image.ibb.co/mTN8hJ/4.jpg","https://image.ibb.co/fOYENJ/5.jpg"]},"sizes":{"s":{"price":0,"x":0,"y":0,"z":0,"w":0},"m":{"price":7900,"x":20,"y":30,"z":150,"w":12},"l":{"price":0,"x":0,"y":0,"z":0,"w":0},"xl":{"price":0,"x":0,"y":0,"z":0,"w":0}},"colors":{"1":"","2":"","3":"","4":""},"inverted":{"mobile":{"main":true,"inner":false},"desktop":{"main":true,"inner":false}}}]
+[
+    {
+        "id": 1,
+        "name": "Stolik",
+        "material": "Бетон",
+        "description":
+            "Ахуенный столи что бы колоть орехи на вечеринках и соло",
+        "article":
+            "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi.",
+        "image": {
+            "desktop": "/images/products/1/desktop-jjppkchn.jpg",
+            "sidebar": "https://image.ibb.co/hN5948/product_1.jpg",
+            "mobile": "https://image.ibb.co/bKGTEy/mobile.jpg",
+            "article": "https://image.ibb.co/fZgpMd/article.jpg",
+            "gallery": [
+                "https://image.ibb.co/gUWepy/1.jpg",
+                "https://image.ibb.co/fR5YGd/2.jpg",
+                "https://image.ibb.co/e8cDGd/3.jpg",
+                "https://image.ibb.co/mTN8hJ/4.jpg",
+                "https://image.ibb.co/fOYENJ/5.jpg"
+            ]
+        },
+        "dimensions": { "x": 30, "y": 100, "z": 90, "w": 50 },
+        "price": 4500,
+        "sizes": {
+            "s": { "price": 0, "x": 0, "y": 0, "z": 0, "w": 0 },
+            "m": { "price": 0, "x": 0, "y": 0, "z": 0, "w": 0 },
+            "l": { "price": 0, "x": 0, "y": 0, "z": 0, "w": 0 },
+            "xl": { "price": 0, "x": 0, "y": 0, "z": 0, "w": 0 }
+        },
+        "inverted": {
+            "mobile": { "main": false, "inner": false },
+            "desktop": { "main": false, "inner": false }
+        },
+        "colors": { "1": "", "2": "", "3": "", "4": "" },
+        "category": 4
+    },
+    {
+        "id": 2,
+        "name": "Ninja",
+        "category": 1,
+        "dimensions": { "x": 30, "y": 100, "z": 90, "w": 50 },
+        "price": 2500,
+        "material": "Бетон",
+        "description":
+            "Ахуенный столи что бы колоть орехи на вечеринках и соло",
+        "article":
+            "Потому что не воздух будет, академик будет! Ну вот можно сфотографировать Мурманский полуостров. Можно стать воздушным асом. Можно стать воздушной планетой. И будешь уверен, что эту планету примут по учебнику. Значит, на пользу физике пойдёт одна планета. Величина, оторванная в область дипломатии, даёт свои колебания на всю дипломатию. А Илья Муромец даёт колебания только на семью на свою. Спичка в библиотеке работает. В кинохронику ходят и зажигают в кинохронике большой лист. В библиотеке маленький лист разжигают.",
+        "inverted": {
+            "mobile": { "main": true, "inner": false },
+            "desktop": { "main": true, "inner": false }
+        },
+        "image": {
+            "desktop": "https://image.ibb.co/cCsbZy/desktop.jpg",
+            "mobile": "https://image.ibb.co/nA1ygd/mobile.jpg",
+            "sidebar": "https://image.ibb.co/hN5948/product_1.jpg",
+            "article": "https://image.ibb.co/cC8GZy/article.jpg",
+            "gallery": [
+                "https://image.ibb.co/gUWepy/1.jpg",
+                "https://image.ibb.co/fR5YGd/2.jpg",
+                "https://image.ibb.co/e8cDGd/3.jpg",
+                "https://image.ibb.co/mTN8hJ/4.jpg",
+                "https://image.ibb.co/fOYENJ/5.jpg"
+            ]
+        },
+        "sizes": {
+            "s": { "price": 500, "x": 30, "y": 20, "z": 40, "w": 40 },
+            "m": { "price": 5500, "x": 40, "y": 25, "z": 60, "w": 50 },
+            "l": { "price": 11700, "x": 50, "y": 30, "z": 79, "w": 60 },
+            "xl": { "price": 20500, "x": 60, "y": 40, "z": 80, "w": 70 }
+        },
+        "colors": {
+            "1": "",
+            "2": "https://image.ibb.co/c3GVcT/product_2.jpg",
+            "3": "https://image.ibb.co/hN5948/product_1.jpg",
+            "4": ""
+        }
+    },
+    {
+        "id": 3,
+        "name": "Konusoobra",
+        "category": 1,
+        "dimensions": { "x": 30, "y": 100, "z": 90, "w": 50 },
+        "price": 0,
+        "material": "Стекло",
+        "description":
+            "Ахуенный столи что бы колоть орехи на вечеринках и соло",
+        "article":
+            "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi.",
+        "image": {
+            "desktop": "https://image.ibb.co/g6EZMd/desktop.jpg",
+            "mobile": "https://image.ibb.co/cziiEy/mobile.jpg",
+            "sidebar": "https://image.ibb.co/hN5948/product_1.jpg",
+            "article": "https://image.ibb.co/bwNz6d/article.jpg",
+            "gallery": [
+                "https://image.ibb.co/gUWepy/1.jpg",
+                "https://image.ibb.co/fR5YGd/2.jpg",
+                "https://image.ibb.co/e8cDGd/3.jpg",
+                "https://image.ibb.co/mTN8hJ/4.jpg",
+                "https://image.ibb.co/fOYENJ/5.jpg"
+            ]
+        },
+        "sizes": {
+            "s": { "price": 0, "x": 0, "y": 0, "z": 0, "w": 0 },
+            "m": { "price": 7900, "x": 20, "y": 30, "z": 150, "w": 12 },
+            "l": { "price": 0, "x": 0, "y": 0, "z": 0, "w": 0 },
+            "xl": { "price": 0, "x": 0, "y": 0, "z": 0, "w": 0 }
+        },
+        "colors": { "1": "", "2": "", "3": "", "4": "" },
+        "inverted": {
+            "mobile": { "main": true, "inner": false },
+            "desktop": { "main": true, "inner": false }
+        }
+    }
+]

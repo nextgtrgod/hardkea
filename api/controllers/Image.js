@@ -2,6 +2,8 @@ const fs = require('fs')
 const path = require('path')
 const sharp = require('sharp')
 
+const apiBase = require('../data/config')
+
 let pathPrefix = path.join(__dirname, '..', 'images', 'products')
 
 
@@ -10,10 +12,15 @@ class ImageController {
 
 	}
 
-	upload(inputBuffer, id = 1, name = 'output') {
+	upload({ input, cb, productID, fileName, prevUrl }) {
 		return new Promise(async (resolve, reject) => {
 
-			let buffer = inputBuffer.split(',')
+			if (!input.startsWith('data:image/')) { // its an url already!
+				resolve(input)
+				return
+			}
+
+			let buffer = input.split(',')
 	
 			let meta = buffer[0]
 			let img = buffer[1]
@@ -29,15 +36,15 @@ class ImageController {
 			// console.log('saving image...');
 	
 			sharp(imgBuffer)
-				.resize(320)
 				.toBuffer()
 				.then(data => {
 	
-					// console.log('success!');
+					let name = `${fileName}-${(Date.now()).toString(36)}.${extension}`
 	
-					fs.writeFile(path.join(pathPrefix, `${id}`, `${name}.${extension}`), data, 'base64', err => {
+					fs.writeFile(path.join(pathPrefix, `${productID}`, name), data, 'base64', err => {
 						if (err) throw err
 
+						cb(`/images/products/${productID}/${name}`)
 						resolve()
 					})
 				})
