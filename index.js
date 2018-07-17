@@ -32,8 +32,8 @@ app.get('/api/products', async (req, res) => {
 app.post('/api/products/:id', async (req, res) => {
 
 	let data = req.params.id === 'new'
-		? await productController.add(req.body)
-		: await productController.save(req.body)
+		? await productController.create(req.body)
+		: await productController.update(req.body)
 
 	res.send(data)
 })
@@ -55,8 +55,8 @@ app.get('/api/orders', async (req, res) => {
 app.post('/api/orders/:id', async (req, res) => {
 
 	let data = req.params.id === 'new'
-		? await orderController.add(req.body)
-		: await orderController.save(req.body)
+		? await orderController.create(req.body)
+		: await orderController.update(req.body)
 
 	res.send(data)
 })

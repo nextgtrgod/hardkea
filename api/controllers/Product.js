@@ -3,6 +3,9 @@ const path = require('path')
 const readFile = require('../utils/readFile')
 const writeFile = require('../utils/writeFile')
 
+const ImageController = require('./Image')
+let imageController = new ImageController()
+
 class ProductController {
 	constructor() {
 
@@ -16,19 +19,26 @@ class ProductController {
 		return products
 	}
 
-	async save(data) {
+	async update(data) {
 		let products = await readFile(this.path)
 
 		let index = products.findIndex(product => product.id === data.id)
 
 		products[index] = data
 
+		await Promise.all([ imageController.upload(data.image.desktop) ])
+
+		console.log('images saved!')
+
+		// temp
+		data.image.desktop = 'https://image.ibb.co/iYb0SJ/desktop.jpg'
+
 		let status = await writeFile(products, this.path)
 
 		return status
 	}
 
-	async add(data) {
+	async create(data) {
 		let products = await readFile(this.path)
 
 		let maxIndex = 0

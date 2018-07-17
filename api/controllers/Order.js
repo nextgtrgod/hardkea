@@ -3,7 +3,7 @@ const path = require('path')
 const readFile = require('../utils/readFile')
 const writeFile = require('../utils/writeFile')
 const sendMail = require('../utils/sendMail')
-const createOrderID = require('../utils/createOrderID') 
+const createOrderID = require('../utils/createOrderID')
 
 class OrderController {
 	constructor() {
@@ -18,7 +18,7 @@ class OrderController {
 		return orders
 	}
 
-	async add(data) {
+	async create(data) {
 		let orders = await readFile(this.path)
 
 		let maxIndex = 0
@@ -39,7 +39,7 @@ class OrderController {
 		return status
 	}
 
-	async save(data) {
+	async update(data) {
 		let orders = await readFile(this.path)
 
 		let index = orders.findIndex(order => order.id === data.id)

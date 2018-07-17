@@ -118,7 +118,7 @@ export default {
 			}
 
 			if (allowedFiles.length) {
-				console.log(allowedFiles[0])
+				// console.log(allowedFiles[0])
 				this.$emit('input', allowedFiles[0].preview)
 			} else {
 				alert('Этот файл не годится')
