@@ -25,7 +25,7 @@
 			class="product"
 			:class="{ inverted: checkInverted(product) }"
 		>
-			<img :src="getImage(product.id)">
+			<img :src="product.image.mobile">
 			<router-link :to="{ name: 'EditProduct', params: { id: product.id } }">
 				<h3>{{ product.name }}</h3>
 				<p>{{ product.description }}</p>
@@ -55,13 +55,6 @@ export default {
 		}
 	},
 	methods: {
-		getImage(id) {
-			try {
-				return require(`@/assets/products/${id}/mobile.jpg`)
-			} catch (err) {
-				console.log(err)
-			}
-		},
 		checkInverted(product) {
 
 			if (!product.inverted) return false
@@ -170,6 +163,7 @@ li.product
 	transition: all .4s
 	box-sizing: border-box
 	overflow: hidden
+	-webkit-mask-image: -webkit-radial-gradient(white, black)
 
 
 	&:hover

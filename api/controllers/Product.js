@@ -28,12 +28,6 @@ class ProductController {
 		await this.uploadImages(data, products[index])
 
 
-		products[index].image.desktop = ''
-		products[index].image.mobile = ''
-		products[index].image.sidebar = ''
-		products[index].image.article = ''
-
-
 		products[index] = data
 
 
@@ -77,6 +71,30 @@ class ProductController {
 				prevUrl: old.image[key],
 			})
 
+		})
+
+		data.image.gallery.map((image, index) => {
+			promises.push(
+				imageController.upload({
+					input: image,
+					cb: url => data.image.gallery[index] = url,
+					productID: data.id,
+					fileName: `gallery-${index}`,
+					prevUrl: old.image.gallery[index],
+				})
+			)
+		})
+
+		Object.keys(data.colors).map(key => {
+			promises.push(
+				imageController.upload({
+					input: data.colors[key],
+					cb: url => data.colors[key] = url,
+					productID: data.id,
+					fileName: `color-${key}`,
+					prevUrl: old.colors[key],
+				})
+			)
 		})
 
 		await Promise.all(promises)

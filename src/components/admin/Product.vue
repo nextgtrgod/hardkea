@@ -277,7 +277,7 @@
 					<p v-if="current.description.length" v-html="current.description"/> 
 					<p v-else>Описание товара на несколько строк</p>
 
-					<button>{{ current.price | formatNumber }} ₽</button>
+					<button>{{ lowestPrice | formatNumber }} ₽</button>
 				</span>
 
 				<span class="text-color">
@@ -327,7 +327,7 @@
 						<p v-if="current.description.length" v-html="current.description"/> 
 						<p v-else>Описание товара на несколько строк</p>
 
-						<button>{{ current.price | formatNumber }} ₽</button>
+						<button>{{ lowestPrice | formatNumber }} ₽</button>
 					</span>
 
 					<span class="text-color">
@@ -491,6 +491,7 @@ export default {
 			})
 
 			this.current.image = res.image
+			this.current.colors = res.colors
 		},
 
 		openDialog() {

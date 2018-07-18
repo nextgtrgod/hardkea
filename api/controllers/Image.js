@@ -1,6 +1,7 @@
 const fs = require('fs')
 const path = require('path')
 const sharp = require('sharp')
+const createFolder = require('../utils/createFolder')
 
 const apiBase = require('../data/config')
 
@@ -14,6 +15,14 @@ class ImageController {
 
 	upload({ input, cb, productID, fileName, prevUrl }) {
 		return new Promise(async (resolve, reject) => {
+
+			if (!input.length && prevUrl.length) { // new url is empty -> delete prev file
+
+				await this.delete(prevUrl)
+				
+				resolve(input)
+				return
+			}
 
 			if (!input.startsWith('data:image/')) { // its an url already!
 				resolve(input)
@@ -43,7 +52,11 @@ class ImageController {
 					let name = `${fileName}-${hash}.${extension}`
 
 
-					if (!prevUrl.startsWith('http')) await this.delete(prevUrl)
+					if (prevUrl.length && !prevUrl.startsWith('http')) await this.delete(prevUrl)
+
+					if (!fs.existsSync( path.join(pathPrefix, 'images', 'products', `${productID}`) )) {
+						await createFolder(path.join(pathPrefix, 'images', 'products', `${productID}`))
+					}
 
 	
 					fs.writeFile(path.join(pathPrefix, 'images', 'products', `${productID}`, name), data, 'base64', err => {
@@ -61,22 +74,23 @@ class ImageController {
 	}
 
 	delete(filePath) {
+
 		return new Promise((resolve, reject) => {
 
-			fs.exists(pathPrefix + filePath, exists => {
-				if (exists) {
-					fs.unlink(pathPrefix + filePath, err => {
-						if (err) {
-							reject()
-							throw err
-						}
-		
-						resolve()
-					})
-				}
+			if (fs.existsSync(pathPrefix + filePath)) {
 
-				resolve()
-			})
+				fs.unlink(pathPrefix + filePath, err => {
+					if (err) {
+						reject()
+						throw err
+					}
+	
+					resolve()
+				})
+
+			}
+
+			resolve()
 
 		})
 	}

@@ -53,6 +53,7 @@ export default {
 
 #admin
 	position: relative
+	min-height: 100vh
 
 main
 	position: relative
