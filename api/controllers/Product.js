@@ -35,7 +35,7 @@ class ProductController {
 
 		await writeFile(products, this.path)
 
-		return data
+		return products
 	}
 
 	async create(data) {
@@ -51,7 +51,17 @@ class ProductController {
 
 		await writeFile(products, this.path)
 
-		return data
+		return products
+	}
+
+	async delete(id) {
+		let products = await readFile(this.path)
+
+		products = products.filter(product => product.id !== +id)
+
+		await writeFile(products, this.path)
+
+		return products
 	}
 
 	async uploadImages(data, old) {
@@ -99,16 +109,6 @@ class ProductController {
 
 		await Promise.all(promises)
 
-	}
-
-	async delete(id) {
-		let products = await readFile(this.path)
-
-		products = products.filter(product => product.id !== +id)
-
-		let status = await writeFile(products, this.path)
-
-		return status
 	}
 }
 

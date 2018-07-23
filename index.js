@@ -35,7 +35,7 @@ app.post('/api/products/:id', async (req, res) => {
 		? await productController.create(req.body)
 		: await productController.update(req.body)
 
-	res.send(data)
+	res.send({ data })
 })
 
 app.delete('/api/products/:id', async (req, res) => {
@@ -58,7 +58,7 @@ app.post('/api/orders/:id', async (req, res) => {
 		? await orderController.create(req.body)
 		: await orderController.update(req.body)
 
-	res.send(data)
+	res.send({ data })
 })
 
 app.delete('/api/orders/:id', async (req, res) => {
@@ -81,6 +81,14 @@ app.get('/api/categories', (req, res) => {
 	})
 
 })
+
+
+app.get('/api/auth', (req, res) => {
+
+	console.log(req.body)
+
+})
+
 
 app.use('/images', express.static(path.join(__dirname, 'api', 'images')))
 app.use(express.static(path.join(__dirname, 'dist')))

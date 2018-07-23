@@ -25,6 +25,12 @@ const router = new Router({
             ],
         },
 
+        {
+            path: '/auth',
+            name: 'Auth',
+            component: () => import('@/components/admin/Auth'),
+        },
+
         // admin
         {
             path: '/admin',

@@ -7,7 +7,12 @@ export default function makeRequest({ method = 'POST', url, data }) {
 		Events.$emit('api-loading')
 
 		const xhr = new XMLHttpRequest()
-		xhr.open(method, url)
+
+		if (method === 'GET') {
+			xhr.open('GET', url + ((/\?/).test(url) ? '&' : '?') + (new Date()).getTime(), true)
+		} else {
+			xhr.open(method, url)
+		}
 		
 		if (method === 'POST') {
 			xhr.setRequestHeader('Content-Type', 'application/json; charset=utf-8')

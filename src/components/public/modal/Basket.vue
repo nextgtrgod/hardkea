@@ -232,7 +232,7 @@ export default {
 					})
 
 					this.request.status = 'done'
-					this.request.response = res.status === 'success'
+					this.request.response = res.data.status === 'success'
 						? 'Ваш заказ принят'
 						: 'Произошла ошибка :('
 

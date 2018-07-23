@@ -8,7 +8,7 @@ import categories from '../../api/data/categories'
 
 Vue.use(Vuex)
 
-localStorage.setItem('basket', null) // drop basket if structure changes
+// localStorage.setItem('basket', null) // drop basket if structure changes
 
 let orders = []
 

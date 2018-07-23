@@ -117,6 +117,7 @@
 
 
 <script>
+import Store from '@/store'
 import { mapState } from 'vuex'
 import Events from '@/events'
 import uiDropdown from '@/components/ui/Dropdown'
@@ -186,6 +187,8 @@ export default {
 				url: `${apiBase}/api/orders/${data.id}`,
 				data,
 			})
+
+			Store.commit('setOrders', res.data)
 		},
 
 		async handleDelete() {
@@ -193,6 +196,8 @@ export default {
 				method: 'DELETE',
 				url: `${apiBase}/api/orders/${this.order.id}`,
 			})
+
+			Store.commit('setOrders', res.data)
 		},
 
 		openDialog() {

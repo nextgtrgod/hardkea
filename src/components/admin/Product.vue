@@ -374,6 +374,7 @@
 
 
 <script>
+import Store from '@/store'
 import { mapState } from 'vuex'
 import Events from '@/events'
 import uiInput from '@/components/ui/Input'
@@ -490,8 +491,9 @@ export default {
 				data,
 			})
 
-			this.current.image = res.image
-			this.current.colors = res.colors
+			this.$router.replace({ name: 'ProductList' })
+
+			Store.commit('setProducts', res.data)
 		},
 
 		openDialog() {
@@ -506,6 +508,10 @@ export default {
 				method: 'DELETE',
 				url: `${apiBase}/api/products/${this.current.id}`,
 			})
+
+			this.$router.replace({ name: 'ProductList' })
+
+			Store.commit('setProducts', res.data)
 		}
 	},
 	computed: {

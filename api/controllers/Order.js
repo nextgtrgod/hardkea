@@ -46,9 +46,9 @@ class OrderController {
 
 		orders[index] = data
 
-		let status = await writeFile(orders, this.path)
+		await writeFile(orders, this.path)
 
-		return status
+		return orders
 	}
 
 
@@ -57,9 +57,9 @@ class OrderController {
 
 		orders = orders.filter(order => order.id !== +id)
 
-		let status = await writeFile(orders, this.path)
+		await writeFile(orders, this.path)
 
-		return status
+		return orders
 	}
 
 	// let { orderID, username, email, orders, phone, rawPhone, details } = req.body
