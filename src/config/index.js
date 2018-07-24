@@ -15,6 +15,8 @@ const API = {
 
 	categories: apiBase + '/api/categories',
 
+	login: apiBase + '/api/login',
+
 }
 
 export {

@@ -6,12 +6,6 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const cors = require('cors')
 
-const ProductController = require('./api/controllers/Product')
-const OrderController = require('./api/controllers/Order')
-
-let productController = new ProductController()
-let orderController = new OrderController()
-
 const app = express()
 
 app.use(cors())
@@ -22,7 +16,11 @@ app.use(bodyParser.urlencoded({ limit: '100mb', extended: true }))
 app.set('port', (process.env.PORT || 4000))
 
 
+
 // all about products
+let ProductController = require('./api/controllers/Product')
+let productController = new ProductController()
+
 app.get('/api/products', async (req, res) => {
 
 	let data = await productController.get()
@@ -45,7 +43,11 @@ app.delete('/api/products/:id', async (req, res) => {
 })
 
 
+
 // all about orders
+let OrderController = require('./api/controllers/Order')
+let orderController = new OrderController()
+
 app.get('/api/orders', async (req, res) => {
 
 	let data = await orderController.get()
@@ -69,7 +71,6 @@ app.delete('/api/orders/:id', async (req, res) => {
 
 
 
-
 app.get('/api/categories', (req, res) => {
 
 	fs.readFile(`${__dirname}/api/categories.json`, 'utf8', (err, data) => {
@@ -83,13 +84,37 @@ app.get('/api/categories', (req, res) => {
 })
 
 
-app.get('/api/auth', (req, res) => {
+// auth
+process.env.JWT_SECRET = 'tosin'
 
-	console.log(req.body)
+let users = require('./api/data/users')
+let { encodeJWT, decodeJWT } = require('./api/libs/auth')
 
+app.post('/api/login', async (req, res) => {
+
+	let { username, password, token } = req.body
+
+	if (token) {
+		let { data } = await decodeJWT(token)
+
+		username = data.username
+		password = data.password
+	}
+
+	let user = users.find(user => (user.username === username) && (user.password === password))
+
+	if (!user) return res.send({ auth: false, message: 'Неверный логин/пароль' })
+
+	res.send({
+		auth: true,
+		token: token
+			? null
+			: encodeJWT({ sessionData: user }),
+	})
 })
 
 
+// static
 app.use('/images', express.static(path.join(__dirname, 'api', 'images')))
 app.use(express.static(path.join(__dirname, 'dist')))
 

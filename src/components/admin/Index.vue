@@ -1,14 +1,16 @@
 <template>
 <div id="admin">
-	<aside-menu/>
+	<template v-if="auth">
+		<aside-menu/>
 
-	<main>
-		<router-view/>
-	</main>
+		<main>
+			<router-view/>
+		</main>
 
-	<modal/>
+		<modal/>
 
-	<ui-spinner v-if="loading" class="loading"/>
+		<ui-spinner v-if="loading" class="loading"/>
+	</template>
 </div>
 </template>
 
@@ -21,6 +23,8 @@ import AsideMenu from '@/components/admin/Aside'
 import Modal from '@/components/admin/Modal'
 import uiSpinner from '@/components/ui/Spinner'
 
+import login from '@/utils/login'
+
 export default {
 	name: 'Admin',
 	components: {
@@ -28,20 +32,34 @@ export default {
 		Modal,
 		uiSpinner,
 	},
+	data() {
+		return {
+			auth: false,
+			loading: false,
+		}
+	},
 	async created() {
+
+		let res = await login()
+
+		this.auth = res.auth
+
+		if (!this.auth) {
+			this.$router.replace({ name: 'Auth' })
+			return
+		}
+
 		Events.$on('logout', () => {
-			console.log('logout')
+	
+			localStorage.removeItem('token')
+
+			this.$router.replace({ name: 'Auth' })
 		})
 
 		Events.$on('api-loading', () => this.loading = true)
 		Events.$on('api-loaded', () => this.loading = false)
 
 		await Store.dispatch('loadOrders')
-	},
-	data() {
-		return {
-			loading: false,
-		}
 	},
 }
 </script>
