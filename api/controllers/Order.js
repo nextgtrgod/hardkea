@@ -34,6 +34,8 @@ class OrderController {
 
 		orders.push(data)
 
+		await this.send(data)
+
 		let status = await writeFile(orders, this.path)
 
 		return status
@@ -62,17 +64,22 @@ class OrderController {
 		return orders
 	}
 
-	// let { orderID, username, email, orders, phone, rawPhone, details } = req.body
+	async send(data) {
+		let { orderID, products, username, email, phone, address, details, total } = data
 
-	// let status = await sendMail({
-	// 	orderID,
-	// 	name: username,
-	// 	email,
-	// 	phone,
-	// 	rawPhone,
-	// 	details,
-	// 	orders: JSON.parse(orders),
-	// })
+		let status = await sendMail({
+			orderID,
+			name: username,
+			email,
+			phone,
+			address,
+			details,
+			products,
+			total,
+		})
+
+		return status
+	}
 }
 
 module.exports = OrderController

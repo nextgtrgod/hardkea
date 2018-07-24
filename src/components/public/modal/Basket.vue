@@ -215,6 +215,8 @@ export default {
 
 					delete copyProduct.basketID
 
+					copyProduct.subtotal = this.getPrice(copyProduct)
+
 					return copyProduct
 				})
 
@@ -228,6 +230,7 @@ export default {
 							address,
 							details,
 							products,
+							total: this.total,
 						}
 					})
 

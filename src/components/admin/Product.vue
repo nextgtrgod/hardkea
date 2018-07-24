@@ -88,6 +88,29 @@
 					</div>
 				</div>
 
+				<div class="column full sidebar-image-upload">
+					<h3>Картинка в сайдбаре (если нет цветов)</h3>
+					<div class="upload">
+						<img class="preview" :src="current.image.sidebar">
+
+						<button
+							v-if="current.image.sidebar.length"
+							type="button"
+							class="delete"
+							:disabled="!interaction"
+							@click="current.image.sidebar = ''"
+						>
+							<img src="../../assets/images/icons/delete.svg">
+						</button>
+
+						<ui-drop
+							class="drop"
+							v-model="current.image.sidebar"
+							placeholder="1 × 1"
+						/>
+					</div>
+				</div>
+
 				<div class="column full">
 					<h3>Размеры</h3>
 					
@@ -310,27 +333,21 @@
 				}"
 			>
 				<span class="product">
-					<img :src="current.image.article">
-
-					<ui-drop
-						class="drop"
-						v-model="current.image.article"
-						:inverted="current.inverted.mobile.inner"
-						:buttonOffset="[ 0, 50 ]"
-						placeholder="3 × 4"
-					/>
 				
 					<span class="text">
 						<h3 v-if="current.name.length">{{ current.name }}</h3>
 						<h3 v-else>Название</h3>
 
-						<p v-if="current.description.length" v-html="current.description"/> 
-						<p v-else>Описание товара на несколько строк</p>
+						<!-- <p v-if="current.description.length" v-html="current.description"/> 
+						<p v-else>Описание товара на несколько строк</p> -->
+
+						<article v-if="current.article.length" v-html="current.article"/>
+						<article v-else>Тут подробное описание товара на много строк.</article>
 
 						<button>{{ lowestPrice | formatNumber }} ₽</button>
 					</span>
 
-					<span class="text-color">
+					<!-- <span class="text-color">
 						<button
 							class="black"
 							:class="{ active: !current.inverted.mobile.inner }"
@@ -349,16 +366,27 @@
 								<path fill="#333" d="M37 0s-.1 0 0 0c-.4.1-.6.3-.7.5L15.8 32.2l-14-12.7c-.2-.3-.7-.4-1-.3-.4.1-.7.4-.8.8-.1.4.1.8.5 1l14.9 13.5c.2.2.5.3.8.2.3 0 .5-.2.7-.5L38 1.6c.2-.3.2-.8 0-1.1s-.6-.5-1-.5z"/>
 							</svg>
 						</button>
-					</span>
+					</span> -->
 				</span>
 
-				<article v-if="current.article.length" v-html="current.article"/>
-				<article v-else>Тут подробное описание товара на много строк.</article>
+				<span class="upload">
+					<img :src="current.image.article">
+
+					<ui-drop
+						class="drop"
+						v-model="current.image.article"
+						:inverted="current.inverted.mobile.inner"
+						:buttonOffset="[ 0, 50 ]"
+						placeholder="3 × 4"
+					/>
+				</span>
 
 				<ul class="gallery">
-					<li v-for="(image, index) in current.image.gallery" :key="index">
-						<img :src="image">
-
+					<li
+						v-for="(image, index) in current.image.gallery"
+						:key="index"
+						:style="getBgStyle(image)"
+					>
 						<ui-drop
 							class="drop"
 							v-model="current.image.gallery[index]"
@@ -402,7 +430,7 @@ export default {
 	},
 	data() {
 		return {
-			current: productModel,
+			current: {},
 			view: 'desktop',
 			interaction: true,
 			apiBase,
@@ -410,6 +438,8 @@ export default {
 		}
 	},
 	created() {
+		this.current = Object.assign({}, productModel)
+
 		Events.$on('api-loading', () => this.loading = true)
 		Events.$on('api-loaded', () => this.loading = false)
 
@@ -512,7 +542,9 @@ export default {
 			this.$router.replace({ name: 'ProductList' })
 
 			Store.commit('setProducts', res.data)
-		}
+		},
+
+		getBgStyle: url => ({ backgroundImage: `url(${url})` }),
 	},
 	computed: {
 		...mapState({
@@ -812,6 +844,7 @@ ul.colors
 				height: 100px
 				border-radius: 6px
 				overflow: hidden
+				border: 1px dashed alpha(#333, .5)
 
 
 .dimensions
@@ -823,6 +856,65 @@ ul.colors
 	.field
 		width: 30%
 		margin: 20px 0
+
+
+
+.sidebar-image-upload
+	margin-top: 30px
+
+	h3
+		margin-bottom: 15px !important
+
+	.upload
+		position: relative
+		width: 100px
+		margin-bottom: 20px
+
+		&:hover
+			button.delete
+				pointer-events: all
+				opacity: 1
+
+		button.delete
+			position: absolute
+			top: -10px
+			right: -10px
+			display: flex
+			flex-direction: column
+			align-items: center
+			justify-content: center
+			width: 25px
+			height: 25px
+			background-color: #FFF
+			border-radius: 50%
+			box-shadow: 2px 5px 15px -2px alpha(#000, .1)
+			opacity: 0
+			pointer-events: none
+			transition: opacity .2s
+			z-index: 1
+
+			&:disabled
+				opacity: 0
+				pointer-events: none
+
+			img
+				width: 90%
+
+		.preview
+			position: absolute
+			top: 0
+			left: 0
+			right: 0
+			bottom: 0
+			width: 100%
+			border-radius: 6px
+
+		.drop
+			height: 100px
+			border-radius: 6px
+			overflow: hidden
+			border: 1px dashed alpha(#333, .5)
+
 
 
 .preview
@@ -1061,21 +1153,13 @@ ul.views
 		.product
 			position: relative
 			display: block
-			height: 425px
 			padding: 20px
 			padding-top: 40px
+			padding-bottom: 35px
 			background-color: #EEE
 			box-sizing: border-box
 			transition: all .2s
 			overflow: hidden
-
-			img
-				position: absolute
-				top: 0
-				left: 0
-				right: 0
-				bottom: 0
-				width: 320px
 
 			.text
 				position: relative
@@ -1107,11 +1191,28 @@ ul.views
 						background-color: #333
 						color: #FFF
 
+
+		.upload
+			position: relative
+			display: block
+			width: 100%
+			height: 425px
+			// overflow: hidden
+
+			img
+				position: absolute
+				top: 0
+				left: 0
+				right: 0
+				bottom: 0
+				width: 320px
+
+
 		article
-			padding: 20px
 			font-size: 14px
 			line-height: 1.5
 			min-height: 21px
+			margin-bottom: 18px
 
 		ul.gallery
 			display: flex
@@ -1121,6 +1222,8 @@ ul.views
 				position: relative
 				flex: 0 0 100%
 				height: 320px
+				background-size: cover
+				background-position: center
 
 				&:first-child
 					height: 160px
@@ -1128,8 +1231,8 @@ ul.views
 				&:nth-child(2n + 1)
 					background-color: #EEE
 
-				img
-					width: 100%
+				// img
+				// 	width: 100%
 
 
 .text-color

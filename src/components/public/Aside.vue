@@ -42,11 +42,11 @@
 			</button>
 		</li>
 
-		<li data-label="Чат">
+		<!-- <li data-label="Чат">
 			<button @click="openMenu('messenger')">
 				<img src="../../assets/images/icons/messenger.svg">
 			</button>
-		</li>
+		</li> -->
 	</ul>
 </aside>
 </template>
@@ -170,7 +170,8 @@ li
 			transform: translateX(0)
 
 	&:last-child
-		margin-left auto
+		// margin-left auto
+		margin-right: auto // temp
 
 	@media (min-width 960px)
 		margin 0
@@ -182,9 +183,9 @@ li
 		&:before
 			content: attr(data-label)
 
-		&:last-child
-			margin-left 0
-			margin-top: auto
+		// &:last-child
+		// 	margin-left 0
+		// 	margin-top: auto
 
 
 li

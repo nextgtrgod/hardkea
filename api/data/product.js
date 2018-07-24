@@ -34,11 +34,11 @@ const product = {
 	inverted: {
 		mobile: {
 			main: false,
-			inner: false,
+			// inner: false,
 		},
 		desktop: {
 			main: false,
-			inner: false,
+			// inner: false,
 		},
 	},
 }

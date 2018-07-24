@@ -31,7 +31,7 @@ class ProductController {
 		products[index] = data
 
 
-		console.log('images saved!')
+		// console.log('images saved!')
 
 		await writeFile(products, this.path)
 
