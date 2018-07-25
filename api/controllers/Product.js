@@ -30,12 +30,19 @@ class ProductController {
 
 		products[index] = data
 
-
-		// console.log('images saved!')
-
 		await writeFile(products, this.path)
 
 		return products
+	}
+
+	async updateAll(data) {
+		let products = await readFile(this.path)
+
+		products = data
+
+		await writeFile(products, this.path)
+
+		return products	
 	}
 
 	async create(data) {

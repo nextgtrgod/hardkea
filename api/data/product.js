@@ -41,6 +41,7 @@ const product = {
 			// inner: false,
 		},
 	},
+	sortIndex: 0,
 }
 
 export default product

@@ -12,6 +12,7 @@
     "deploy": "yarn build && node deploy"
   },
   "dependencies": {
+    "@shopify/draggable": "^1.0.0-beta.7",
     "babel-polyfill": "^6.26.0",
     "cors": "^2.8.4",
     "es6-tween": "^5.2.2",

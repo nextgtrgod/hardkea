@@ -36,6 +36,13 @@ app.post('/api/products/:id', async (req, res) => {
 	res.send({ data })
 })
 
+app.post('/api/products/', async (req, res) => {
+
+	let data = await productController.updateAll()
+
+	res.send({ data })
+})
+
 app.delete('/api/products/:id', async (req, res) => {
 
 	let data = await productController.delete(req.params.id)
