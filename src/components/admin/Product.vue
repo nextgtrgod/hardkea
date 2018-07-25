@@ -445,7 +445,9 @@ export default {
 
 		if (this.$route.params.id !== 'new') {
 
-			this.current = this.products.find(product => +product.id === +this.$route.params.id)
+			let product = this.products.find(product => +product.id === +this.$route.params.id)
+
+			this.current = JSON.parse(JSON.stringify(product))
 
 			if (!this.current) {
 				this.$router.replace({ name: 'NotFound' })

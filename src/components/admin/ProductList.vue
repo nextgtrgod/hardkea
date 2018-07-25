@@ -38,14 +38,39 @@
 		</template>
 	</div>
 
-	<ul class="products" ref="products">
+	<draggable
+		v-if="sort"
+		v-model="filteredProducts"
+		class="products"
+		ref="products"
+		@start="sortStart"
+		@end="sortEnd"
+		:move="checkMove"
+	>
 		<li
-			v-for="product in filteredProducts"
-			:key="product.id"
-			:data-id="product.id"
+			v-for="(product, index) in filteredProducts"
+			:key="index"
 			class="product"
 			:class="{ inverted: checkInverted(product), sort }"
-			ref="product"
+		>
+			<img :src="product.image.mobile">
+			<router-link :to="{ name: 'EditProduct', params: { id: product.id } }">
+				<h3>{{ product.name }}</h3>
+				<p>{{ product.description }}</p>
+			</router-link>
+		</li>
+	</draggable>
+
+	<ul
+		v-else
+		class="products"
+		ref="products"
+	>
+		<li
+			v-for="(product, index) in filteredProducts"
+			:key="index"
+			class="product"
+			:class="{ inverted: checkInverted(product), sort }"
 		>
 			<img :src="product.image.mobile">
 			<router-link :to="{ name: 'EditProduct', params: { id: product.id } }">
@@ -54,6 +79,7 @@
 			</router-link>
 		</li>
 	</ul>
+
 </div>
 </template>
 
@@ -67,13 +93,16 @@ import uiButton from '@/components/ui/Button'
 import makeRequest from '@/utils/makeRequest'
 import { API } from '@/config/index'
 
-import { Sortable } from '@shopify/draggable'
+// import { Sortable } from '@shopify/draggable'
+
+import draggable from 'vuedraggable'
 
 export default {
 	name: 'ProductList',
 	components: {
 		uiDropdown,
 		uiButton,
+		draggable,
 	},
 	data() {
 		return {
@@ -84,6 +113,7 @@ export default {
 			},
 			showSave: false,
 			sort: false,
+			filteredProducts: [],
 		}
 	},
 	created() {
@@ -92,34 +122,7 @@ export default {
 	},
 	mounted() {
 
-		// lib/draggable.bundle.js
-		// mirror.style.boxShadow = '0 25px 60px 0 rgba(0,0,0, .2)'
-		// mirror.style.filter = 'saturate(120%) contrast(120%)'
-
-		// mirror.style.transform = `translate3d(${x}px, ${y}px, 0) scale(1.05)`;
-
-		
-		const sortable = new Sortable(this.$refs['products'], {
-			draggable: '.product',
-			mirror: {
-				appentTo: this.$refs['products'],
-				constrainDimensions: true,
-			},
-		})
-
-		sortable.on('sortable:start', e => {
-			if (this.selected.categoryId) return e.cancel()
-
-			if (!this.sort) return e.cancel()
-
-			document.documentElement.style.cursor = 'move'
-		})
-
-		sortable.on('sortable:stop', e => {
-			document.documentElement.style.cursor = 'default'
-
-			if (e.oldIndex !== e.newIndex) this.showSave = true
-		})
+		this.filterProducts()
 
 	},
 	methods: {
@@ -139,19 +142,45 @@ export default {
 
 		async handleSubmit() {
 
-			// temp
-			console.log(this.products)
-			return
+			if (this.filteredProducts.length < this.products.length) {
+				this.showSave = false
+				return
+			}
 
 			let res = await makeRequest({
 				method: 'POST',
 				url: API.products,
-				data: this.products,
+				data: this.filteredProducts,
 			})
 
 			this.showSave = false
+			this.sort = false
 
-			Store.commit('setProducts', res.data)
+			this.$store.commit('setProducts', res.data)
+		},
+
+		filterProducts() {
+			this.filteredProducts = this.selected.categoryName === 'Все'
+				? this.products
+				: this.products.filter(product => product.category === +this.selected.categoryId)
+		},
+
+		sortStart(e) {
+			document.documentElement.style.cursor = 'move'
+		},
+
+		sortEnd(e) {
+			document.documentElement.style.cursor = 'default'
+
+			if (e.oldIndex === e.newIndex) return
+
+			this.showSave = true
+		},
+
+		checkMove() {
+			if (this.selected.categoryId) return false
+			if (!this.sort) return false
+			return true
 		},
 	},
 	computed: {
@@ -166,11 +195,13 @@ export default {
 
 			return list
 		},
-		filteredProducts() {
-			return this.selected.categoryName === 'Все'
-				? this.products
-				: this.products.filter(product => product.category === +this.selected.categoryId)
-		},
+		// filteredProducts() {
+		// 	let products = this.selected.categoryName === 'Все'
+		// 		? this.products
+		// 		: this.products.filter(product => product.category === +this.selected.categoryId)
+
+		// 	return products.sort((a, b) => a.sortIndex > b.sortIndex)
+		// },
 	},
 	watch: {
 		'selected.categoryName'() {
@@ -179,6 +210,8 @@ export default {
 				: Object.keys(this.categories).find(key => this.categories[key] === this.selected.categoryName)
 
 			if (this.selected.categoryId) this.sort = false
+
+			this.filterProducts()
 		},
 	},
 }
@@ -269,7 +302,7 @@ a.new-product
 			pointer-events: all
 
 
-ul.products
+.products
 	display: flex
 	flex-wrap: wrap
 	align-items: center
@@ -334,6 +367,13 @@ li.product
 
 		a
 			pointer-events: none
+
+	
+	&.sortable-chosen
+		cursor: move
+		a
+			pointer-events: none
+
 
 
 

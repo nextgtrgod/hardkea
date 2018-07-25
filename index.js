@@ -38,7 +38,7 @@ app.post('/api/products/:id', async (req, res) => {
 
 app.post('/api/products/', async (req, res) => {
 
-	let data = await productController.updateAll()
+	let data = await productController.updateAll(req.body)
 
 	res.send({ data })
 })
