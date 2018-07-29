@@ -1,5 +1,8 @@
 <template>
 <div id="list" :class="{ blur }">
+	<div class="logo" :class="{ visible: logoVisible }">
+		<img src="../../assets/images/logo-alt.png">
+	</div>
 	<section
 		v-for="product in products"
 		:key="product.id"
@@ -40,6 +43,7 @@ export default {
 	data() {
 		return {
 			blur: false,
+			logoVisible: true,
 		}
 	},
 	computed: {
@@ -51,6 +55,9 @@ export default {
 		// Events.$on('modal-open', () => this.blur = true)
 		// Events.$on('modal-close', () => this.blur = false)
 	},
+	mounted() {
+		window.addEventListener('mousewheel', this.checkScroll)
+	},
 	methods: {
 		checkInverted(product) {
 
@@ -59,9 +66,19 @@ export default {
 			return this.device === 'desktop'
 				? product.inverted.desktop.main
 				: product.inverted.mobile.main
+		},
 
-		}
-	}
+		checkScroll() {
+			if (this.device !== 'desktop') return
+
+			document.body.scrollTop > 50
+				? this.logoVisible = false
+				: this.logoVisible = true
+		},
+	},
+	beforeDestroy() {
+		window.removeEventListener('mousewheel', this.checkScroll)
+	},
 }
 </script>
 
@@ -79,6 +96,29 @@ export default {
 	// 	@media (min-width: 960px)
 	// 		@supports not (-webkit-backdrop-filter: blur(10px))
 	// 			filter: blur(20px)
+
+
+.logo
+	position: fixed
+	top: 30px
+	left: 50px
+	width: 100px
+	z-index: 1
+	pointer-events: none
+	display: none
+	transition: opacity .15s
+	opacity: 0
+
+	&.visible
+		opacity: 1
+
+	@media (min-width: 960px)
+		display: block
+
+	img
+		width: 100%
+		backface-visibility: hidden
+
 
 section
 	position relative

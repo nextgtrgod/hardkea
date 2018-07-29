@@ -1,57 +1,69 @@
-<template lang="pug">
-	section.details(v-if="product.id")
-		h3 {{ product.name }}
-		.product-image
-			img(v-if="!anyColors" :src="product.image.sidebar")
-			img(v-else :src="product.colors[selected.color]")
-		p {{ product.description }}
+<template>
+<section v-if="product.id" class="details">
+	<h3>{{ product.name }}</h3>
 
-		h5(v-if="!anySizes")
-			| {{ product.dimensions.x }}×{{ product.dimensions.y }}×{{ product.dimensions.z }}см,
-			| {{ product.dimensions.w }}кг,
-			| {{ product.material }}
+	<div class="product-image" :style="productImageStyle"/>
 
-		h5(v-else)
-			| {{ size.x }}×{{ size.y }}×{{ size.z }}см,
-			| {{ size.w }}кг,
-			| {{ product.material }}
+	<p>{{ product.description }}</p>
 
-		.sizes(v-if="anySizes")
-			h5 Размер модели:
-			.size(
-				v-for="(params, size) in product.sizes"
-				:key="size"
-				v-if="params.price > 0"
-				:class="{ selected: selected.size === size }"
-				@click="selectSize(size)"
-			)
-				div {{ size }}
-				span {{ params.price | formatNumber }} ₽
+	<h5 v-if="!anySizes">
+		{{ product.dimensions.x }}×{{ product.dimensions.y }}×{{ product.dimensions.z }}см,
+		{{ product.dimensions.w }}кг,
+		{{ product.material }}	
+	</h5>
 
-		.colors(v-if="anyColors")
-			h5 Цвет бетона:
-			.color(
-				v-for="(url, key) in product.colors"
-				:key="key"
-				v-if="url.length"
-				:class="{ selected: selected.color === key }"
-				:data-color="key"
-				@click="selectColor(key)"
-			)
-				img(:src="apiBase + '/images/colors/color-' + key + '.png'")
-				svg(xmlns="http://www.w3.org/2000/svg" viewBox="0 0 38.2 35")
-					path(d="M37 0s-.1 0 0 0c-.4.1-.6.3-.7.5L15.8 32.2l-14-12.7c-.2-.3-.7-.4-1-.3-.4.1-.7.4-.8.8-.1.4.1.8.5 1l14.9 13.5c.2.2.5.3.8.2.3 0 .5-.2.7-.5L38 1.6c.2-.3.2-.8 0-1.1s-.6-.5-1-.5z")
+	<h5 v-else>
+		{{ size.x }}×{{ size.y }}×{{ size.z }}см,
+		{{ size.w }}кг,
+		{{ product.material }}
+	</h5>
 
+	<div v-if="anySizes" class="sizes">
+		<h5>Размер модели:</h5>
+		<div
+			v-for="(params, size) in product.sizes"
+			:key="size"
+			v-if="params.price > 0"
+			class="size"
+			:class="{ selected: selected.size === size }"
+			@click="selectSize(size)"
+		>
+			<div>{{ size }}</div>
+			<span>{{ params.price | formatNumber }} ₽</span>
+		</div>
+	</div>
 
-		.amount
-			h5 Количество
-			count(v-model="selected.count")
+	<div v-if="anyColors" class="colors">
+		<h5>Цвет бетона:</h5>
+		<div
+			v-for="(url, key) in product.colors"
+			:key="key"
+			v-if="url.length"
+			:class="{ selected: selected.color === key }"
+			class="color"
+			:data-color="key"
+			@click="selectColor(key)"
+		>
+			<img :src="apiBase + '/images/colors/color-' + key + '.png'">
+			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 38.2 35">
+				<path d="M37 0s-.1 0 0 0c-.4.1-.6.3-.7.5L15.8 32.2l-14-12.7c-.2-.3-.7-.4-1-.3-.4.1-.7.4-.8.8-.1.4.1.8.5 1l14.9 13.5c.2.2.5.3.8.2.3 0 .5-.2.7-.5L38 1.6c.2-.3.2-.8 0-1.1s-.6-.5-1-.5z"/>
+			</svg>
+		</div>
+	</div>
 
-		.total
-			h5 Итого:
-			span {{ total | formatNumber }} ₽
+	<div class="amount">
+		<h5>Количество</h5>
+		<count v-model="selected.count"/>
+	</div>
 
-		button(@click="addToBasket") Добавить в корзину
+	<div class="total">
+		<h5>Итого:</h5>
+		<span>{{ total | formatNumber }} ₽</span>
+	</div>
+
+	<button @click="addToBasket">Добавить в корзину</button>
+
+</section>
 </template>
 
 
@@ -112,9 +124,18 @@ export default {
 		anyColors() {
 			return !!Object.values(this.product.colors).find(url => url.length)
 		},
+
 		size() {
 			return this.product.sizes[this.selected.size]
-		}
+		},
+
+		productImageStyle() {
+			let src = this.anyColors
+				? this.product.colors[this.selected.color]
+				: this.product.image.sidebar
+
+			return { backgroundImage: `url(${src})` }
+		},
 	},
 	methods: {
 		formatNumber: n => formatNumber(n),
@@ -176,10 +197,12 @@ p
 		margin-bottom 50px
 		font-size 14px
 
+
 .product-image
-	img
-		width 100%
-		height auto
+	padding-top: 100%
+	background-size: cover
+	background-position: center
+
 
 h5
 	margin-top 40px

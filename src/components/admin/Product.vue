@@ -91,7 +91,11 @@
 				<div class="column full sidebar-image-upload">
 					<h3>Картинка в сайдбаре (если нет цветов)</h3>
 					<div class="upload">
-						<img class="preview" :src="current.image.sidebar">
+						<img
+							v-if="current.image.sidebar.length"
+							class="preview"
+							:src="current.image.sidebar"
+						>
 
 						<button
 							v-if="current.image.sidebar.length"
@@ -167,7 +171,11 @@
 							<img class="color" :src="apiBase + '/images/colors/color-' + key + '.png'">
 
 							<div class="upload">
-								<img class="preview" :src="current.colors[key]">
+								<img
+									v-if="current.colors[key].length"
+									class="preview"
+									:src="current.colors[key]"
+								>
 
 								<button
 									v-if="current.colors[key].length"
@@ -840,7 +848,10 @@ ul.colors
 				right: 0
 				bottom: 0
 				width: 100%
+				height: 100%
 				border-radius: 6px
+				object-fit: cover
+				object-position: center
 
 			.drop
 				height: 100px
@@ -909,7 +920,10 @@ ul.colors
 			right: 0
 			bottom: 0
 			width: 100%
+			height: 100%
 			border-radius: 6px
+			object-fit: cover
+			object-position: center
 
 		.drop
 			height: 100px
