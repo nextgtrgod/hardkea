@@ -315,10 +315,10 @@ a.new-product
 
 
 li.product
-	flex: 0 0 300px
+	flex: 0 0 320px
 	position: relative
-	width: 300px
-	height: 400px
+	width: 320px
+	height: 430px
 	margin-left: 30px
 	margin-bottom: 30px
 	padding: 20px
@@ -401,7 +401,7 @@ li.product
 		bottom: 0
 		width: 100%
 		height: 100%
-		transition: transform 25s cubic-bezier(0.215, 0.61, 0.355, 1)
+		transition: transform 25s cubic-bezier(0.215, 0.61, 0.355, 15)
 
 		&[src*='jpg']
 		&[src*='png']
@@ -410,7 +410,7 @@ li.product
 
 h3
 	margin-bottom: 12px
-	font-size: 35px
+	font-size: 30px
 	line-height: 1
 	letter-spacing: 1px
 	user-select: none

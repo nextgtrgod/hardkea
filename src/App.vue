@@ -49,6 +49,13 @@ body
 	color: $color.dark
 	background-color: #EEE
 
+	-ms-overflow-style: none
+	// overflow: -moz-scrollbars-none
+
+	&::-webkit-scrollbar
+		display: none
+
+
 h1, h2, h3
 	font-family: $font.family.fira
 

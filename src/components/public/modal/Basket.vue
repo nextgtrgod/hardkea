@@ -17,7 +17,9 @@
 				class="product"
 			>
 				<button class="delete" @click="deleteProduct(product.basketID)"/>
-				<img :src="imgUrl(product)">
+
+				<div class="product-image" :style="{ backgroundImage: 'url(' + imgUrl(product) + ')' }"/>
+
 				<div class="description">
 					<h5>{{ product.name }} {{ (product.size || '').toUpperCase() }}</h5>
 					<count
@@ -363,7 +365,7 @@ ul.product-list
 li.product
 	position relative
 	display flex
-	align-items flex-end
+	// align-items flex-end
 	justify-content flex-start
 	margin-bottom 35px
 	color #333
@@ -373,7 +375,7 @@ li.product
 	button.delete
 		position absolute
 		top 0
-		left -22px
+		left -27px
 		bottom 0
 		width 32px
 		height 32px
@@ -385,32 +387,54 @@ li.product
 		@media (min-width 960px)
 			left -32px
 
-	img
-		height 80px
+	.product-image
+		flex-shrink: 0
+		width: 80px
+		height: 80px
+		background-size: cover
+		background-position: center
+		border-radius: 6px
+
 		@media (min-width 960px)
-			height 100px
+			width: 100px
+			height: 100px
 
 	.description
-		margin-left 5px
+		display: inline-flex
+		flex-direction: column
+		align-items: flex-start
+		justify-content: space-between
+		// font-family: $font.family.fira
+		margin-left: 10px
 		@media (min-width 960px)
-			margin-left 10px
+			margin-left: 15px
 
 	.price
+		margin-top: 15px
 		margin-left auto
-		font-size 14px
+		font-size 15px
 		font-weight 700
-		margin-bottom 53px
+		white-space: nowrap
 
 		@media (min-width 960px)
 			font-size 16px
 			letter-spacing .6px
+			margin-top: 28px
 
 
 h5
-	margin-bottom 20px
-	font-size: 16px
+	// margin-bottom 20px
+	font-size: 15px
 	font-weight: 700
-	letter-spacing .5px
+	@media (min-width 375px)
+		margin-top: 15px
+
+	@media (min-width 420px)
+		font-size: 16px
+		letter-spacing .5px
+
+	@media (min-width 960px)
+		margin-top: 28px
 
 
 .total
@@ -427,6 +451,7 @@ h5
 
 	span
 		display block
+		margin-top: 15px
 		text-align right
 		font-size 24px
 		color #333

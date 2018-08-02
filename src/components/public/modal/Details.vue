@@ -183,7 +183,7 @@ h3
 	font-weight 700
 	line-height 40px
 	color: #333
-	margin-top 20px
+	margin-top 30px
 	margin-bottom 30px
 
 p
@@ -202,6 +202,7 @@ p
 	padding-top: 100%
 	background-size: cover
 	background-position: center
+	// border-radius: 6px
 
 
 h5

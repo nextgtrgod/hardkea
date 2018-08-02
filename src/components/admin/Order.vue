@@ -388,7 +388,7 @@ button.delete
 ul.product-list
 	display: flex
 	flex-direction: column
-	width: 400px
+	width: 460px
 	margin-bottom: 10px
 
 	li
@@ -400,10 +400,14 @@ ul.product-list
 			position: relative
 			width: 100px
 			height: 100px
-			margin-right: 10px
+			margin-right: 15px
 
 			img
 				width: 100%
+				height: 100%
+				object-fit: cover
+				object-position: center
+				border-radius: 6px
 
 			.color
 				position: absolute
@@ -412,16 +416,18 @@ ul.product-list
 				width: 25px
 				height: 25px
 				border-radius: 50%
+				filter: drop-shadow(1px 1px 1px rgba(0, 0, 0, .1))
 				img
 					width: 100%
 
+
 		h4
-			width: 140px
-			font-size: 18px
+			width: 180px
+			font-size: 16px
 			font-family: $font.family.fira
 
 		.name
-			width: 75px
+			width: 120px
 			margin-left: 110px
 
 		.count
@@ -464,7 +470,7 @@ h5
 
 
 .total
-	padding-top: 5px
+	padding-top: 8px
 	border-top: 1px solid
 	font-size: 24px
 	text-align: right

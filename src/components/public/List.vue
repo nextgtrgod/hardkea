@@ -195,7 +195,7 @@ section
 
 		h3
 			margin-bottom 10px
-			font-size 35px
+			font-size 32px
 			line-height 1
 			letter-spacing 1px
 			border-bottom: 2px solid transparent

@@ -1,15 +1,33 @@
 <template>
 <aside>
-	<template v-if="$route.path === '/'">
-		<div class="logo">
-			<img src="../../assets/images/logo.svg">
-		</div>
+
+	<template v-if="device === 'desktop'">
+		<template v-if="$route.path === '/'">
+			<div class="logo">
+				<img src="../../assets/images/logo.svg">
+			</div>
+		</template>
+
+		<template v-else>
+			<router-link class="logo" to="/">
+				<img src="../../assets/images/home.svg">
+			</router-link> 
+		</template>
 	</template>
 
 	<template v-else>
-		<router-link class="logo" to="/">
-			<img src="../../assets/images/home.svg">
-		</router-link> 
+		<template v-if="$route.path === '/'">
+			<div class="logo">
+				<img src="../../assets/images/logo-alt.png">
+			</div>
+		</template>
+
+		<template v-else>
+			<router-link class="logo mobile-back" to="/">
+				<img src="../../assets/images/icons/back-invert.svg">
+				Назад
+			</router-link> 
+		</template>
 	</template>
 		
 	<ul>
@@ -55,11 +73,15 @@
 <script>
 import { mapState } from 'vuex'
 import Events from '@/events'
+import checkDevice from '@/mixins/checkDevice'
 
 import formatNumber from '@/utils/formatNumber'
 
 export default {
 	name: 'Aside',
+	mixins: [
+		checkDevice,
+	],
 	data() {
 		return {
 			total: 0
@@ -105,20 +127,38 @@ aside
 		box-shadow: -7px 0 40px alpha(#111, .1)
 
 .logo
-	width 40px
-	height 40px
-	margin 5px
-	margin-right 10px
+	width 85px
+	height 25px
+	padding-left: 5px
+	margin-right: auto
 	img
 		width auto
 		height 100%
 
+	@media (min-width 375px)
+		height: 30px
+		padding-left: 20px
+
 	@media (min-width 960px)
+		width 40px
+		height 40px
 		margin 5px
 		margin-bottom 40px
+		padding: 0
+
 		img
 			width 100%
 			height auto
+
+.mobile-back
+	display: inline-flex
+	align-items: center
+	font-size: 16px
+	font-weight: 500
+	img
+		height: 25px
+		margin-right: 10px
+
 
 ul
 	position relative
@@ -169,9 +209,13 @@ li
 		&:before
 			transform: translateX(0)
 
+	&:first-child
+		margin-left: auto
+
 	&:last-child
 		// margin-left auto
-		margin-right: auto // temp
+		@media (min-width: 960px)
+			margin-right: auto // temp
 
 	@media (min-width 960px)
 		margin 0
@@ -190,8 +234,9 @@ li
 
 li
 	button
-		height 100%
-		padding 0 15px
+		width: 100%
+		height: 100%
+		padding: 0 15px
 
 		@media (min-width 960px)
 			padding 12px 10px
