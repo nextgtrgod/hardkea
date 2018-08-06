@@ -1,6 +1,5 @@
 <template>
 <aside>
-
 	<template v-if="device === 'desktop'">
 		<template v-if="$route.path === '/'">
 			<div class="logo">

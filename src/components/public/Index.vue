@@ -7,6 +7,8 @@
 	</main>
 
 	<modal/>
+
+	<form-view/>
 </div>
 </template>
 
@@ -15,12 +17,14 @@
 import Events from '@/events'
 import AsideMenu from '@/components/public/Aside'
 import Modal from '@/components/public/modal/Index'
+import formView from '@/components/public/Form'
 
 export default {
 	name: 'Public',
 	components: {
 		AsideMenu,
 		Modal,
+		formView,
 	},
 	data() {
 		return {

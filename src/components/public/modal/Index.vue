@@ -31,8 +31,13 @@ import Basket from './Basket'
 import About from './About'
 import productDetails from './Details'
 
+import checkDevice from '@/mixins/checkDevice'
+
 export default {
 	name: 'Modal',
+	mixins: [
+		checkDevice,
+	],
 	components: {
 		Delivery,
 		Payment,
@@ -49,12 +54,14 @@ export default {
 	},
 	created() {
 		Events.$on('modal-open', ({ name, productID }) => {
+			document.body.style.overflow = 'hidden'
 			this.section = name
 			this.visible = true
 		})
 		Events.$on('modal-close', () => {
 			this.visible = false
 			this.formVisible = false
+			document.body.style.overflow = 'auto'
 		})
 
 		Events.$on('form-open', () => this.formVisible = true)
@@ -72,7 +79,7 @@ export default {
 			this.$refs['content'] && to && (this.$refs['content'].scrollTop = 0)
 		},
 		'formVisible'(to, from) {
-			if (to) {
+			if (to && this.device !== 'mobile') {
 				let node = this.$refs['content']
 
 				new Tween({ height: node.scrollTop })
@@ -97,6 +104,7 @@ export default {
 	bottom: 0
 	z-index 100
 	pointer-events none
+	overflow: hidden
 
 	&.visible
 		pointer-events all
