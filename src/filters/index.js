@@ -1,4 +1,5 @@
 import './formatNumber'
+import './formatPhone'
 import './getDate'
 import './getTime'
 import './getMonthName'

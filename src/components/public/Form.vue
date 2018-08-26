@@ -92,6 +92,7 @@ export default {
 				response: '',
 			},
 			total: 0,
+			height: window.innerHeight,
 		}
 	},
 	created() {
@@ -101,6 +102,8 @@ export default {
 		})
 		Events.$on('form-close', () => this.visible = false)
 		Events.$on('modal-close', () => this.close())
+
+		window.addEventListener('resize', () => this.height = window.innerHeight)
 	},
 	methods: {
 		open() {
@@ -165,7 +168,8 @@ export default {
 						url: API.sendOrder,
 						data: {
 							username,
-							email: email.toLowerCase(),
+							// email: email.toLowerCase(),
+							email,
 							phone: rawPhone,
 							address,
 							details,
@@ -193,7 +197,9 @@ export default {
 			productsAll: state => state.products,
 		}),
 
-		formStyle: () => ({ height: window.innerHeight + 'px' })
+		formStyle() {
+			return { height: this.height + 'px' }
+		}
 	},
 	watch: {
 		visible(newVal) {

@@ -7,8 +7,8 @@
 		<h2>{{ content }}</h2>
 
 		<div class="buttons">
-			<ui-button @click.native="handleAccept">Да</ui-button>
 			<ui-button @click.native="handleDecline">Нет</ui-button>
+			<ui-button @click.native="handleAccept">Да</ui-button>
 		</div>
 	</div>
 </div>
@@ -104,10 +104,6 @@ export default {
 	box-shadow: 0 25px 60px -10px alpha(#000, .3);
 	border-radius: 10px;
 }
-
-// h2 {
-// 	letter-spacing: .5px;
-// }
 
 .buttons {
 	display: inline-flex;

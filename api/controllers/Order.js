@@ -69,7 +69,7 @@ class OrderController {
 
 		let status = await sendMail({
 			orderID,
-			name: username,
+			username,
 			email,
 			phone,
 			address,

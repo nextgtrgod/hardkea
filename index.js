@@ -121,6 +121,52 @@ app.post('/api/login', async (req, res) => {
 })
 
 
+// temp
+// let render = require('./api/utils/render')
+// let orders = require('./api/orders')
+
+// app.get('/api/email', async (req, res) => {
+
+// 	let orderData = {
+// 		orderID: '386-221',
+// 		username: 'Кирилл',
+// 		email: 'KYakovlev7@gmail.com',
+// 		phone: '+79266518951',
+// 		address: 'г. Киев, улица Березняковская, 17А строение 58/3 лит. Б',
+// 		// details: '',
+// 		products:
+// 		[ { id: 2,
+// 			name: 'Ninja',
+// 			count: 1,
+// 			size: 's',
+// 			color: '2',
+// 			subtotal: 3500 },
+// 		{ id: 3,
+// 			name: 'Столик «Four three»',
+// 			count: 1,
+// 			size: 'm',
+// 			subtotal: 7900 },
+// 		{ id: 1, name: 'Столик «Square»', count: 1, subtotal: 12900 },
+// 		{ id: 2,
+// 			name: 'Кашпо «Samurai»',
+// 			count: 2,
+// 			size: 'l',
+// 			color: '3',
+// 			subtotal: 23400 } ],
+// 		total: '47 700',
+// 		siteUrl: 'http://88.212.254.100:4000/'
+// 	}
+
+// 	const formatPhone = require('./api/utils/formatPhone')
+
+// 	orderData.phone = formatPhone(orderData.phone)
+
+// 	let html = await render('order', orderData)
+// 	res.send(html)
+// })
+//
+
+
 // static
 app.use('/images', express.static(path.join(__dirname, 'api', 'images')))
 app.use(express.static(path.join(__dirname, 'dist')))

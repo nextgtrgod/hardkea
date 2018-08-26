@@ -9,7 +9,7 @@
 			<a :href="'mailto:' + order.email">{{ order.email }}</a>
 		</span>
 		<span class="phone">
-			<a :href="'tel:' + order.phone">{{ order.phone }}</a>
+			<a :href="'tel:' + order.phone">{{ order.phone | formatPhone }}</a>
 		</span>
 		<span class="date">
 			{{ order.created_at | getDate | pad }}

@@ -14,15 +14,17 @@ let transporter = nodemailer.createTransport({
 	}
 })
 
-let sendMail = data => new Promise((resolve, reject) => {
+let sendMail = data => new Promise(async (resolve, reject) => {
 
 	let { email } = data
+
+	let html = await render('order', data)
 
 	let mailOptions = {
 		from: user,
 		to: email,
 		subject: 'hardkea',
-		html: render('order', data)
+		html,
 	}
 
 	transporter.sendMail(mailOptions, (err, info) => {
