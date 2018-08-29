@@ -1,11 +1,11 @@
 
 let auth = {
-	host: 'smtp.gmail.com',
-	port: 587,
-	user: 'hardkea.test@gmail.com',
-	pass: 'pink leg arctic horse little',
+	host: 'smtp.yandex.ru',
+	port: 465,
+	user: 'shop@hardkea.com',
+	pass: 'pinklegarctichorselittle',
 	url: {
-		site: 'http://88.212.254.100:4000/',
+		site: 'http://23.105.240.142/',
 	},
 	companyPhone: '+79265635563',
 }

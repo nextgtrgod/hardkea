@@ -7,7 +7,7 @@ let { host, port, user, pass } = auth
 let transporter = nodemailer.createTransport({
 	host,
 	port,
-	secure: false,
+	secure: true,
 	auth: {
 		user,
 		pass,

@@ -1,10 +1,10 @@
 
 let apiBase = process.env.NODE_ENV === 'production'
-	? 'http://88.212.254.100:4000'
+	? 'http://23.105.240.142'
 	: 'http://localhost:4000'
 
 // temp
-// apiBase = 'http://88.212.254.100:4000'
+// apiBase = 'http://23.105.240.142'
 // apiBase = 'http://localhost:4000'
 
 const API = {
