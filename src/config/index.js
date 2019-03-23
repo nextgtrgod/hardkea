@@ -1,11 +1,6 @@
-
-let apiBase = process.env.NODE_ENV === 'production'
-	? 'http://23.105.240.142'
+const apiBase = process.env.NODE_ENV === 'production'
+	? 'https://hardkea.com'
 	: 'http://localhost:4000'
-
-// temp
-// apiBase = 'http://23.105.240.142'
-// apiBase = 'http://localhost:4000'
 
 const API = {
 

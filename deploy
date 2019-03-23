@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+echo "Deploy started"
+
+message="$(git diff --name-status)"
+git add -A
+git commit -m "Auto deploy: $message"
+git pull
+git push
+
+yarn deploy:production
+
+echo "Deploy finished"
